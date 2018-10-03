@@ -1,0 +1,31 @@
+{
+    "name": "dragoscirjan/folium",
+    "description": "PHP Wrapper for RESTFul applications",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragos Cirjan",
+            "email": "dragos.cirjan@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1.3",
+        "symfony/http-foundation": "^3.1"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "classmap": [
+        ],
+        "psr-4": {
+            "Folium\\": "Folium/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
