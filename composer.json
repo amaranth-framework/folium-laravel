@@ -27,5 +27,8 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "local-tests": "docker build -t implementation-tests . && docker run --rm -it -v $(pwd):/code implementation-tests sh -c \"cd /code && phpunit \""
     }
 }
