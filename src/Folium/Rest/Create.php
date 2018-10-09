@@ -2,10 +2,14 @@
 
 namespace Folium\Rest;
 
+use Folium\Rest\Utils;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 trait Create {
+
+    use Utils;
 
     /**
      * Create a new resource with data which may also be an array.
@@ -43,10 +47,9 @@ trait Create {
         }
         
         $data = $request->request->all();
-        $keys = array_keys($data);
-        $count = array_reduce($keys, function($carry, $item) { return $carry + (intval($item) == $item ? 1 : 0) }, 0);
+        
         // if POST data is not an array of models
-        if ($count !== count($keys)) {
+        if (!$this->isAssoc($data)) {
             $data = [ $data ];
         }
     }
