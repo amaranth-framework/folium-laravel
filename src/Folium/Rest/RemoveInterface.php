@@ -1,11 +1,11 @@
 <?php
 
-namespace Folium\Rest;
+namespace Itmcdev\Folium\Rest;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-interface UpdateInterface {
+interface RemoveInterface {
 
     /**
      * Remove a single or multiple resources:

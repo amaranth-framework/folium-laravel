@@ -17,31 +17,20 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
+use Itmcdev\Folium\Http\Response\ErrorResponse;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 405 HTTP Response, used for cases where a certain method can be implemented, system is aware of it, 
+ * but it shouldn't be implemented.
  */
-class ErrorResponse extends Response
+class MethodNotAllowedErrorResponse extends ErrorResponse
 {
     /**
      * Constructor
-     *
-     * @param string $message
-     * @param integer $status
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct() {
+        parent::__construct('Invalid request type.', BasicResponse::HTTP_METHOD_NOT_ALLOWED);
     }
 }

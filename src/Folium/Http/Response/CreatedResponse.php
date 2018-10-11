@@ -22,26 +22,17 @@ use Itmcdev\Folium\Http\Response\Response;
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 200 response for used for \Itmcdev\Folium\Rest\CreateInterface success call.
  */
-class ErrorResponse extends Response
+class CreatedResponse extends Response
 {
     /**
      * Constructor
      *
-     * @param string $message
-     * @param integer $status
+     * @param array $data
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct($data = []) {
+        // call parent constructor
+        parent::__construct($data, BasicResponse::HTTP_CREATED);
     }
 }

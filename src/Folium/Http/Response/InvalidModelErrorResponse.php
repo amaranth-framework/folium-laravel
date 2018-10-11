@@ -17,14 +17,14 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
+use Itmcdev\Folium\Http\Response\ErrorResponse;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
  * Basic 400+ HTTP Response for different error messages
  */
-class ErrorResponse extends Response
+class InvalidModelErrorResponse extends ErrorResponse
 {
     /**
      * Constructor
@@ -32,16 +32,7 @@ class ErrorResponse extends Response
      * @param string $message
      * @param integer $status
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct() {
+        parent::__construct('REST Controller is missing model class.');
     }
 }

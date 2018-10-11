@@ -20,28 +20,29 @@ namespace Itmcdev\Folium\Http\Response;
 use Itmcdev\Folium\Http\Response\Response;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
+// use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * TODO:
  */
-class ErrorResponse extends Response
+class PaginationResponse extends Response
 {
     /**
-     * Constructor
+     * Undocumented function
      *
-     * @param string $message
-     * @param integer $status
+     * @param \Illuminate\Pagination\LengthAwarePaginator $paginate
+     * @param array $data
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct($paginate, $data = []) {
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count'  => $paginate->total(),
+                'total_pages' => ceil($paginate->total() / $paginate->perPage()),
+                'current_page' => $paginate->currentPage(),
+                'limit' => $paginate->perPage(),
+            ]
+        ]);
+        
+        parent::__construct($data, BasicResponse::HTTP_OK, []);
     }
 }

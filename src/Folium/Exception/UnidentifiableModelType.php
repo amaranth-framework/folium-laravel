@@ -15,33 +15,20 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Http\Response;
-
-use Itmcdev\Folium\Http\Response\Response;
-
-use Symfony\Component\HttpFoundation\Response as BasicResponse;
+namespace Itmcdev\Folium\Exception;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Exception used for cases where controller's model type is not detected.
  */
-class ErrorResponse extends Response
-{
+class UnidentifiableModelType extends \Exception
+{   
     /**
      * Constructor
      *
      * @param string $message
-     * @param integer $status
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct(string $message = 'Unidentifiable model type.')
+    {
+        parent::__construct($message);
     }
 }

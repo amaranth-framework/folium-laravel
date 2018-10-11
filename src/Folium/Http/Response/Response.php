@@ -17,31 +17,35 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
-
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 200 HTTP Response
+ * 
+ * @link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
+ * @link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
  */
-class ErrorResponse extends Response
+class Response extends BasicResponse
 {
     /**
      * Constructor
      *
-     * @param string $message
+     * @param any $content
      * @param integer $status
+     * @param array $headers
      */
     public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
+        $content, 
+        int $status = BasicResponse::HTTP_OK, 
+        $headers = []
     ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+        // convert data to JSON
+        $content = json_encode($content);
+        // enhance header to return application/json content type
+        $headers = array_merge($headers, [
+            'Content-Type' => 'application/json; charset=UTF-8'
+        ]);
+        // call parent constructor
+        parent::__construct($content, $status, $headers);
     }
 }

@@ -17,31 +17,19 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
+use Itmcdev\Folium\Http\Response\ErrorResponse;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 404 HTTP Response used when searched entity does not exist.
  */
-class ErrorResponse extends Response
+class NotFoundErrorResponse extends ErrorResponse
 {
     /**
      * Constructor
-     *
-     * @param string $message
-     * @param integer $status
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct() {
+        parent::__construct('Entity not found.', BasicResponse::HTTP_NOT_FOUND);
     }
 }

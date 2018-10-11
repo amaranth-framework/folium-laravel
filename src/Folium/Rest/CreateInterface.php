@@ -1,6 +1,6 @@
 <?php
 
-namespace Folium\Rest;
+namespace Itmcdev\Folium\Rest;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

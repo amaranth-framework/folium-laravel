@@ -17,31 +17,19 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
+use Itmcdev\Folium\Http\Response\ErrorResponse;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 400 HTTP Response, used for cased where unsupported HTTP methods are called upon different REST methods.  
  */
-class ErrorResponse extends Response
+class BadRequestErrorResponse extends ErrorResponse
 {
     /**
      * Constructor
-     *
-     * @param string $message
-     * @param integer $status
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
-        parent::__construct(
-            [
-                'status' => 'error',
-                'error' => $message
-            ],
-            $status
-        );
+    public function __construct() {
+        parent::__construct('Bad request.', BasicResponse::HTTP_BAD_REQUEST);
     }
 }

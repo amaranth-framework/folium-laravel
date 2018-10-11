@@ -17,31 +17,28 @@
 
 namespace Itmcdev\Folium\Http\Response;
 
-use Itmcdev\Folium\Http\Response\Response;
+use Itmcdev\Folium\Http\Response\ErrorResponse;
 
 use Symfony\Component\HttpFoundation\Response as BasicResponse;
 
 /**
- * Basic 400+ HTTP Response for different error messages
+ * Basic 422 HTTP Response used for validation errors upon processable data.
  */
-class ErrorResponse extends Response
+class ValidationErrorResponse extends ErrorResponse
 {
     /**
      * Constructor
      *
-     * @param string $message
-     * @param integer $status
+     * @param array $errors
      */
-    public function __construct(
-        $message = '',
-        int $status = BasicResponse::HTTP_INTERNAL_SERVER_ERROR
-    ) {
+    public function __construct($errors = []) {
         parent::__construct(
             [
                 'status' => 'error',
-                'error' => $message
+                'error' => 'Validation errors',
+                'data' => $errors
             ],
-            $status
+            BasicResponse::HTTP_UNPROCESSABLE_ENTITY
         );
     }
 }
