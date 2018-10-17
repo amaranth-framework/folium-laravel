@@ -1,7 +1,12 @@
 FROM php:7.2-cli
 
+RUN mkdir -p /code \
+    && addgroup code \
+    && adduser --home /code --ingroup code code \
+    && chown code:code /code 
+
 RUN apt-get update \
-    && apt-get install libzib-dev
+    && apt-get install libzip-dev git -y
 
 RUN docker-php-ext-install -j$(nproc) zip
 
@@ -10,3 +15,5 @@ RUN COMPOSER_HASH=${COMPOSER_HASH:-93b54496392c062774670ac18b134c3b3a95e5a5e5c8f
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === '$COMPOSER_HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --filename=composer --install-dir=/usr/bin \
     && php -r "unlink('composer-setup.php');"
+
+USER code
