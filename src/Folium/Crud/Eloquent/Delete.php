@@ -25,7 +25,7 @@ use Itmcdev\Folium\Crud\Exception\DeleteException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
 
 /**
- * Trait proposal for REST Remove method implementation on Laravel's Eloquent
+ * Trait proposal for CRUD Delete method implementation on Laravel's Eloquent
  */
 trait Delete
 {

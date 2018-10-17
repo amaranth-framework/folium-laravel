@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Rest\Eloquent;
+namespace Itmcdev\Folium\Crud\Eloquent;
 
 use Illuminate\Support\Facades\Log;
 
-use Itmcdev\Folium\Rest\ReadInterface;
+use Itmcdev\Folium\Crud\Read as ReadInterface;
 use Itmcdev\Folium\Crud\Exception\ReadException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
 
 /**
- * Trait proposal for REST Find method implementation on Laravel's Eloquent
+ * Trait proposal for CRUD Read method implementation on Laravel's Eloquent
  */
 trait Read
 {

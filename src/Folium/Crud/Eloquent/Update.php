@@ -19,53 +19,49 @@ namespace Itmcdev\Folium\Crud\Eloquent;
 
 use Illuminate\Support\Facades\Log;
 
-use Itmcdev\Folium\Crud\Create as CreateInterface;
-use Itmcdev\Folium\Crud\Exception\CreateException;
-use Itmcdev\Folium\Crud\Exception\ValidationException;
+use Itmcdev\Folium\Crud\Read as ReadInterface;
+use Itmcdev\Folium\Crud\Exception\ReadException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
-use Itmcdev\Folium\Util\ArrayUtils;
 
 /**
- * Trait proposal for CRUD Create method implementation on Laravel's Eloquent
+ * Trait proposal for CRUD Update method implementation on Laravel's Eloquent
  */
-trait Create {
-
+trait Update
+{
     /**
-     * @see CreateInterface::create()
-     * @throws CreateException
-     * @throws ValidationException
-     * @throws UnspecifiedModelException
+     * @see UpdateInterface::update()
      */
-    public function create(array $items, array $criteria = [])
+    public function update(array $items, array $criteria = []);
     {
         // delete method requires ::_modelClass variable to be able to init the model
         if (!$this->_modelClass) {
             throw new UnspecifiedModelException($this, 'create');
         }
         $modelClass = $this->_modelClass;
-        
-        // convert a single item into an array of items
-        if (!ArrayUtils::isNumeric($items)) {
-            $items = [ $items ];
-        }
 
-        // if there is a validation method, try and validate data
-        if (method_exists("$modelClass::validate")) {
-            foreach ($items as $item) {
-                $validator = $modelClass::validate($item);
-                if ($validator->fails()) {
-                    throw new ValidationException($validator->errors());
-                }
-            }
-        }
-
-        // attempt creating items or log failure
         try {
-            return $modelClass::insert($items);
+            $query = (new $modelClass())->newQuery();
+            foreach ($criteria as $item) {
+                $query = call_user_func_array([$query, 'where'], $item);
+            }
+            if (!empty($options['count'])) {
+                return $query->count()->get();
+            } else {
+                $models = $query->get();
+                if (empty($fields)) {
+                    return $models;
+                }
+                return array_map(function($model) use ($fields) {
+                    return array_intersect_key(
+                        $model,
+                        array_combine($fields, $fields)
+                    );
+                }, $models);
+            }
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
-        
-        throw new CreateException();
+
+        throw new ReadException();
     }
 }

@@ -22,31 +22,26 @@ use Itmcdev\Folium\Http\Response\InvalidRequestErrorResponse;
 use Itmcdev\Folium\Http\Response\Response;
 use Itmcdev\Folium\Http\Response\ErrorResponse;
 use Itmcdev\Folium\Http\Response\InvalidModelErrorResponse;
-use Itmcdev\Folium\Rest\GetInterface;
+use Itmcdev\Folium\Rest\FindInterface;
 use Itmcdev\Folium\Rest\Utils;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
- * Trait proposal for REST Get method implementation on Laravel's Eloquent
+ * Trait proposal for REST Find method implementation on Laravel's Eloquent
  */
-trait Get
+trait Find
 {
     use Utils;
 
     /**
-     * @see GetInterface::get()
+     * @see FindInterface::find()
+     *
+     * @param Request $request
      */
-    public function get(Request $request, $id)
+    public function find(Request $request)
     {
         // create method functions only for HTTP GET method
         if (!$request->isMethod(Request::METHOD_GET)) {
             return new BadRequestErrorResponse();
-        }
-        // test param to be int
-        // TODO: Not happy with this type of type check.
-        if (!intval($id)) {
-            return new ErrorResponse('Parameter must be a number.');
         }
         // create method requires ::_modelClass variable to be able to init the model
         if (!$this->_modelClass) {
@@ -55,14 +50,34 @@ trait Get
 
         $modelClass = $this->_modelClass;
 
-        // attempt data fetch from db
+        $getQuery = $request->request->all();
+
         try {
-            // retreive data
-            return new Response($modelClass::find($id));
+            $filters = $this->parseFilters($getQuery);
+        } catch (UnknownOperan $e) {
+            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+            return new InvalidRequestErrorResponse('Invalid filter content.');
+        }
+
+        try {
+            /**
+             * @var \Illuminate\Database\Query\Builder
+             */
+            $query = (new $modelClass())->newQuery();
+            foreach ($filters as $filter) {
+                $query = call_user_func_array([empty($query) ? $model : $query, 'where'], $filter);
+            }
+            $response = [];
+            if (array_key_exists('_count', $getQuery)) {
+                $response['count'] = $query->count()->get();
+            } else {
+                $response['data'] = $query->get();
+                $response['count'] = count($response['data']);
+            }
+            return new Response($response);
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
-
-        return new ErrorResponse('Could not fetch entitity.');
+        return new ErrorResponse('Could not fetch entitites.');
     }
 }

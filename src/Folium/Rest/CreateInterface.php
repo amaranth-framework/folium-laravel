@@ -15,31 +15,35 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Crud;
+namespace Itmcdev\Folium\Rest;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
- * Inteface for impelenting CRUD Update method.
+ * Inteface for impelenting REST Create method.
  */
-interface Update
-{
+interface CreateInterface {
+
     /**
-     * Update a resource or set of resources in the database.
-     * Update should behave more as a 'replace' and not as a 'resource patch' method.
-     * If a resource does not exists when passed to the update method, it will be created.
+     * Create a new resource with data which may also be an array.
      * 
-     * update(
-     *   {"text": "I really have to iron" }
-     * )
+     * POST /messages
+     * { "text": "I really have to iron" }
      * 
-     * or
-     * 
-     * update([
+     * POST /messages
+     * [
      *   { "text": "I really have to iron" },
      *   { "text": "Do laundry" }
-     * ])
+     * ]
+     * 
+     * @link https://docs.feathersjs.com/api/client/rest.html#create
+     * @link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
+     * @link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
      *
-     * @param  array $items    Can be a single element or an array of elements.
-     * @param  array $criteria To be defined.
-     * @return array           Will return the ids of the elements updated.
+     * @param Request $id
+     * @return Response
      */
-    public function update(array $items, array $criteria = []);
+    public function create(Request $request);
+
 }
