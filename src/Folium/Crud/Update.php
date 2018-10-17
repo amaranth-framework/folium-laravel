@@ -25,6 +25,7 @@ interface Update
      * Update a resource or set of resources in the database.
      * Update should behave more as a 'replace' and not as a 'resource patch' method.
      * If a resource does not exists when passed to the update method, it will be created.
+     * If $criteria is given, method will then function as a 'resource patch' handler, not as a 'replace' one.
      * 
      * update(
      *   {"text": "I really have to iron" }
@@ -39,7 +40,8 @@ interface Update
      *
      * @param  array $items    Can be a single element or an array of elements.
      * @param  array $criteria To be defined.
+     * @param  array $options  To be defined.
      * @return array           Will return the ids of the elements updated.
      */
-    public function update(array $items, array $criteria = []);
+    public function update(array $items, array $criteria = [], array $options = []);
 }

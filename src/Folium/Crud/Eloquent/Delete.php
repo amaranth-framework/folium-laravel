@@ -44,10 +44,12 @@ trait Delete
         }
         $modelClass = $this->_modelClass;
 
+        // define primary key name
+        $pKey = !empty($options['p_key']) ? $options['p_key'] : 'id';
+
         try {
             // delete all records from table
             if (empty($items) && empty($criteria)) {
-                $model = $modelClass::find($id);
                 if (empty($options['permanent']) && $this->canSoftDelete($model)) {
                     // soft delete all records if possible
                     $modelClass::all()->update(['deleted' => 1]);
@@ -65,8 +67,7 @@ trait Delete
                     if ($item instanceof $modelClass) {
                         return $item;
                     }
-                    $id = empty($options['key']) ? $item['id'] : $item[$options['key']];
-                    return $modelClass::find($item[$id]);
+                    return $modelClass::find($item[$pKey]);
                 }, $items);
 
                 foreach($items as $item) {
