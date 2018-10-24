@@ -31,7 +31,7 @@ before_script:
 test:7.0:
   image: php:7.2
   script:
-  docker run implementation-tests sh -c "php --version"
+  - docker run implementation-tests sh -c "php --version"
   # - phpunit --configuration phpunit.xml.dist
 
 # # We test PHP7.3
