@@ -6,8 +6,9 @@ cache:
   - vendor/
 
 before_script:
-  - curl -sL https://get.docker.com | bash
-  - docker build -t implementation-tests .
+  - docker info
+  # - curl -sL https://get.docker.com | bash
+  # - docker build -t implementation-tests .
 
 # # We test PHP5.6
 # test:5.6:
