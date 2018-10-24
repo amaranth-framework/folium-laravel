@@ -7,6 +7,15 @@ cache:
   - composer.phar
   - vendor/
 
+services:
+  - mysql:5.7
+
+variables:
+  MYSQL_ROOT_PASSWORD: weltest
+  MYSQL_DATABASE: dummy
+  MYSQL_USER: dummy
+  MYSQL_PASSWORD: dummy
+
 before_script:
   - apt-get update && apt-get install libzip-dev git -y
   - docker-php-ext-install -j$(nproc) zip
