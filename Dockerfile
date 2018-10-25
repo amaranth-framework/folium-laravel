@@ -8,7 +8,7 @@ RUN mkdir -p /code \
 RUN apt-get update \
     && apt-get install libzip-dev git -y
 
-RUN docker-php-ext-install -j$(nproc) zip
+RUN docker-php-ext-install -j$(nproc) mysqli pdo_mysql zip
 
 RUN COMPOSER_HASH=${COMPOSER_HASH:-93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8} \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
