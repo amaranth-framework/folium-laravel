@@ -1,9 +1,9 @@
 <?php
-declare(strict_types=1);
-
-require_once __DIR__ . '/eloquent/User.php';
+// declare(strict_types=1);
 
 namespace Itmcdev\Folium\Tests\Crud;
+
+require_once __DIR__ . '/eloquent/User.php';
 
 use PHPUnit\Framework\TestCase;
 
