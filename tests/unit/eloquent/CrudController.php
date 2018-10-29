@@ -1,6 +1,6 @@
 <?php
 
-require_once  __DIR__ . '/User.php';
+require_once '../bootstrap.php';
 
 use Itmcdev\Folium\Crud\Eloquent\Create;
 use Itmcdev\Folium\Crud\Eloquent\Read;
@@ -16,15 +16,4 @@ class CrudController
     use Read;
     use Update;
     use Delete;
-
-    function testCreate()
-    {
-        $user = null;
-        try {
-            $user = User::create($this->newUserData());
-        } catch (\Exception $e) {
-            var_dump($e);
-        }
-        $this->assertTrue($user !== null);
-    }
 }
