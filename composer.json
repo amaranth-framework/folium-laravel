@@ -34,7 +34,7 @@
     },
     "scripts": {
         "docker-build": "docker build -t implementation-tests .",
-        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && ./vendor/bin/phpunit --config=./phpunit.xml.dist \"",
+        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && ./vendor/bin/phpunit \"",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",
         "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -p 3306:3306 -d mysql:5.7",
