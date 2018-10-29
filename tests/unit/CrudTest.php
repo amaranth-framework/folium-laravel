@@ -3,10 +3,20 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/eloquent/CrudController.php';
 
+namespace Itmcdev\Folium\Tests\Crud;
+
 use PHPUnit\Framework\TestCase;
 
 final class CrudTest extends TestCase
 {
+
+    private $controller;
+    
+    public function setUp()
+    {
+        parent::setUp();
+        $this->controller = new CrudController();
+    }
 
     function newUserData() {
         $faker = \Faker\Factory::create();
@@ -17,10 +27,6 @@ final class CrudTest extends TestCase
         ];
     }
 
-    function controller() {
-        return new CrudController();
-    }
-
     /**
      * Test creation of one entity.
      */
@@ -28,7 +34,7 @@ final class CrudTest extends TestCase
     {
         $user = null;
         try {
-            $user = $this->controller()->create($this->newUserData());
+            $user = $this->controller->create($this->newUserData());
         } catch (\Exception $e) {
             var_dump($e);
         }

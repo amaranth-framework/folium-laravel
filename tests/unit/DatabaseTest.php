@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/eloquent/User.php';
 
+namespace Itmcdev\Folium\Tests\Crud;
+
 use PHPUnit\Framework\TestCase;
 
 final class DatabaseTest extends TestCase
