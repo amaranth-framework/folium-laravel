@@ -7,9 +7,7 @@ use Itmcdev\Folium\Crud\Eloquent\Read;
 use Itmcdev\Folium\Crud\Eloquent\Update;
 use Itmcdev\Folium\Crud\Eloquent\Delete;
 
-use Illuminate\Routing\Controller;
-
-class CrudController extends Controller
+class CrudController
 {
 
     private $_modelClass = '\User';
