@@ -8,28 +8,36 @@ use PHPUnit\Framework\TestCase;
 final class LaravelModelTest extends TestCase
 {
 
+    function newUserData() {
+        $faker = \Faker\Factory::create();
+        return [
+            'name' => $faker->name,
+            'email' => $faker->email,
+            'password' => password_hash("ahmedkhan",PASSWORD_BCRYPT)
+        ]
+    }
+
     function testCreate()
     {
         $user = null;
         try {
-            $faker = \Faker\Factory::create();
-
-            $user = User::create([
-                'name' => $faker->name,
-                'email' => $faker->email,
-                'password' => password_hash("ahmedkhan",PASSWORD_BCRYPT)
-            ]);
-        } catch (\Exception $e) {}
+            $user = User::create($this->newUserData());
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
         $this->assertTrue($user !== null);
     }
 
     function testFind()
     {
-        $user = null;
+        $createdUser = User::create($this->newUserData());
+        $foundUser = null;
         try {
-            $user = User::where('id', 1)->get()[0];
-        } catch (\Exception $e) {}
-        $this->assertTrue(!empty($user->id));
-        $this->assertEquals($user->id, 1);
+            $foundUser = User::where('id', $createdUser->id)->get()[0];
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
+        $this->assertTrue(!empty($foundUser->id));
+        $this->assertEquals($foundUser->id, $createdUser->id);
     }
 }

@@ -1,12 +1,10 @@
 FROM php:7.2-cli
 
-RUN mkdir -p /code \
-    && addgroup code \
-    && adduser --home /code --ingroup code code \
-    && chown code:code /code 
+RUN addgroup code \
+    && adduser --disabled-password --gecos "" --home /code --ingroup code code
 
 RUN apt-get update \
-    && apt-get install libzip-dev git -y
+    && apt-get install libzip-dev git unzip -y
 
 RUN docker-php-ext-install -j$(nproc) mysqli pdo_mysql zip
 
