@@ -1,6 +1,6 @@
 <?php
 
-require_once './User.php';
+require_once  __DIR__ . '/User.php';
 
 use Itmcdev\Folium\Crud\Eloquent\Create;
 use Itmcdev\Folium\Crud\Eloquent\Read;
