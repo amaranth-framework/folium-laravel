@@ -24,8 +24,7 @@ before_script:
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
   - ./composer.phar install
-  - sed -i 's/folium-mysql-test/localhost/g' ./tests/unit/bootstrap.php
-  - echo "SHOW DATABASES;" | mysql -uroot -pweltest
+  - sed -i 's/folium-mysql-test/mysql/g' ./tests/unit/bootstrap.php
 
 # # We test PHP5.6
 # test:5.6:
