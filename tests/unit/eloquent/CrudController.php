@@ -1,8 +1,6 @@
 <?php
 
-require "../bootstrap.php";
-
-namespace FoliumTest\Eloquent;
+require_once './User.php';
 
 use Itmcdev\Folium\Crud\Eloquent\Create;
 use Itmcdev\Folium\Crud\Eloquent\Read;
@@ -14,10 +12,21 @@ use Illuminate\Routing\Controller;
 class CrudController extends Controller
 {
 
-    private $_modelClass = '\FoliumTest\Eloquent\User';
+    private $_modelClass = '\User';
 
     use Create;
     use Read;
     use Update;
     use Delete;
+
+    function testCreate()
+    {
+        $user = null;
+        try {
+            $user = User::create($this->newUserData());
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
+        $this->assertTrue($user !== null);
+    }
 }
