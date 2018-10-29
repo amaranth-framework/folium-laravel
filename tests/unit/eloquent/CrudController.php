@@ -1,6 +1,6 @@
 <?php
 
-require_once '../bootstrap.php';
+require_once __DIR__ . '/../bootstrap.php';
 
 use Itmcdev\Folium\Crud\Eloquent\Create;
 use Itmcdev\Folium\Crud\Eloquent\Read;

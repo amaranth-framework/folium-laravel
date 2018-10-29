@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once 'eloquent/CrudController.php';
+require_once __DIR__ . '/eloquent/CrudController.php';
 
 use PHPUnit\Framework\TestCase;
 
