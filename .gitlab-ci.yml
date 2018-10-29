@@ -1,0 +1,57 @@
+# Composer stores all downloaded packages in the vendor/ directory.
+# Do not use the following if the vendor/ directory is committed to
+# your git repository.
+cache:
+  paths:
+  - composer-setup.php
+  - composer.phar
+  - vendor/
+
+services:
+  - mysql:5.7
+
+variables:
+  MYSQL_ROOT_PASSWORD: weltest
+  MYSQL_DATABASE: dummy
+  MYSQL_USER: dummy
+  MYSQL_PASSWORD: dummy
+
+before_script:
+  - apt-get update && apt-get install libzip-dev git -y
+  - docker-php-ext-install -j$(nproc) zip
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php -r "if (hash_file('SHA384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+  - ./composer.phar install
+
+# # We test PHP5.6
+# test:5.6:
+#   image: php:5.6
+#   script:
+#   - phpunit --configuration phpunit.xml.dist
+
+# # We test PHP7.0
+# test:7.0:
+#   image: php:7.0
+#   script:
+#   - phpunit --configuration phpunit.xml.dist
+
+# # We test PHP7.1
+# test:7.0:
+#   image: php:7.1
+#   script:
+#   - phpunit --configuration phpunit.xml.dist
+
+# We test PHP7.2
+test:7.2:
+  image: php:7.2
+  script:
+  - php --version
+  - ./vendor/bin/phpunit --configuration phpunit.xml.dist
+
+# # We test PHP7.3
+# test:7.0:
+#   image: php:7.3
+#   script:
+#   - phpunit --configuration phpunit.xml.dist

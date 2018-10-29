@@ -17,7 +17,8 @@
         "symfony/http-foundation": "^3.1",
         "illuminate/database": "^5.8@dev",
         "phpunit/phpunit": "^7.5@dev",
-        "phpunit/dbunit": "^4.0@dev"
+        "phpunit/dbunit": "^4.0@dev",
+        "fzaninotto/faker": "^1.9@dev"
     },
     "autoload": {
         "classmap": [
@@ -32,10 +33,11 @@
         }
     },
     "scripts": {
+        "docker-build": "docker build -t implementation-tests .",
+        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && ./vendor/bin/phpunit --config=./phpunit.xml.dist \"",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",
-        "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -d mysql:5.7",
-        "mysql-wait": "while ! docker exec folium-mysql-test sh -c \"mysqladmin ping -uroot -pweltest -hlocalhost --silent\"; do echo \"Waiting for MySQL container...\"; sleep 1; done",
-        "local-tests": "docker build -t implementation-tests . && docker run --rm -it -v $(pwd):/code implementation-tests sh -c \"cd /code && phpunit \""
+        "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -p 3306:3306 -d mysql:5.7",
+        "mysql-wait": "while ! docker exec folium-mysql-test sh -c \"mysqladmin ping -uroot -pweltest -hlocalhost --silent\"; do echo \"Waiting for MySQL container...\"; sleep 1; done"
     }
 }
