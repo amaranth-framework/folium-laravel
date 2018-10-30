@@ -84,4 +84,12 @@ final class CrudTest extends TestCase
         $this->assertEquals(count($result), 2);
         return $result;
     }
+
+    /**
+     * @expectedException \Itmcdev\Folium\Crud\Exception\CreateException
+     */
+    function testCreateException() {
+        $this->controller->create(['id' => 'test']);
+        $this->assertTrue(true);
+    }
 }

@@ -45,10 +45,11 @@ before_script:
 #   - phpunit --configuration phpunit.xml.dist
 
 # We test PHP7.2
-test:7.2:
+test:php7.2-laravel:5.6:
   image: php:7.2
   script:
   - php --version
+  - composer require --dev nesbot/carbon:1.25.* illuminate/database:5.6.* illuminate/log:5.6.*
   - ./vendor/bin/phpunit
 
 # # We test PHP7.3

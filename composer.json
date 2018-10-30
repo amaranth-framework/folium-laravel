@@ -9,17 +9,17 @@
             "email": "dragos.cirjan@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": "^7.1.3"
     },
     "require-dev": {
-        "symfony/http-foundation": "^3.1",
-        "illuminate/database": "^5.8@dev",
-        "phpunit/phpunit": "^7.5@dev",
-        "phpunit/dbunit": "^4.0@dev",
-        "fzaninotto/faker": "^1.9@dev",
-        "clovers/clover": "dev-master"
+        "phpunit/phpunit": "^7.4",
+        "fzaninotto/faker": "^1.8",
+        "nesbot/carbon": "1.25.*",
+        "illuminate/support": "5.6.*",
+        "illuminate/log": "5.6.*",
+        "illuminate/database": "5.6.*"
     },
     "autoload": {
         "classmap": [
@@ -30,7 +30,8 @@
     },
     "scripts": {
         "docker-build": "docker build -t implementation-tests .",
-        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && ./vendor/bin/phpunit \"",
+        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && composer run laravel-5.6 && ./vendor/bin/phpunit \"",
+        "laravel-5.6": "composer require --dev nesbot/carbon:1.25.* illuminate/database:5.6.* illuminate/log:5.6.*",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",
         "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -p 3306:3306 -d mysql:5.7",
