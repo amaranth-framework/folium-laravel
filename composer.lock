@@ -4,9 +4,91 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce3dd786001803aff7974f36158217fc",
+    "content-hash": "81861f523e4c24530dd61f423d7c86d9",
     "packages": [],
     "packages-dev": [
+        {
+            "name": "clovers/clover",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/donghaichen/Clover.git",
+                "reference": "b3f936c4af3cb62e059de8f7e2ca379a7b0eef06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/donghaichen/Clover/zipball/b3f936c4af3cb62e059de8f7e2ca379a7b0eef06",
+                "reference": "b3f936c4af3cb62e059de8f7e2ca379a7b0eef06",
+                "shasum": ""
+            },
+            "require": {
+                "clovers/framework": "dev-master",
+                "illuminate/database": "~5.2",
+                "monolog/monolog": "1.13.1",
+                "overtrue/validation": "1.0",
+                "php": ">=7.0.3"
+            },
+            "type": "project",
+            "autoload": {
+                "classmap": [
+                    "app"
+                ],
+                "psr-4": {
+                    "App\\": "app/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The clover Framework.",
+            "keywords": [
+                "API框架",
+                "PHP框架",
+                "api",
+                "clover",
+                "framework",
+                "php",
+                "restful"
+            ],
+            "time": "2016-02-19T07:33:40+00:00"
+        },
+        {
+            "name": "clovers/framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/donghaichen/framework.git",
+                "reference": "1d08752d98841b2e3536a98c5b07efdb5691bd91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/donghaichen/framework/zipball/1d08752d98841b2e3536a98c5b07efdb5691bd91",
+                "reference": "1d08752d98841b2e3536a98c5b07efdb5691bd91",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\": "src/Illuminate/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Clover Framework.",
+            "keywords": [
+                "clover",
+                "framework"
+            ],
+            "time": "2016-10-20T09:35:05+00:00"
+        },
         {
             "name": "doctrine/inflector",
             "version": "1.3.x-dev",
@@ -389,6 +471,79 @@
             "time": "2018-10-17T04:57:34+00:00"
         },
         {
+            "name": "monolog/monolog",
+            "version": "1.13.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "c31a2c4e8db5da8b46c74cf275d7f109c0f249ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c31a2c4e8db5da8b46c74cf275d7f109c0f249ac",
+                "reference": "c31a2c4e8db5da8b46c74cf275d7f109c0f249ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "~1.0"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "~2.4, >2.4.8",
+                "doctrine/couchdb": "~1.0@dev",
+                "graylog2/gelf-php": "~1.0",
+                "phpunit/phpunit": "~4.0",
+                "raven/raven": "~0.5",
+                "ruflin/elastica": "0.90.*",
+                "swiftmailer/swiftmailer": "~5.3",
+                "videlalvaro/php-amqplib": "~2.4"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.13.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "time": "2015-03-09T09:58:04+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.x-dev",
             "source": {
@@ -491,6 +646,42 @@
                 "time"
             ],
             "time": "2018-10-17T10:02:04+00:00"
+        },
+        {
+            "name": "overtrue/validation",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/validation.git",
+                "reference": "f7bf3fd0559e73ffead3c8eec4581a83eced8e69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/validation/zipball/f7bf3fd0559e73ffead3c8eec4581a83eced8e69",
+                "reference": "f7bf3fd0559e73ffead3c8eec4581a83eced8e69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\Validation\\": "src/Validation"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carlos",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "Laralve Validation 简化无依赖版",
+            "time": "2014-09-24T03:54:47+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1287,6 +1478,53 @@
                 "psr"
             ],
             "time": "2017-06-28T15:35:32+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda",
+                "reference": "3490ba5925e6dcbe6de950c5c6b8dce9f6e96eda",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2018-04-03T15:59:15+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2426,7 +2664,8 @@
         "illuminate/database": 20,
         "phpunit/phpunit": 20,
         "phpunit/dbunit": 20,
-        "fzaninotto/faker": 20
+        "fzaninotto/faker": 20,
+        "clovers/clover": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

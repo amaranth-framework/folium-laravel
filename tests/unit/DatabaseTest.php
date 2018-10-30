@@ -5,6 +5,8 @@ namespace Itmcdev\Folium\Tests\Crud;
 
 require_once __DIR__ . '/eloquent/User.php';
 
+use Itmcdev\Folium\Tests\Crud\Eloquent\User;
+
 use PHPUnit\Framework\TestCase;
 
 final class DatabaseTest extends TestCase

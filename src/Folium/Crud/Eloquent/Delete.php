@@ -29,7 +29,6 @@ use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
  */
 trait Delete
 {
-    use Utils;
 
     /**
      * @see DeleteInterface::delete()

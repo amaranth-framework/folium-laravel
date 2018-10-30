@@ -9,6 +9,7 @@ $capsule = new Capsule;
 $capsule->addConnection([
     "driver"   => "mysql",
     "host"     => "folium-mysql-test",
+    // "host"     => "localhost",
     "database" => "dummy",
     "username" => "dummy",
     "password" => "dummy"

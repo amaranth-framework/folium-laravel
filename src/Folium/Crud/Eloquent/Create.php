@@ -43,6 +43,9 @@ trait Create {
             throw new UnspecifiedModelException($this, 'create');
         }
         $modelClass = $this->_modelClass;
+
+        // define primary key name
+        $pKey = !empty($options['p_key']) ? $options['p_key'] : 'id';
         
         // convert a single item into an array of items
         if (!ArrayUtils::isNumeric($items)) {
@@ -50,7 +53,7 @@ trait Create {
         }
 
         // if there is a validation method, try and validate data
-        if (method_exists("$modelClass::validate")) {
+        if (method_exists($modelClass, 'validate')) {
             foreach ($items as $item) {
                 $validator = $modelClass::validate($item);
                 if ($validator->fails()) {
@@ -61,7 +64,11 @@ trait Create {
 
         // attempt creating items or log failure
         try {
-            return $modelClass::insert($items);
+            if (method_exists($this, 'insertItems')) {
+                return $this->inserItems($items);
+            }
+            $result = array_map(function($item) use ($modelClass) { return $modelClass::create($item); }, $items);
+            return array_map(function($model) use ($pKey) { return $model->$pKey; }, $result);
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }

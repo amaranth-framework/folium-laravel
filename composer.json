@@ -18,18 +18,14 @@
         "illuminate/database": "^5.8@dev",
         "phpunit/phpunit": "^7.5@dev",
         "phpunit/dbunit": "^4.0@dev",
-        "fzaninotto/faker": "^1.9@dev"
+        "fzaninotto/faker": "^1.9@dev",
+        "clovers/clover": "dev-master"
     },
     "autoload": {
         "classmap": [
         ],
         "psr-4": {
-            "Folium\\": "Folium/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
+            "Itmcdev\\Folium\\": "src/Folium/"
         }
     },
     "scripts": {

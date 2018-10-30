@@ -5,6 +5,8 @@ namespace Itmcdev\Folium\Tests\Crud;
 
 require_once __DIR__ . '/eloquent/CrudController.php';
 
+use Itmcdev\Folium\Tests\Crud\Eloquent\CrudController;
+
 use PHPUnit\Framework\TestCase;
 
 final class CrudTest extends TestCase
@@ -27,56 +29,59 @@ final class CrudTest extends TestCase
         ];
     }
 
+    function testCreateMethoExists() {
+        $this->assertTrue(method_exists($this->controller, 'create'));
+    }
+
     /**
      * Test creation of one entity.
      */
     function testCreateOne()
     {
-        $user = null;
+        $result = null;
         try {
-            $user = $this->controller->create($this->newUserData());
+            $result = $this->controller->create($this->newUserData());
         } catch (\Exception $e) {
-            var_dump($e);
+            var_dump($e->getMessage(), $e->getTraceAsString());
         }
-        $this->assertTrue($user !== null);
-        return $user->id;
+        $this->assertTrue(count($result) > 0);
+        $this->assertEquals(count($result), 1);
+        return $result;
     }
     
-    // /**
-    //  * Test creation of one entity (from array)
-    //  */
-    // function testCreateOneFromArray()
-    // {
-    //     $user = null;
-    //     try {
-    //         $user = $this->controller()->create([$this->newUserData()]);
-    //     } catch (\Exception $e) {
-    //         var_dump($e);
-    //     }
-    //     $this->assertTrue($user !== null);
-    //     return $user->id;
-    // }
-    // }
+    /**
+     * Test creation of one entity (from array)
+     */
+    function testCreateOneFromArray()
+    {
+        $result = null;
+        try {
+            $result = $this->controller->create([ $this->newUserData() ]);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString());
+        }
+        $this->assertTrue(count($result) > 0);
+        $this->assertEquals(count($result), 1);
+        return $result;
+    }
     
-    // /**
-    //  * Test creation of one entity (from array)
-    //  */
-    // function testCreateOneFromArray()
-    // {
-    //     $models = [
-    //         $this->newUserData(),
-    //         $this->newUserData()
-    //     ];
-    //     $users = [];
-    //     try {
-    //         $users = $this->controller()->create($models);
-    //     } catch (\Exception $e) {
-    //         var_dump($e);
-    //     }
-    //     $this->assertTrue(count($users), count($models));
-    //     return array_map(
-    //         function ($user) { return $user->id },
-    //         $users
-    //     );
-    // }
+    /**
+     * Test creation of one entity (from array)
+     */
+    function testCreateOneFromArrayMultiple()
+    {
+        $models = [
+            $this->newUserData(),
+            $this->newUserData()
+        ];
+        $result = null;
+        try {
+            $result = $this->controller->create($models);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString());
+        }
+        $this->assertTrue(count($result) > 0);
+        $this->assertEquals(count($result), 2);
+        return $result;
+    }
 }
