@@ -4,7 +4,7 @@ namespace Itmcdev\Folium\Tests\Crud\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class User extends Eloquent
+class SimpleModel extends Eloquent
 {
    /**
    * The attributes that are mass assignable.

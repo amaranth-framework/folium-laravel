@@ -18,6 +18,7 @@
 namespace Itmcdev\Folium\Crud\Eloquent;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 use Itmcdev\Folium\Crud\Create as CreateInterface;
 use Itmcdev\Folium\Crud\Exception\CreateException;
@@ -53,9 +54,9 @@ trait Create {
         }
 
         // if there is a validation method, try and validate data
-        if (method_exists($modelClass, 'validate')) {
+        if (method_exists($modelClass, 'rules')) {
             foreach ($items as $item) {
-                $validator = $modelClass::validate($item);
+                $validator = Validator::make($item, $modelClass::rules());
                 if ($validator->fails()) {
                     throw new ValidationException($validator->errors());
                 }
@@ -67,8 +68,14 @@ trait Create {
             if (method_exists($this, 'insertItems')) {
                 return $this->inserItems($items);
             }
-            $result = array_map(function($item) use ($modelClass) { return $modelClass::create($item); }, $items);
-            return array_map(function($model) use ($pKey) { return $model->$pKey; }, $result);
+            // map Model::create responses
+            $result = array_map(function($item) use ($modelClass) {
+                return $modelClass::create($item);
+            }, $items);
+            // map only primary key values from the responses
+            return array_map(function($model) use ($pKey) {
+                return $model->$pKey;
+            }, $result);
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }

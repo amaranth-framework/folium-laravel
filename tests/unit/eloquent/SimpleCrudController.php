@@ -2,19 +2,19 @@
 
 namespace Itmcdev\Folium\Tests\Crud\Eloquent;
 
-require_once __DIR__ . '/User.php';
+require_once __DIR__ . '/SimpleModel.php';
 
 use Itmcdev\Folium\Crud\Eloquent\Create;
 use Itmcdev\Folium\Crud\Eloquent\Read;
 use Itmcdev\Folium\Crud\Eloquent\Update;
 use Itmcdev\Folium\Crud\Eloquent\Delete;
 
-use Itmcdev\Folium\Tests\Crud\Eloquent\User;
+use Itmcdev\Folium\Tests\Crud\Eloquent\SimpleModel;
 
-class CrudController
+class SimpleCrudController
 {
 
-    private $_modelClass = User::class;
+    private $_modelClass = SimpleModel::class;
 
     use Create;
     use Read;
