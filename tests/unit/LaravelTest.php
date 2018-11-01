@@ -85,10 +85,10 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
             self::$capsule = new Capsule;
             self::$capsule->addConnection([
                 "driver"   => "mysql",
-                "host"     => "folium-mysql-test",
-                "database" => "dummy",
-                "username" => "dummy",
-                "password" => "dummy"
+                "host"     => DATABASE_HOST,
+                "database" => DATABASE_NAME,
+                "username" => DATABASE_USER,
+                "password" => DATABASE_PASS
             ]);
             self::$capsule->setAsGlobal();
             self::$capsule->bootEloquent();
