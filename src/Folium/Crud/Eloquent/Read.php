@@ -24,6 +24,7 @@ use Itmcdev\Folium\Crud\Read as ReadInterface;
 use Itmcdev\Folium\Crud\Exception\ReadException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
 use Itmcdev\Folium\Exception\InvalidArgument;
+use Itmcdev\Folium\Util\ArrayUtils;
 
 /**
  * Trait proposal for CRUD Read method implementation on Laravel's Eloquent
@@ -48,15 +49,15 @@ trait Read
             // $query = (new $modelClass())->newQuery();
             $query = $modelClass::query();
             foreach ($criteria as $item) {
-                if (!is_array($item) || !\Itmcdev\Folium\Util\ArrayUtils::isNumeric($item)) {
+                if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
                     throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
                 }
                 list($where, $whereIn, $item) = $this->readCriteriaParams($item);
                 $value = array_values(array_slice($item, -1))[0];
                 if (!is_array($value)) {
-                    $query = call_user_func_array([$query, 'where'], $item);
+                    $query = call_user_func_array([$query, $where], $item);
                 } else {
-                    $query = call_user_func_array([$query, 'whereIn'], $item);
+                    $query = call_user_func_array([$query, $whereIn], $item);
                 }
             }
             if (!empty($options['count'])) {
@@ -66,13 +67,12 @@ trait Read
                 if (empty($fields)) {
                     return $models;
                 }
-                $mappedModels = array_map(function($model) use ($fields) {
-                    return array_intersect_key(
+                return $models->map(function($model) use ($fields) {
+                    return (object) array_intersect_key(
                         $model->toArray(),
                         array_combine($fields, $fields)
                     );
-                }, $models->all());
-                return new Collection($mappedModels);
+                });
             }
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
@@ -89,7 +89,7 @@ trait Read
      */
     protected function readCriteriaParams($item) {
         $where = 'where';
-        $whereIn = 'orWhere';
+        $whereIn = 'whereIn';
         $or = array_values(array_slice($item, -1))[0];
         if (is_string($or) && strtolower($or) === 'or') {
             $where = 'orWhere';

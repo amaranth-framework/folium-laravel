@@ -51,7 +51,7 @@ trait Update
 
         if (empty($criteria)) {
             // if there is a validation method, try and validate data
-            if (method_exists("$modelClass::validate")) {
+            if (method_exists($modelClass, 'validate')) {
                 foreach ($items as $item) {
                     $validator = $modelClass::validate($item);
                     if ($validator->fails()) {
@@ -63,8 +63,12 @@ trait Update
             // define primary key name
             $pKey = !empty($options['p_key']) ? $options['p_key'] : 'id';
 
-            $itemsToCreate = array_filter(function ($item) use ($pKey) { return empty($item[$pKey]); }, $items);
-            $itemsToUpdate = array_filter(function ($item) use ($pKey) { return !empty($item[$pKey]); }, $items);
+            $itemsToCreate = array_filter($items, function ($item) use ($pKey) {
+                return empty($item[$pKey]);
+            });
+            $itemsToUpdate = array_filter($items, function ($item) use ($pKey) {
+                return !empty($item[$pKey]);
+            });
 
             try {
                 // run update on the items having primary key
@@ -72,16 +76,24 @@ trait Update
                     $modelClass::find($item[$pKey])->update($item);
                 }
                 // run create on the items not having primary key
-                if (method_exists([$this, 'create'])) {
-                    $this->create($itemsToCreate);
-                } else {
-                    foreach ($itemsToCreate as $item) {
-                        $createdItems = $modelClass::insert($item);
+                if (count($itemsToCreate)) {
+                    if (method_exists($this, 'create')) {
+                        $this->create($itemsToCreate);
+                    } else {
+                        foreach ($itemsToCreate as $item) {
+                            $createdItems = $modelClass::create($item);
+                        }
                     }
+                } else {
+                    $createdItems = [];
                 }
                 return array_merge(
-                    array_map(function($item) use ($pKey) { return $item[$pKey]; }, $itemsToUpdate),
-                    array_map(function($item) use ($pKey) { return $item[$pKey]; }, $createdItems)
+                    array_map(function($item) use ($pKey) {
+                        return $item[$pKey];
+                    }, $itemsToUpdate),
+                    array_map(function($item) use ($pKey) {
+                        return $item[$pKey];
+                    }, $createdItems)
                 );
             } catch (\Exception $e) {
                 Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));

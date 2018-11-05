@@ -41,7 +41,7 @@ interface Create
      *
      * @param  array $items    Can be a single element or an array of elements
      * @param  array $criteria To be defined.
-     * @return array           Will return an array of models that have been saved in the database.
+     * @return array           Will return an array of ids for the models that have been saved in the database.
      */
     public function create(array $items, array $criteria = []);
 }

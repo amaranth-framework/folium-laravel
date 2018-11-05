@@ -11,6 +11,9 @@ use Itmcdev\Folium\Tests\Crud\LaravelTestCase;
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
+    /**
+     * @runTestsInSeparateProcesses
+     */
     class LaravelExceptionTest extends LaravelTestCase
     {
 
