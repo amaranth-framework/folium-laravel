@@ -3,19 +3,19 @@
 
 namespace Itmcdev\Folium\Tests\Crud;
 
-require_once __DIR__ . '/LaravelTest.php';
+require_once __DIR__ . '/LaravelTestCase.php';
 require_once __DIR__ . '/eloquent/SimpleCrudController.php';
 
 use Itmcdev\Folium\Tests\Crud\Eloquent\SimpleCrudController;
-use Itmcdev\Folium\Tests\Crud\LaravelTest;
+use Itmcdev\Folium\Tests\Crud\LaravelTestCase;
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
-    class LaravelSimpleCrudTest extends LaravelTest
+    class LaravelSimpleCrudTest extends LaravelTestCase
     {
 
         /***********************************************************************
-         * Unit Tests
+         * Unit Tests (Create)
          ***********************************************************************/
 
         /**
@@ -66,7 +66,7 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
         /**
          * Test creation of one entity (from array)
          */
-        function testCreateOneFromArrayMultiple()
+        function testCreateMultiple()
         {
             $models = [
                 $this->newModelData(),
@@ -83,16 +83,80 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
             return $result;
         }
 
-        /**
-         * @expectedException \Itmcdev\Folium\Crud\Exception\CreateException
-         */
-        function testCreateWithCreateException() {
-            self::stopDbConnection();
+        /***********************************************************************
+         * Unit Tests (Create)
+         ***********************************************************************/
 
-            $simpleModel = $this->newModelData();
-            $simpleModel['id'] = 'test';
-            $this->controller->create($simpleModel);
-            $this->assertTrue(true);
+        /**
+         * Test whether create method exists or not.
+         */
+        function testReadMethoExists() {
+            $this->assertTrue(method_exists($this->controller, 'read'));
+        }
+
+        /**
+         * @depends testCreateOne
+         */
+        function testReadOne()
+        {
+            $ids = func_get_args()[0];
+            $models = [];
+            try {
+                $models = $this->controller->read([['id', '=', $ids[0]]]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+            $this->assertCount(1, $models);
+            $this->assertEquals($ids[0], $models[0]->id);
+        }
+
+        /**
+         * @depends testCreateOne
+         */
+        function testReadOneWithFields()
+        {
+            $ids = func_get_args()[0];
+            $models = [];
+            try {
+                $models = $this->controller->read([['id', '=', $ids[0]]], ['id', 'name']);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+            $this->assertCount(1, $models);
+            $this->assertEquals($ids[0], $models[0]->id);
+            $this->assertFalse(defined($models[0]->email));
+            $this->assertTrue(defined($models[0]->name));
+        }
+
+        /**
+         * @depends testCreateOne
+         */
+        function testReadOneCount()
+        {
+            $ids = func_get_args()[0];
+            $count = 0;
+            try {
+                $count = $this->controller->read([['id', '=', $ids[0]]], [], ['count' => true]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+            $this->assertEquals(1, $count);
+        }
+
+        /**
+         * @depends testCreateMultiple
+         */
+        function testReadMultiple()
+        {
+            $ids = func_get_args()[0];
+            $models = [];
+            try {
+                $models = $this->controller->read([['id', $ids]]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+            $this->assertCount(count($ids), $models);
+            $this->assertEquals($ids[0], $models[0]->id);
         }
 
         /***********************************************************************

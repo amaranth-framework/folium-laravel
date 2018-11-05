@@ -3,13 +3,7 @@
 
 namespace Itmcdev\Folium\Tests\Crud;
 
-require_once __DIR__ . '/eloquent/SimpleModel.php';
-require_once __DIR__ . '/eloquent/ValidatedModel.php';
-
 use Illuminate\Database\Capsule\Manager as Capsule;
-
-use Itmcdev\Folium\Tests\Crud\Eloquent\SimpleModel;
-use Itmcdev\Folium\Tests\Crud\Eloquent\ValidatedModel;
 
 use PHPUnit\Framework\TestCase;
 
@@ -23,34 +17,8 @@ if (class_exists('\Illuminate\Support\Facades\Log')) {
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
-    class LaravelTest extends TestCase
+    class LaravelTestCase extends TestCase
     {
-
-        /***********************************************************************
-         * Unit Tests
-         ***********************************************************************/
-
-        function testCreateSimple()
-        {
-            $simpleModel = null;
-            try {
-                $simpleModel = SimpleModel::create($this->newModelData());
-            } catch (\Exception $e) {
-                var_dump($e->getMessage(), $e->getTraceAsString());
-            }
-            $this->assertTrue($simpleModel !== null);
-        }
-
-        function testCreateValidted()
-        {
-            $simpleModel = null;
-            try {
-                $simpleModel = ValidatedModel::create($this->newModelData());
-            } catch (\Exception $e) {
-                var_dump($e->getMessage(), $e->getTraceAsString());
-            }
-            $this->assertTrue($simpleModel !== null);
-        }
 
         /***********************************************************************
          * Setup
