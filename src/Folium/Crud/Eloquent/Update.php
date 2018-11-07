@@ -18,12 +18,14 @@
 namespace Itmcdev\Folium\Crud\Eloquent;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 use Itmcdev\Folium\Crud\Update as UpdateInterface;
 use Itmcdev\Folium\Crud\Exception\UpdateException;
 use Itmcdev\Folium\Crud\Exception\ValidationException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
 use Itmcdev\Folium\Util\ArrayUtils;
+use Itmcdev\Folium\Util\CrudUtils;
 
 /**
  * Trait proposal for CRUD Update method implementation on Laravel's Eloquent
@@ -40,7 +42,7 @@ trait Update
     {
         // delete method requires ::_modelClass variable to be able to init the model
         if (!$this->_modelClass) {
-            throw new UnspecifiedModelException($this, 'create');
+            throw new UnspecifiedModelException($this, 'update');
         }
         $modelClass = $this->_modelClass;
         
@@ -49,79 +51,86 @@ trait Update
             $items = [ $items ];
         }
 
+        // define primary key name
+        $pKey = !empty($options['p_key']) ? $options['p_key'] : 'id';
+
         if (empty($criteria)) {
             // if there is a validation method, try and validate data
-            if (method_exists($modelClass, 'validate')) {
+            if (method_exists($modelClass, 'rules')) {
                 foreach ($items as $item) {
-                    $validator = $modelClass::validate($item);
+                    $validator = Validator::make($item, $modelClass::rules());
                     if ($validator->fails()) {
                         throw new ValidationException($validator->errors());
                     }
                 }
             }
 
-            // define primary key name
-            $pKey = !empty($options['p_key']) ? $options['p_key'] : 'id';
-
+            // obtain the items we need to create (do not have primary key)
             $itemsToCreate = array_filter($items, function ($item) use ($pKey) {
                 return empty($item[$pKey]);
             });
+
+            // obtain the items we need to replace
             $itemsToUpdate = array_filter($items, function ($item) use ($pKey) {
                 return !empty($item[$pKey]);
             });
 
             try {
                 // run update on the items having primary key
-                foreach ($itemsToUpdate as $item) {
+                $updatedItems = array_map(function($item) use ($modelClass, $pKey) {
                     $modelClass::find($item[$pKey])->update($item);
-                }
+                    return $item[$pKey];
+                }, $itemsToUpdate);
                 // run create on the items not having primary key
+                $createdItems = [];
                 if (count($itemsToCreate)) {
                     if (method_exists($this, 'create')) {
-                        $this->create($itemsToCreate);
+                        // seems array filter keps old ids, so array_values will get rid of them
+                        $createdItems = $this->create(array_values($itemsToCreate));
                     } else {
-                        foreach ($itemsToCreate as $item) {
-                            $createdItems = $modelClass::create($item);
-                        }
+                        $createdItems = array_map(function($item) use ($modelClass, $pKey) {
+                            return $modelClass::create($item)->$pKey;
+                        }, $itemsToCreate);
                     }
-                } else {
-                    $createdItems = [];
                 }
-                return array_merge(
-                    array_map(function($item) use ($pKey) {
-                        return $item[$pKey];
-                    }, $itemsToUpdate),
-                    array_map(function($item) use ($pKey) {
-                        return $item[$pKey];
-                    }, $createdItems)
-                );
+                return array_merge($updatedItems, $createdItems);
             } catch (\Exception $e) {
                 Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
             }
         } else {
-            $item = $items[0];
-
-            // if there is a validation method, try and validate data (but only the keys that are present)
-            if (method_exists("$modelClass::validate")) {
+            // if there is a validation method, try and validate data
+            if (method_exists($modelClass, 'rules')) {
                 foreach ($items as $item) {
-                    $validator = $modelClass::validate($item, array_keys($item));
+                    $validator = Validator::make(
+                        $item,
+                        CrudUtils::patchRules($modelClass::rules(), array_keys($item))
+                    );
                     if ($validator->fails()) {
                         throw new ValidationException($validator->errors());
                     }
                 }
             }
-            // build a query based on the criteria
-            $query = $modelClass::query();
-            foreach ($criteria as $item) {
-                $query = call_user_func_array([$query, 'where'], $item);
+            try {
+                // build a query based on the criteria
+                $query = $modelClass::query();
+                foreach ($criteria as $item) {
+                    if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
+                        throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
+                    }
+                    list($action, $$item) = CrudUtils::parseCriteriaItem($item);
+                    $query = call_user_func_array([$query, $action], $item);
+                }
+                // apply all updates
+                foreach ($items as $item) {
+                    $query->update($item);
+                }
+                // return list of primary key values
+                return array_map(function ($model) use ($pKey) {
+                    return $model[$pKey];
+                }, $query->get()->toArray());
+            } catch (\Exception $e) {
+                Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
             }
-            $query->update(array('under_18' => 1));
-
-            $query = $modelClass::query();
-            foreach ($criteria as $item) {
-                $query = call_user_func_array([$query, 'where'], $item);
-            }
-            return array_map(function ($item) use ($pKey) { return $items[$pKey]; }, $query->get());
         }
 
         throw new UpdateException();

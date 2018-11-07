@@ -32,7 +32,8 @@
     },
     "scripts": {
         "docker-build": "docker build -t implementation-tests .",
-        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && composer run laravel-5.6 && ./vendor/bin/phpunit \"",
+        "docker-laravel-5.6": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && composer run laravel-5.6\"",
+        "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && ./vendor/bin/phpunit\"",
         "laravel-5.6": "composer require --dev nesbot/carbon:1.25.* illuminate/database:5.6.* illuminate/log:5.6.* illuminate/validation:5.6.* illuminate/translation:5.6.*",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",

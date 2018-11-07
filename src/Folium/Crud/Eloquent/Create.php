@@ -69,13 +69,9 @@ trait Create {
                 return $this->inserItems($items);
             }
             // map Model::create responses
-            $result = array_map(function($item) use ($modelClass) {
-                return $modelClass::create($item);
+            return array_map(function($item) use ($modelClass, $pKey) {
+                return $modelClass::create($item)->$pKey;
             }, $items);
-            // map only primary key values from the responses
-            return array_map(function($model) use ($pKey) {
-                return $model->$pKey;
-            }, $result);
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }

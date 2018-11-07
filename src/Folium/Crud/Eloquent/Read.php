@@ -25,6 +25,7 @@ use Itmcdev\Folium\Crud\Exception\ReadException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Util\ArrayUtils;
+use Itmcdev\Folium\Util\CrudUtils;
 
 /**
  * Trait proposal for CRUD Read method implementation on Laravel's Eloquent
@@ -46,56 +47,32 @@ trait Read
         $modelClass = $this->_modelClass;
 
         try {
-            // $query = (new $modelClass())->newQuery();
             $query = $modelClass::query();
             foreach ($criteria as $item) {
                 if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
                     throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
                 }
-                list($where, $whereIn, $item) = $this->readCriteriaParams($item);
-                $value = array_values(array_slice($item, -1))[0];
-                if (!is_array($value)) {
-                    $query = call_user_func_array([$query, $where], $item);
-                } else {
-                    $query = call_user_func_array([$query, $whereIn], $item);
-                }
+                list($action, $$item) = CrudUtils::parseCriteriaItem($item);
+                $query = call_user_func_array([$query, $action], $item);
             }
             if (!empty($options['count'])) {
                 return $query->count();
             } else {
                 $models = $query->get();
                 if (empty($fields)) {
-                    return $models;
+                    return $models->toArray();
                 }
                 return $models->map(function($model) use ($fields) {
-                    return (object) array_intersect_key(
+                    return array_intersect_key(
                         $model->toArray(),
                         array_combine($fields, $fields)
                     );
-                });
+                })->toArray();
             }
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
 
         throw new ReadException();
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param array $item
-     * @return array(string, string, array)
-     */
-    protected function readCriteriaParams($item) {
-        $where = 'where';
-        $whereIn = 'whereIn';
-        $or = array_values(array_slice($item, -1))[0];
-        if (is_string($or) && strtolower($or) === 'or') {
-            $where = 'orWhere';
-            $whereIn = 'orWhereIn';
-            $item = array_slice($item, 0, -1);
-        }
-        return [$where, $whereIn, $item];
     }
 }

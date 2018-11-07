@@ -18,14 +18,6 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
             parent::setUp();
             $this->controller = new ValidatedCrudController();
         }
-
-        /**
-         * @expectedException \Itmcdev\Folium\Crud\Exception\ValidationException
-         */
-        function testCreateWithValidationException() {
-            $this->controller->create(['id' => 1]);
-            $this->assertTrue(true);
-        }
     }
 
 } else {

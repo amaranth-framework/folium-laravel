@@ -17,6 +17,11 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
     class LaravelExceptionTest extends LaravelTestCase
     {
 
+        function testMock()
+        {
+            $this->assertTrue(true);
+        }
+
         /***********************************************************************
          * Unit Tests
          ***********************************************************************/
@@ -47,6 +52,15 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
         // function testReadExceptionViaInvalidArgument()
         // {
         //     $this->controller->read(['id', 1]);
+        //     $this->assertTrue(true);
+        // }
+
+        // /**
+        //  * @expectedException \Itmcdev\Folium\Crud\Exception\UpdateException
+        //  */
+        // function testUpdateExceptionViaInvalidArgument()
+        // {
+        //     $this->controller->update(['name' => 'Test'], [['id', 1]]);
         //     $this->assertTrue(true);
         // }
 

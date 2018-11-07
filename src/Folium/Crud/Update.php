@@ -26,6 +26,7 @@ interface Update
      * Update should behave more as a 'replace' and not as a 'resource patch' method.
      * If a resource does not exists when passed to the update method, it will be created.
      * If $criteria is given, method will then function as a 'resource patch' handler, not as a 'replace' one.
+     * If $criteria is given and $items are multiple, function will apply all all items as patch.
      * 
      * update(
      *   {"text": "I really have to iron" }
