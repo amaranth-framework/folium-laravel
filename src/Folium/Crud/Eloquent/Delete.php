@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Itmcdev\Folium\Crud\Delete as DeleteInterface;
 use Itmcdev\Folium\Crud\Exception\DeleteException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
+use Itmcdev\Folium\Util\CrudUtils;
 
 /**
  * Trait proposal for CRUD Delete method implementation on Laravel's Eloquent
@@ -49,12 +50,12 @@ trait Delete
         try {
             // delete all records from table
             if (empty($items) && empty($criteria)) {
-                if (empty($options['permanent']) && $this->canSoftDelete($model)) {
+                if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all records if possible
                     $modelClass::all()->update(['deleted' => 1]);
                 } else {
                     // otherwise fully remove
-                    $modelClass::all()->delete();
+                    $modelClass::query()->where($pKey, '>', 0)->delete();
                 }
                 return;
             }
@@ -62,15 +63,12 @@ trait Delete
             // delete only selected items
             if (!empty($items)) {
                 // map all as model instances
-                $items = array_map(function($item) {
-                    if ($item instanceof $modelClass) {
-                        return $item;
-                    }
-                    return $modelClass::find($item[$pKey]);
-                }, $items);
+                $items = $modelClass::find(array_map(function($item) use ($pKey) {
+                    return $item[$pKey];
+                }, $items));
 
                 foreach($items as $item) {
-                    if (empty($options['permanent']) && $this->canSoftDelete($model)) {
+                    if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
                         // soft delete each item if possible
                         $item->update(['deleted' => 1]);
                     } else {
@@ -89,7 +87,7 @@ trait Delete
                     $query = call_user_func_array([$query, 'where'], $item);
                 }
                 
-                if (empty($options['permanent']) && $this->canSoftDelete($model)) {
+                if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all items if possible
                     $query->update(['deleted' => 1]);
                 } else {
@@ -103,11 +101,5 @@ trait Delete
         }
     }
 
-    /**
-     * @param Model $model
-     * @return boolean
-     */
-    protected function canSoftDelete(Model $model) {
-        return method_exists($model, 'canSoftDelete') && $model->canSoftDelete();
-    }
+    
 }

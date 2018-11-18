@@ -122,6 +122,6 @@ class Logger implements \Psr\Log\LoggerInterface {
     public function log($level, $message, array $context = array()) {
         // TODO: Addapt this to actually have some logs as well.
         // var_dump(func_get_args());
-        var_dump($level, $message);
+        // var_dump($level, $message);
     }
 }

@@ -364,6 +364,106 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
         }
 
         /***********************************************************************
+         * Unit Tests (Delete)
+         ***********************************************************************/
+
+        /**
+         * Test whether create method exists or not.
+         */
+        function testDeleteMethoExists() {
+            $this->assertTrue(method_exists($this->controller, 'delete'));
+        }
+
+        /**
+         * @depends testReadOne
+         */
+        function testDeleteOne()
+        {
+            $item = func_get_args()[0];
+
+            $models = [];
+            try {
+                $this->controller->delete([$item]);
+                $models = $this->controller->read([['id', '=', $item['id']]]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $item);
+            }
+
+            // test method is returning array and not Laravel class instances
+            $this->assertTrue(is_array($models));
+            $this->assertTrue(empty($models));
+        }
+
+        /**
+         * @depends testReadMultiple
+         */
+        function testDeleteMultiple()
+        {
+            $items = func_get_args()[0];
+            $ids = array_map(function($item) {
+                return $item;
+            }, $items);
+
+            $models = [];
+            try {
+                $this->controller->delete($items);
+                $models = $this->controller->read([['id', $ids]]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+
+            // test method is returning array and not Laravel class instances
+            $this->assertTrue(is_array($models));
+            $this->assertTrue(empty($models));
+        }
+
+        function testDeleteByCriteria()
+        {
+            $items = [
+                $this->newModelData(),
+                $this->newModelData()
+            ];
+
+            try {
+                $items = $this->controller->create($items);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $items);
+            }
+
+            $ids = array_map(function($item) {
+                return $item['id'];
+            }, $items);
+
+            $models = [];
+            try {
+                $this->controller->delete([], [['id', $ids]]);
+                $models = $this->controller->read([['id', $ids]]);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+
+            // test method is returning array and not Laravel class instances
+            $this->assertTrue(is_array($models));
+            $this->assertTrue(empty($models));
+        }
+
+        function testDeleteAll()
+        {
+            $models = [];
+            try {
+                $this->controller->delete();
+                $models = $this->controller->read();
+            } catch (\Exception $e) {
+                var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+            }
+
+            // test method is returning array and not Laravel class instances
+            $this->assertTrue(is_array($models));
+            $this->assertTrue(empty($models));
+        }
+
+
+        /***********************************************************************
          * Setup
          ***********************************************************************/
 

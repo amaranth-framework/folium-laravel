@@ -26,43 +26,52 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
          * Unit Tests
          ***********************************************************************/
 
-        // /**
-        //  * @expectedException \Itmcdev\Folium\Crud\Exception\CreateException
-        //  */
-        // function testCreateExceptionViaConnection()
-        // {
-        //     $simpleModel = $this->newModelData();
-        //     $simpleModel['id'] = 'test';
-        //     $this->controller->create($simpleModel);
-        //     $this->assertTrue(true);
-        // }
+        /**
+         * @expectedException \Itmcdev\Folium\Crud\Exception\CreateException
+         */
+        function testCreateExceptionViaConnection()
+        {
+            $simpleModel = $this->newModelData();
+            $simpleModel['id'] = 'test';
+            $this->controller->create($simpleModel);
+            $this->assertTrue(true);
+        }
 
-        // /**
-        //  * @expectedException \Itmcdev\Folium\Crud\Exception\ReadException
-        //  */
-        // function testReadExceptionViaConnection()
-        // {
-        //     $this->controller->read([['id', 1]]);
-        //     $this->assertTrue(true);
-        // }
+        /**
+         * @expectedException \Itmcdev\Folium\Crud\Exception\ReadException
+         */
+        function testReadExceptionViaConnection()
+        {
+            $this->controller->read([['id', 1]]);
+            $this->assertTrue(true);
+        }
 
-        // /**
-        //  * @expectedException \Itmcdev\Folium\Crud\Exception\ReadException
-        //  */
-        // function testReadExceptionViaInvalidArgument()
-        // {
-        //     $this->controller->read(['id', 1]);
-        //     $this->assertTrue(true);
-        // }
+        /**
+         * @expectedException \Itmcdev\Folium\Crud\Exception\ReadException
+         */
+        function testReadExceptionViaInvalidArgument()
+        {
+            $this->controller->read(['id', 1]);
+            $this->assertTrue(true);
+        }
 
-        // /**
-        //  * @expectedException \Itmcdev\Folium\Crud\Exception\UpdateException
-        //  */
-        // function testUpdateExceptionViaInvalidArgument()
-        // {
-        //     $this->controller->update(['name' => 'Test'], [['id', 1]]);
-        //     $this->assertTrue(true);
-        // }
+        /**
+         * @expectedException \Itmcdev\Folium\Crud\Exception\UpdateException
+         */
+        function testUpdateExceptionViaInvalidArgument()
+        {
+            $this->controller->update(['name' => 'Test'], [['id', 1]]);
+            $this->assertTrue(true);
+        }
+
+        /**
+         * @expectedException \Itmcdev\Folium\Crud\Exception\DeleteException
+         */
+        function testDeleteExceptionViaInvalidArgument()
+        {
+            $this->controller->delete();
+            $this->assertTrue(true);
+        }
 
         /***********************************************************************
          * Setup

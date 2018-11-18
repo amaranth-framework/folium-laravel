@@ -17,6 +17,8 @@
 
 namespace Itmcdev\Folium\Util;
 
+use Illuminate\Database\Eloquent\Model;
+
 class CrudUtils
 {
     /**
@@ -56,5 +58,13 @@ class CrudUtils
                 $keys
             ))
         );
+    }
+
+    /**
+     * @param string $model
+     * @return boolean
+     */
+    static public function canSoftDelete($modelClass) {
+        return method_exists($modelClass, 'canSoftDelete') && $modelClass::canSoftDelete();
     }
 }
