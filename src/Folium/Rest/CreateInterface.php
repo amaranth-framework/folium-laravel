@@ -17,8 +17,15 @@
 
 namespace Itmcdev\Folium\Rest;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+swtich (true) {
+    case class_exists('\Illuminate\Http\Request'):
+        class_alias('\Illuminate\Http\Request', 'Request');
+        class_alias('\Illuminate\Http\Response', 'Response');
+        break;
+    default:
+        class_alias('\Symfony\Component\HttpFoundation\Request', 'Request');
+        class_alias('\Symfony\Component\HttpFoundation\Response', 'Response');
+}
 
 /**
  * Inteface for impelenting REST Create method.
@@ -38,8 +45,8 @@ interface CreateInterface {
      * ]
      * 
      * @link https://docs.feathersjs.com/api/client/rest.html#create
-     * @link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
-     * @link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
+     * -link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
+     * -link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
      *
      * @param Request $id
      * @return Response
