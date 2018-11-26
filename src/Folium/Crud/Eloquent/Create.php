@@ -24,6 +24,7 @@ use Itmcdev\Folium\Crud\Create as CreateInterface;
 use Itmcdev\Folium\Crud\Exception\CreateException;
 use Itmcdev\Folium\Crud\Exception\ValidationException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException;
+use Itmcdev\Folium\Http\Request;
 use Itmcdev\Folium\Util\ArrayUtils;
 
 /**

@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Util\Rest;
+namespace Itmcdev\Folium\Http;
 
-use Itmcdev\Folium\Util
-
-use Illuminate\Http\JsonResponse;
-
-class EloquentUtils
-{
-    static $_responseClass = JsonResponse::class;
+swtich (true) {
+    case class_exists('\Illuminate\Http\Request'):
+        class_alias('\Illuminate\Http\Request', 'Request');
+        break;
+    default:
+        class_alias('\Symfony\Component\HttpFoundation\Request', 'Request');
 }

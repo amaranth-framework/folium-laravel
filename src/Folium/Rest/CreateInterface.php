@@ -17,15 +17,7 @@
 
 namespace Itmcdev\Folium\Rest;
 
-swtich (true) {
-    case class_exists('\Illuminate\Http\Request'):
-        class_alias('\Illuminate\Http\Request', 'Request');
-        class_alias('\Illuminate\Http\Response', 'Response');
-        break;
-    default:
-        class_alias('\Symfony\Component\HttpFoundation\Request', 'Request');
-        class_alias('\Symfony\Component\HttpFoundation\Response', 'Response');
-}
+include Itmcdev\Folium\Http\Request;
 
 /**
  * Inteface for impelenting REST Create method.

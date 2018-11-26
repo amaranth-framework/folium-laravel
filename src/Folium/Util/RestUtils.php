@@ -17,84 +17,91 @@
 
 namespace Itmcdev\Folium\Util\Rest;
 
-abstract class RestUtils
+include Itmcdev\Folium\Http\JsonResponse;
+
+/**
+ * NOTE: The bellow comment conviced me to not use HTTP statuses along with REST errors, and create my own set of 
+ * error codes.
+ * 
+ * @link https://stackoverflow.com/a/46379701/665019
+ */
+class RestUtils
 {
 
     const STATUS_SUCCESS = 'success';
     const STATUS_ERROR = 'error';
 
-    const HTTP_SWITCHING_PROTOCOLS = 101;
-    const HTTP_PROCESSING = 102;            // RFC2518
-    const HTTP_EARLY_HINTS = 103;           // RFC8297
+    const CODE_DUPLICATE_REQUEST = 'DUPLICATE_REQUEST';
+    const CODE_GENERIC_ERROR = 'GENERIC_ERROR';
+    const CODE_INVALID_REQUEST_TYPE = 'INVALID_REQUEST_TYPE';
+    const CODE_INVALID_MODEL_INSTANCE = 'INVALID_MODEL_INSTANCE';
+    const CODE_OK = 'OK';
+    const CODE_VALIDATION_ERROR = 'VALIDATION_ERROR';
+    const CODE_UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+
     const HTTP_OK = 200;
-    const HTTP_CREATED = 201;
-    const HTTP_ACCEPTED = 202;
-    const HTTP_NON_AUTHORITATIVE_INFORMATION = 203;
-    const HTTP_NO_CONTENT = 204;
-    const HTTP_RESET_CONTENT = 205;
-    const HTTP_PARTIAL_CONTENT = 206;
-    const HTTP_MULTI_STATUS = 207;          // RFC4918
-    const HTTP_ALREADY_REPORTED = 208;      // RFC5842
-    const HTTP_IM_USED = 226;               // RFC3229
-    const HTTP_MULTIPLE_CHOICES = 300;
-    const HTTP_MOVED_PERMANENTLY = 301;
-    const HTTP_FOUND = 302;
-    const HTTP_SEE_OTHER = 303;
-    const HTTP_NOT_MODIFIED = 304;
-    const HTTP_USE_PROXY = 305;
-    const HTTP_RESERVED = 306;
-    const HTTP_TEMPORARY_REDIRECT = 307;
-    const HTTP_PERMANENTLY_REDIRECT = 308;  // RFC7238
-    const HTTP_BAD_REQUEST = 400;
-    const HTTP_UNAUTHORIZED = 401;
-    const HTTP_PAYMENT_REQUIRED = 402;
-    const HTTP_FORBIDDEN = 403;
-    const HTTP_NOT_FOUND = 404;
-    const HTTP_METHOD_NOT_ALLOWED = 405;
-    const HTTP_NOT_ACCEPTABLE = 406;
-    const HTTP_PROXY_AUTHENTICATION_REQUIRED = 407;
-    const HTTP_REQUEST_TIMEOUT = 408;
-    const HTTP_CONFLICT = 409;
-    const HTTP_GONE = 410;
-    const HTTP_LENGTH_REQUIRED = 411;
-    const HTTP_PRECONDITION_FAILED = 412;
-    const HTTP_REQUEST_ENTITY_TOO_LARGE = 413;
-    const HTTP_REQUEST_URI_TOO_LONG = 414;
-    const HTTP_UNSUPPORTED_MEDIA_TYPE = 415;
-    const HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
-    const HTTP_EXPECTATION_FAILED = 417;
-    const HTTP_I_AM_A_TEAPOT = 418;                                               // RFC2324
-    const HTTP_MISDIRECTED_REQUEST = 421;                                         // RFC7540
-    const HTTP_UNPROCESSABLE_ENTITY = 422;                                        // RFC4918
-    const HTTP_LOCKED = 423;                                                      // RFC4918
-    const HTTP_FAILED_DEPENDENCY = 424;                                           // RFC4918
 
-    static $_responseClass = '';
-
+    /**
+     * Undocumented function
+     *
+     * @param any $data
+     * @return JsonResponse
+     */
     static function respondWithSuccess($data)
     {
-        return new (self::$_responseClass)([
+        return new JsonResponse([
             'data' => $data,
-            'status' => self::STATUS_SUCCESS
+            'status' => self::STATUS_SUCCESS,
+            'code' => self::CODE_OK
         ], self::HTTP_OK);
     }
 
-    static function respondWithError($error, $status = self::HTTP_BAD_REQUEST)
+    /**
+     * Undocumented function
+     *
+     * @param string $error
+     * @param int    $status
+     * @return JsonResponse
+     */
+    // static function respondWithError($error, $status = self::HTTP_BAD_REQUEST)
+    static function respondWithError($error, $code = self::CODE_GENERIC_ERROR, $status = self::HTTP_OK)
     {
-        $responseClass = self::$_responseClass;
-        return new $responseClass([
+        return new JsonResponse([
             'message' => $error,
-            'status' => self::STATUS_ERROR
+            'status' => self::STATUS_ERROR,
+            'code' => $code
         ], $status);
     }
 
     static function respondWithInvalidMethod()
     {
-        return self::respondWithError('Invalid Request Method.', self::HTTP_METHOD_NOT_ALLOWED);
+        // return self::respondWithError('Invalid Request Method.', self::HTTP_METHOD_NOT_ALLOWED);
+        return self::respondWithError('Invalid Request Method.', self::CODE_INVALID_REQUEST_TYPE);
     }
 
-    static function respondWithInvalidModel()
+    static function respondWithUnspecifiedModel()
     {
-        return self::respondWithError('Invalid Model Instance.', self::HTTP_CONFLICT);
+        // return self::respondWithError('Invalid Model Instance.', self::HTTP_CONFLICT);
+        return self::respondWithError('Invalid Model Instance.', self::CODE_INVALID_MODEL_INSTANCE);
+    }
+
+    static function respondWithValidationError($message)
+    {
+        // return self::respondWithError($message, self::HTTP_BAD_REQUEST);
+        return self::respondWithError($message, self::CODE_VALIDATION_ERROR);
+    }
+
+    /**
+     * Should respond for double POST/PUT
+     */
+    static function respondWithDuplicateRequest($message)
+    {
+        // return self::respondWithError($message, self::HTTP_CONFLICT);
+        return self::respondWithError($message, self::CODE_DUPLICATE_REQUEST);
+    }
+
+    static function respondWithUnknownError()
+    {
+        return self::respondWithError('Uncaught error.', self::CODE_UNKNOWN_ERROR);
     }
 }
