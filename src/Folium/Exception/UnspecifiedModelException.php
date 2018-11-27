@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Crud\Exception;
+namespace Itmcdev\Folium\Exception;
 
 /**
  * Exception used for cases where controller's model type is not detected.
@@ -29,7 +29,7 @@ class UnspecifiedModelException extends \Exception
     public function __construct(any $controller, str $method)
     {
         parent::__construct(sprintf(
-            'Unspecified $_modelClass parameter under `%s::%s()` CRUD method.',
+            'Unspecified $_modelClass parameter under `%s::%s()` method.',
             get_class($controller),
             $method
         ));

@@ -1,12 +1,13 @@
 <?php
 
-namespace Itmcdev\Folium\Tests\Crud\Eloquent;
+namespace Itmcdev\Folium\Tests\Eloquent\Model;
 
+require_once __DIR__ . '/Simple.php';
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Itmcdev\Folium\Tests\Eloquent\Model\Simple;
 
-class ValidatedModel extends Eloquent
+class Validated extends Simple
 {
-
     /**
      * Obtain set of validation rules.
      *
@@ -21,21 +22,4 @@ class ValidatedModel extends Eloquent
         ];
         return $rules;
     }
-
-   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
-   protected $fillable = [
-       'name', 'email', 'password', 'userimage'
-   ];
-   /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-   protected $hidden = [
-       'password', 'remember_token',
-   ];
  }

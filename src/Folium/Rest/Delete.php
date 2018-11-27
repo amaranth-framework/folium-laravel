@@ -17,13 +17,13 @@
 
 namespace Itmcdev\Folium\Rest;
 
-use Itmcdev\Folium\Rest\Create as CrudCreate;
+use Itmcdev\Folium\Rest\Delete as CrudDelete;
 
 /**
- * Inteface for impelenting REST Create method.
+ * Inteface for impelenting REST Delete method.
  * 
- * @see CrudCreate
+ * @see CrudDelete
  * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-interface Create extends CrudCreate
+interface Delete extends CrudDelete
 { }

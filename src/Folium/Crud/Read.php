@@ -25,20 +25,18 @@ interface Read
      * If no field is passed, all resource fields should be presented to output.
      * Read resource data from the database according to a set of criteria and based on a set of fields to be retreived.
      * 
-     * read(
-     *   [
-     *     { 'id', '>', '10' }
-     *   ]
-     * )
+     * read([ [ 'id', '>', '10' ] ])
      * 
      * or 
      * 
      * read(
-     *   [
-     *     { 'id', '>', '10' },
-     *   ],
+     *   [ [ 'id', '>', '10' ] ],
      *   [ 'id', 'name', 'email' ]
      * )
+     * 
+     * or
+     * 
+     * read([], [], [ '__count' => true ])
      *
      * @param array      $criteria Criteria to filter database data.
      * @param array      $fields   Fields to obtain.

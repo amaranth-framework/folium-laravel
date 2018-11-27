@@ -18,22 +18,22 @@
 namespace Itmcdev\Folium\Rest;
 
 /**
- * Inteface for impelenting REST Find method.
- * 
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Inteface for impelenting CRUD Update method.
  */
 interface Replace
 {
     /**
-     * Update/patch a resource in the database.
-     * If multiple items are given, all patches will be applied in the given order.
+     * Replace a resource or set of resources in the database.
+     * If a resource does not exists when passed to the update method, it will be created.
      * 
-     * update($id, [ "text" => "I really have to iron" ])
+     * replace([
+     *   [ "text" => "I really have to iron", "id" => 10 ], // this item will be replaced
+     *   [ "text" => "Do laundry" ] // this item will be created
+     * ])
      *
-     * @param  any   $id       ID of the resource to update/patch.
      * @param  array $items    Can be a single element or an array of elements.
      * @param  array $options  To be defined.
-     * @return array           Resource data.
+     * @return array           Will return the ids of the elements updated.
      */
-    public function replace($id, array $items, array $options = []);
+    public function replace(array $items, array $options = []);
 }

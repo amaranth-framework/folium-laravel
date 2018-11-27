@@ -15,15 +15,24 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Rest;
-
-use Itmcdev\Folium\Rest\Create as CrudCreate;
+namespace Itmcdev\Folium\Exception;
 
 /**
- * Inteface for impelenting REST Create method.
- * 
- * @see CrudCreate
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Exception used for cases where controller's model type is not detected.
  */
-interface Create extends CrudCreate
-{ }
+class UnspecifiedModelKeyException extends \Exception
+{   
+    /**
+     * @param any $controller
+     * @param str $method
+     */
+    public function __construct(any $modelClass, any $controller, str $method)
+    {
+        parent::__construct(sprintf(
+            'Unspecified primary key for model %s, under `%s::%s()` method.',
+            $modelClass,
+            get_class($controller),
+            $method
+        ));
+    }
+}

@@ -22,21 +22,19 @@ namespace Itmcdev\Folium\Crud;
 interface Update
 {
     /**
-     * Update a resource or set of resources in the database.
-     * Update should behave more as a 'replace' and not as a 'resource patch' method.
+     * Update/replace a resource or set of resources in the database.
      * If a resource does not exists when passed to the update method, it will be created.
-     * If $criteria is given, method will then function as a 'resource patch' handler, not as a 'replace' one.
+     * 
+     * If $criteria is given, method will then function as an 'update' handler, not as a 'replace' one.
      * If $criteria is given and $items are multiple, function will apply all all items as patch.
      * 
-     * update(
-     *   {"text": "I really have to iron" }
-     * )
+     * update([ "text" => "I really have to iron" ], [ [ 'id', 10 ] ]) // behave as patch (update)
      * 
      * or
      * 
      * update([
-     *   { "text": "I really have to iron" },
-     *   { "text": "Do laundry" }
+     *   [ "text" => "I really have to iron", "id" => 10 ], // this item will be replaced
+     *   [ "text" => "Do laundry" ] // this item will be created
      * ])
      *
      * @param  array $items    Can be a single element or an array of elements.

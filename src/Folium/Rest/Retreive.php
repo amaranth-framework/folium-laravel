@@ -15,20 +15,30 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Exception;
+namespace Itmcdev\Folium\Rest;
 
 /**
- * Exception used for cases where controller's model type is not detected.
+ * Inteface for impelenting REST Find method.
+ * 
+ * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-class InvalidArgument extends \Exception
-{   
+interface Retreive
+{
     /**
-     * Constructor
+     * Retreive resource from the database based on its ID and on a set of fields to be retreived.
+     * 
+     * retreive(10)
+     * 
+     * or 
+     * 
+     * retreive(
+     *   10,
+     *   [ 'id', 'name', 'email' ]
+     * )
      *
-     * @param string $message
+     * @param array      $id      ID of the resource to retreive.
+     * @param array      $fields  Fields to obtain.
+     * @return array              Resource data.
      */
-    public function __construct(string $message)
-    {
-        parent::__construct($message);
-    }
+    public function retreive($id, array $fields = []);
 }

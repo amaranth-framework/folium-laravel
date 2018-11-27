@@ -1,6 +1,6 @@
 <?php
 
-namespace Itmcdev\Folium\Tests\Crud;
+namespace Itmcdev\Folium\Tests;
 
 class Logger implements \Psr\Log\LoggerInterface {
     /**

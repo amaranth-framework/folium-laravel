@@ -28,15 +28,13 @@ interface Create
      * Create new resource(s).
      * Can receive a item or a set of items to create.
      * 
-     * create(
-     *   {"text": "I really have to iron" }
-     * )
+     * create([ "text" => "I really have to iron" ])
      * 
      * or
      * 
      * create([
-     *   { "text": "I really have to iron" },
-     *   { "text": "Do laundry" }
+     *   [ "text" => "I really have to iron" ],
+     *   [ "text" => "Do laundry" ]
      * ])
      *
      * @param  array $items    Can be a single element or an array of elements

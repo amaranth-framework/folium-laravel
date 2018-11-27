@@ -15,15 +15,19 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Rest;
-
-use Itmcdev\Folium\Rest\Create as CrudCreate;
+namespace Itmcdev\Folium\Rest\Exception;
 
 /**
- * Inteface for impelenting REST Create method.
- * 
- * @see CrudCreate
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Exception used for cases data fails creating.
  */
-interface Create extends CrudCreate
-{ }
+class CreateException extends \Exception
+{   
+    /**
+     * @param any $controller
+     * @param str $method
+     */
+    public function __construct()
+    {
+        parent::__construct('Failed creating data.');
+    }
+}

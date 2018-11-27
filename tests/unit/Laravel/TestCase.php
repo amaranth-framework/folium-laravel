@@ -1,15 +1,15 @@
 <?php
 // declare(strict_types=1);
 
-namespace Itmcdev\Folium\Tests\Crud;
+namespace Itmcdev\Folium\Tests\Laravel;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as TestCaseDefault;
 
 if (class_exists('\Illuminate\Support\Facades\Log')) {
     $app = [
-        \Psr\Log\LoggerInterface::class => new \Illuminate\Log\Logger(new \Itmcdev\Folium\Tests\Crud\Logger()),
+        \Psr\Log\LoggerInterface::class => new \Illuminate\Log\Logger(new \Itmcdev\Folium\Tests\Logger()),
         'validator' => new \Illuminate\Validation\Factory(new \Illuminate\Translation\Translator(new \Illuminate\Translation\ArrayLoader(), 'us'))
     ];
     \Illuminate\Support\Facades\Log::setFacadeApplication($app);
@@ -17,7 +17,7 @@ if (class_exists('\Illuminate\Support\Facades\Log')) {
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
-    class LaravelTestCase extends TestCase
+    class TestCase extends TestCaseDefault
     {
 
         /***********************************************************************
@@ -69,7 +69,7 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
         protected static function schema() {
             $schema = Capsule::schema();
-            foreach (['simple_models', 'validated_models'] as $t) {
+            foreach (['simples', 'validateds'] as $t) {
                 if ($schema->hasTable($t)) {
                     $schema->drop($t);
                 }
@@ -98,7 +98,7 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
 } else {
 
-    class LaravelTest extends TestCase
+    class TestCase extends TestCaseDefault
     {
         public function testOne() {
             $this->assertTrue(!class_exists('\Illuminate\Database\Capsule\Manager'));
