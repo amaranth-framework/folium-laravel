@@ -17,12 +17,13 @@
 
 namespace Itmcdev\Folium\Rest;
 
-include Itmcdev\Folium\Http\Request;
+use Itmcdev\Folium\Http\Request;
+use Itmcdev\Folium\Http\Response;
 
 /**
  * Inteface for impelenting REST Create method.
  */
-interface CreateInterface {
+interface Create {
 
     /**
      * Create a new resource with data which may also be an array.

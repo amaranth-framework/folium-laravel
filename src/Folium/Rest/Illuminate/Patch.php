@@ -15,48 +15,52 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Rest\Eloquent;
+namespace Itmcdev\Folium\Rest\Illuminate;
 
-use Itmcdev\Folium\Crud\Read as CrudRead;
-use Itmcdev\Folium\Crud\Exception\ReadException as CrudReadException;
+use Itmcdev\Folium\Crud\Eloquent\Update as CrudUpdate;
+use Itmcdev\Folium\Crud\Exception\UpdateException as CrudUpdateException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException as CrudUnspecifiedModelException;
 use Itmcdev\Folium\Crud\Exception\ValidationException as CrudValidationError;
+use Itmcdev\Folium\Rest\Illuminate\Patch as PatchInterface;
 use Itmcdev\Folium\Util\Rest\RestUtils;
 
 /**
- * Trait proposal for REST Find method implementation on Laravel's Eloquent
+ * Trait proposal for REST Patch method implementation on Laravel's Eloquent
  */
-trait Find
-{
+trait Patch {
 
-    use CrudRead {
-        CrudRead::read as crudRead;
+    use CrudUpdate {
+        CrudUpdate::Update as crudUpdate;
     }
 
-
     /**
-     * @see FindInterface::find()
-     *
-     * @param Request $request
+     * @see PatchInterface::patch()
      */
-    public function find(Request $request)
+    public function patch(Request $request)
     {
-        // create method functions only for HTTP GET method
-        if (!$request->isMethod(Request::METHOD_GET)) {
+        // Update method functions only for HTTP PATCH method
+        if (!$request->isMethod(Request::METHOD_PATCH)) {
             return RestUtils::respondWithInvalidMethod();
         }
 
-        try {
-            $criteria = [];
+        if (!$this->_modelClass) {
+            return RestUtils::respondWithUnspecifiedModel();
+        }
+        $modelClass = $this->_modelClass;
+        
+        $pKey = (new $modelClass)->getKey();
 
-            return $this->crudRead(
-                $criteria, 
-                [], 
-                [ 'count' => $request->query->has('count') ]
-            );
+        try {
+            return RestUtils::respondWithSuccess($this->crudUpdate(
+                $request->all(),
+                [ $key, $request->query->get($key, null) ],
+                [ 'p_key' => $key ]
+            ));
         } catch (CrudUnspecifiedModelException $e) {
             return RestUtils::respondWithUnspecifiedModel();
-        } catch (CrudReadException $e) {
+        }/* catch (CrudUnspecifiedModelException $e) { // no need to check this anymore
+            return RestUtils::respondWithUnspecifiedModel();
+        }*/ catch (UpdateException $e) {
             return RestUtils::respondWithError($e->getMessage());
         } finally {
             return RestUtils::respondWithUnknownError();

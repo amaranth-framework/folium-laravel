@@ -17,7 +17,7 @@
 
 namespace Itmcdev\Folium\Http;
 
-swtich (true) {
+switch (true) {
     case class_exists('\Illuminate\Http\Response'):
         class_alias('\Illuminate\Http\Response', 'Response');
         break;

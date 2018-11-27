@@ -17,34 +17,30 @@
 
 namespace Itmcdev\Folium\Rest;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Itmcdev\Folium\Http\Request;
+use Itmcdev\Folium\Http\Response;
 
-/**
- * Inteface for impelenting REST Find method.
- */
-interface FindInterface {
+interface Update {
 
     /**
-     * Retrieves a list of all matching resources from the service
-     *
-     * GET /messages?status=read&user=10
-     *
-     * If you want to use any of the built-in find operands ($le, $lt, $ne, $eq, $in, etc.) the general format is as follows:
+     * Merge the existing data of a single or multiple resources with the new data.
      * 
-     * GET /messages?field[$operand]=value&field[$operand]=value2
+     * PATCH /messages/2
+     * { "read": true }
+     * Will call messages.patch(2, { "read": true }, {}) on the server. When no id is given by sending the request directly to the endpoint something like:
      * 
-     * For example, to find the records where field status is not equal to active you could do
-     *
-     * GET /messages?status[$ne]=active
+     * PATCH /messages?complete=false
+     * { "complete": true }
+     * Will call messages.patch(null, { complete: true }, { query: { complete: 'false' } }) on the server to change the status for all read messages.
      * 
-     * @link https://docs.feathersjs.com/api/client/rest.html#find
+     * @link https://docs.feathersjs.com/api/client/rest.html#update
      * @link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
      * @link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
      *
-     * @param Request $id
+     * @param Request $request
+     * @param number $id
      * @return Response
      */
-    public function find(Request $request);
+    public function update(Request $request, $id);
 
 }

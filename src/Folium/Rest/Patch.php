@@ -17,10 +17,10 @@
 
 namespace Itmcdev\Folium\Rest;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Itmcdev\Folium\Http\Request;
+use Itmcdev\Folium\Http\Response;
 
-interface PatchInterface {
+interface Patch {
 
     /**
      * Completely replace a single or multiple resources.

@@ -41,6 +41,49 @@ class RestUtils
 
     const HTTP_OK = 200;
 
+    static $operands = [
+        '$eq' => '=',
+        '$ge' => '>=',
+        '$gt' => '>',
+        '$in' => NULL,
+        '$ne' => '<>',
+        '$le' => '<=',
+        '$like' => 'LIKE',
+        '$lt' => '<',
+    ];
+
+    /**
+     * Example of Request to criteria array method. 
+     * NOTE: This method will function with most SQL based languages. Please addapt it for other query languages you use
+     * based on their syntax.
+     *
+     * @param Request $request
+     * @return array
+     */
+    static function requestToCriteria(Request $request)
+    {
+        $params = $request->query->all();
+        if (!empty($params['__count'])) {
+            delete($params['__count']);
+        }
+
+        $params = array_map(null, array_keys($params), array_values($params));
+
+        return array_map(function($set) {
+            list($field, $value) = $set;
+
+            if (preg_match('/([^\[]+)\[([^\]]+)\]/i', $field, $matches)) {
+                $field = $matches[1];
+                $operand = strtolower($matches[2]);
+                if ($operand !== '$in') {
+                    return [$field, self::$operands[$operand], $value];
+                }
+                return [$operand, json_decode($value)];
+            }
+            return $set;
+        }, $params);
+    }
+
     /**
      * Undocumented function
      *

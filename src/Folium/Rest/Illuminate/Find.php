@@ -15,40 +15,47 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Rest\Eloquent;
+namespace Itmcdev\Folium\Rest\Illuminate;
 
-use Itmcdev\Folium\Crud\Create as CrudCreate;
-use Itmcdev\Folium\Crud\Exception\CreateException as CrudCreateException;
+use Itmcdev\Folium\Crud\Eloquent\Read as CrudRead;
+use Itmcdev\Folium\Crud\Exception\ReadException as CrudReadException;
 use Itmcdev\Folium\Crud\Exception\UnspecifiedModelException as CrudUnspecifiedModelException;
 use Itmcdev\Folium\Crud\Exception\ValidationException as CrudValidationError;
 use Itmcdev\Folium\Util\Rest\RestUtils;
 
 /**
- * Trait proposal for REST Create method implementation on Laravel's Eloquent
+ * Trait proposal for REST Find method implementation on Laravel's Eloquent
  */
-trait Create {
+trait Find
+{
 
-    use CrudCreate {
-        CrudCreate::create as crudCreate;
+    use CrudRead {
+        CrudRead::read as crudRead;
     }
 
+
     /**
-     * @see CreateInterface::create()
+     * @see FindInterface::find()
+     *
+     * @param Request $request
      */
-    public function create(Request $request)
+    public function find(Request $request)
     {
-        // create method functions only for HTTP POST method
-        if (!$request->isMethod(Request::METHOD_POST)) {
+        // create method functions only for HTTP GET method
+        if (!$request->isMethod(Request::METHOD_GET)) {
             return RestUtils::respondWithInvalidMethod();
         }
 
         try {
-            return new RestUtils::respondWithSuccess($this->crudCeate($request->all()));
+            return $this->crudRead(
+                // @see RequestUtils::requestToCriteria
+                method_exists($this, 'requestToCriteria') ? $this->requestToCriteria($request) : [], 
+                [], 
+                [ 'count' => $request->query->has('__count') ]
+            );
         } catch (CrudUnspecifiedModelException $e) {
             return RestUtils::respondWithUnspecifiedModel();
-        } catch (CrudValidationError $e) {
-            return RestUtils::respondWithValidationError($e->getMessage());
-        } catch (CreateException $e) {
+        } catch (CrudReadException $e) {
             return RestUtils::respondWithError($e->getMessage());
         } finally {
             return RestUtils::respondWithUnknownError();

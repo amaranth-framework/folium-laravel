@@ -17,7 +17,7 @@
 
 namespace Itmcdev\Folium\Http;
 
-swtich (true) {
+switch (true) {
     case class_exists('\Illuminate\Http\JsonResponse'):
         class_alias('\Illuminate\Http\JsonResponse', 'JsonResponse');
         break;

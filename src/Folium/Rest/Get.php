@@ -17,30 +17,29 @@
 
 namespace Itmcdev\Folium\Rest;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Itmcdev\Folium\Http\Request;
+use Itmcdev\Folium\Http\Response;
 
-interface RemoveInterface {
+interface Get {
 
     /**
-     * Remove a single or multiple resources:
+     * Retrieve a single resource from the service.
      * 
-     * DELETE /messages/2?cascade=true
-     * Will call messages.remove(2, { query: { cascade: 'true' } }).
+     * GET /messages/1
      * 
-     * When no id is given by sending the request directly to the endpoint something like:
+     * Will return 
+     * - new JsonResponse($foundObject, Response::HTTP_OK) when data is found
+     * - new JsonResponse({ error: 'Entity not found' }, HTTP_NOT_FOUND)
+     * - new 
      * 
-     * DELETE /messages?read=true
-     * Will call messages.remove(null, { query: { read: 'true' } }) to delete all read messages.
-     * 
-     * @link https://docs.feathersjs.com/api/client/rest.html#remove
+     * @link https://docs.feathersjs.com/api/client/rest.html#get
      * @link https://laravel.com/api/5.3/Illuminate/Http/JsonResponse.html
      * @link https://api.symfony.com/4.1/Symfony/Component/HttpFoundation/JsonResponse.html
-     *
+     * 
      * @param Request $request
      * @param number $id
      * @return Response
      */
-    public function remove(Request $request, $id);
+    public function get(Request $request, $id);
 
 }
