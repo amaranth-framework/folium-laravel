@@ -4,16 +4,16 @@
 namespace Itmcdev\Folium\Tests\Laravel\Crud;
 
 require_once __DIR__ . '/TestCaseSimple.php';
-require_once __DIR__ . '/CreateSimpleTest.php';
+require_once __DIR__ . '/SimpleTest.php';
 require_once __DIR__ . '/../../Eloquent/Controller/Crud/Validated.php';
 
 use Itmcdev\Folium\Tests\Eloquent\Controller\Crud\Validated;
-use Itmcdev\Folium\Tests\Laravel\Crud\CreateSimpleTest;
+use Itmcdev\Folium\Tests\Laravel\Crud\SimpleTest;
 use Itmcdev\Folium\Tests\Laravel\Crud\TestCaseSimple;
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
-    class CreateValidatedTest extends CreateSimpleTest
+    class ValidatedTest extends SimpleTest
     {
         public function setUp()
         {
@@ -24,7 +24,7 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
 } else {
 
-    class CreateValidatedTest extends TestCaseSimple
+    class ValidatedTest extends TestCaseSimple
     { }
 
 }
