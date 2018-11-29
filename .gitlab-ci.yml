@@ -32,17 +32,21 @@ before_script:
 #   script:
 #   - phpunit --configuration phpunit.xml.dist
 
-# # We test PHP7.0
-# test:7.0:
-#   image: php:7.0
-#   script:
-#   - phpunit --configuration phpunit.xml.dist
+# We test PHP7.0
+test:php7.0-laravel:5.6:
+  image: php:7.0
+  script:
+  - php --version
+  - composer run laravel-5.6
+  - ./vendor/bin/phpunit
 
-# # We test PHP7.1
-# test:7.0:
-#   image: php:7.1
-#   script:
-#   - phpunit --configuration phpunit.xml.dist
+# We test PHP7.1
+test:php7.1-laravel:5.6:
+  image: php:7.1
+  script:
+  - php --version
+  - composer run laravel-5.6
+  - ./vendor/bin/phpunit
 
 # We test PHP7.2
 test:php7.2-laravel:5.6:
@@ -52,15 +56,17 @@ test:php7.2-laravel:5.6:
   - composer run laravel-5.6
   - ./vendor/bin/phpunit
 
-test:php7.2-laravel:5.7:
-  image: php:7.2
+# test:php7.2-laravel:5.7:
+#   image: php:7.2
+#   script:
+#   - php --version
+#   - composer run laravel-5.7
+#   - ./vendor/bin/phpunit
+
+# We test PHP7.3
+test:php7.3-laravel:5.6:
+  image: php:7.3
   script:
   - php --version
-  - composer run laravel-5.7
+  - composer run laravel-5.6
   - ./vendor/bin/phpunit
-
-# # We test PHP7.3
-# test:7.0:
-#   image: php:7.3
-#   script:
-#   - phpunit --configuration phpunit.xml.dist
