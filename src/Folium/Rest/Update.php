@@ -35,5 +35,5 @@ interface Replace
      * @param  array $options  To be defined.
      * @return array           Resource data.
      */
-    public function replace($id, array $items, array $options = []);
+    public function update($id, array $items, array $options = []);
 }

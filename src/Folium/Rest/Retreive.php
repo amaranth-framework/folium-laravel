@@ -18,7 +18,7 @@
 namespace Itmcdev\Folium\Rest;
 
 /**
- * Inteface for impelenting REST Find method.
+ * Inteface for impelenting REST Retreive method.
  * 
  * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
@@ -36,9 +36,10 @@ interface Retreive
      *   [ 'id', 'name', 'email' ]
      * )
      *
-     * @param array      $id      ID of the resource to retreive.
-     * @param array      $fields  Fields to obtain.
+     * @param  array $id       ID of the resource to retreive.
+     * @param  array $fields   Fields to obtain.
+     * @param  array $options  Options sent ot the method, like primary key of the model.
      * @return array              Resource data.
      */
-    public function retreive($id, array $fields = []);
+    public function retreive($id, array $fields = [], $options = []);
 }
