@@ -4,11 +4,11 @@
 namespace Itmcdev\Folium\Tests\Laravel;
 
 require_once __DIR__ . '/TestCase.php';
-require_once __DIR__ . '/../Eloquent/Model/Simple.php';
-require_once __DIR__ . '/../Eloquent/Model/Validated.php';
+require_once __DIR__ . '/../Laravel/Model/Simple.php';
+require_once __DIR__ . '/../Laravel/Model/Validated.php';
 
-use Itmcdev\Folium\Tests\Eloquent\Model\Simple;
-use Itmcdev\Folium\Tests\Eloquent\Model\Validated;
+use Itmcdev\Folium\Tests\Laravel\Model\Simple;
+use Itmcdev\Folium\Tests\Laravel\Model\Validated;
 use Itmcdev\Folium\Tests\Laravel\TestCase;
 
 if (class_exists('\Illuminate\Database\Capsule\Manager')) {

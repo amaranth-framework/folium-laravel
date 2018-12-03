@@ -16,7 +16,8 @@
     "require-dev": {
         "fzaninotto/faker": "^1.8",
         "league/container": "^3.2",
-        "phpunit/phpunit": "^7.4"
+        "phpunit/phpunit": "^7.4",
+        "psr/log": "^1.1@dev"
     },
     "autoload": {
         "classmap": [
