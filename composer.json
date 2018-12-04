@@ -17,13 +17,7 @@
         "fzaninotto/faker": "^1.8",
         "league/container": "^3.2",
         "phpunit/phpunit": "^7.4",
-        "psr/log": "^1.1@dev",
-        "nesbot/carbon": "1.25.*",
-        "illuminate/database": "5.6.*",
-        "illuminate/log": "5.6.*",
-        "illuminate/http": "5.6.*",
-        "illuminate/validation": "5.6.*",
-        "illuminate/translation": "5.6.*"
+        "psr/log": "^1.1@dev"
     },
     "autoload": {
         "classmap": [
