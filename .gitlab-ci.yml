@@ -26,20 +26,6 @@ before_script:
   - composer install
   - sed -i 's/folium-mysql-test/mysql/g' ./tests/unit/bootstrap.php
 
-# # We test PHP5.6
-# test:5.6:
-#   image: php:5.6
-#   script:
-#   - phpunit --configuration phpunit.xml.dist
-
-# We test PHP7.0
-test:php7.0-laravel:5.6:
-  image: php:7.0
-  script:
-  - php --version
-  - composer run laravel-5.6
-  - ./vendor/bin/phpunit
-
 # We test PHP7.1
 test:php7.1-laravel:5.6:
   image: php:7.1
