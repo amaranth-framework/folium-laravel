@@ -1,4 +1,5 @@
 .composer
 .vagrant
 /build/
+/node_modules/
 /vendor/
