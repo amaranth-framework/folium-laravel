@@ -8,7 +8,9 @@ use PHPUnit\Framework\TestCase as TestCaseDefault;
 
 $app = [
     \Psr\Log\LoggerInterface::class =>
-        new \Illuminate\Log\Logger(new \Itmcdev\Folium\Illuminate\Tests\Logger()),
+        new \Illuminate\Log\Logger(
+            new \Itmcdev\Folium\Illuminate\Tests\Logger()
+        ),
     'validator' =>
         new \Illuminate\Validation\Factory(
             new \Illuminate\Translation\Translator(
@@ -52,7 +54,7 @@ class TestCase extends TestCaseDefault
     /***********************************************************************
      * Additional Functionality
      ***********************************************************************/
-    
+
     protected function initCI()
     {
         $this->container = new Container();

@@ -49,7 +49,6 @@ class Create extends Operation implements CreateInterface
         // $modelClass = $this->modelClass;
         // // define primary key name
         // $pKey = (new $modelClass())->getKeyName();
-
         // if (!$pKey) {
         //     throw new UnspecifiedModelKey(
         //         $modelClass,
@@ -57,12 +56,10 @@ class Create extends Operation implements CreateInterface
         //         'create'
         //     );
         // }
-
         // // convert a single item into an array of items
         // if (!ArrayUtils::isNumeric($items)) {
         //     $items = [$items];
         // }
-
         // // if there is a validation method, try and validate data
         // if (method_exists($modelClass, 'rules')) {
         //     foreach ($items as $item) {
@@ -72,7 +69,6 @@ class Create extends Operation implements CreateInterface
         //         }
         //     }
         // }
-
         // // attempt creating items or log failure
         // try {
         //     if (method_exists($this, 'insertItems')) {
@@ -87,7 +83,6 @@ class Create extends Operation implements CreateInterface
         //         sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
         //     );
         // }
-
         // throw new CreateException();
     }
 }

@@ -22,7 +22,9 @@ final class DITest extends TestCase
 
     function testContainer()
     {
-        $this->assertTrue($this->container instanceof \Illuminate\Container\Container);
+        $this->assertTrue(
+            $this->container instanceof \Illuminate\Container\Container
+        );
     }
 
     /**
@@ -30,15 +32,25 @@ final class DITest extends TestCase
      */
     function testOperationCrudCreate()
     {
-
-        $instance = new \Itmcdev\Folium\Illuminate\Operation\Crud\Create(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class);
-        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
+        $instance = new \Itmcdev\Folium\Illuminate\Operation\Crud\Create(
+            \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+        );
+        $this->assertTrue(
+            $instance instanceof
+                \Itmcdev\Folium\Illuminate\Operation\Crud\Create
+        );
 
         $instance = $this->container->make(
             \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
-            [ 'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class ]
+            [
+                'modelClass' =>
+                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+            ]
         );
-        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
+        $this->assertTrue(
+            $instance instanceof
+                \Itmcdev\Folium\Illuminate\Operation\Crud\Create
+        );
     }
 
     /**
@@ -51,9 +63,13 @@ final class DITest extends TestCase
             [
                 'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
-                    [ 'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class ]
+                    [
+                        'modelClass' =>
+                            \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+                    ]
                 ),
-                'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+                'modelClass' =>
+                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
             ]
         );
 
