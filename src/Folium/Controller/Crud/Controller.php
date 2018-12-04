@@ -34,22 +34,6 @@ trait Controller
     use DefaultController;
 
     /**
-     * CRUD Controller Constructor
-     *
-     * @param Create $create
-     * @param Read $read
-     * @param Update $update
-     * @param Delete $delete
-     */
-    public function __constructor(Create $create, Read $read, Update $update, Delete $delete)
-    {
-        $this->create = $create;
-        $this->read = $read;
-        $this->update = $update;
-        $this->delete = $delete;
-    }
-
-    /**
      * Set CRUD Create method
      * 
      * @param Create $create

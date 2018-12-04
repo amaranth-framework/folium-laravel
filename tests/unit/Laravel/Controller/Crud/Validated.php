@@ -1,6 +1,6 @@
 <?php
 
-namespace Itmcdev\Folium\Tests\Eloquent\Controller\Crud;
+namespace Itmcdev\Folium\Tests\Laravel\Controller\Crud;
 
 require_once __DIR__ . '/Simple.php';
 require_once __DIR__ . '/../../Model/Validated.php';

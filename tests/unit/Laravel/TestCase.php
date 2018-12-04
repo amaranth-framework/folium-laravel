@@ -3,8 +3,11 @@
 
 namespace Itmcdev\Folium\Tests\Laravel;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
+require_once __DIR__ . '/Controller/Crud/Simple.php';
 
+use Itmcdev\Folium\Tests\Laravel\Controller\Crud\Simple as SimpleController;
+
+use Illuminate\Database\Capsule\Manager as Capsule;
 use PHPUnit\Framework\TestCase as TestCaseDefault;
 
 if (class_exists('\Illuminate\Support\Facades\Log')) {
@@ -34,6 +37,23 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
 
         public function setUp() {
             self::startDbConnection();
+
+            $container = new \League\Container\Container;
+            $container
+                ->add(SimpleController::class)
+                ->addArgument(\Itmcdev\Folium\Operation\Laravel\Crud\Create::class);
+                // ->addArgument(\Itmcdev\Folium\Operation\Laravel\Crud\Read::class)
+                // ->addArgument(\Itmcdev\Folium\Operation\Laravel\Crud\Update::class)
+                // ->addArgument(\Itmcdev\Folium\Operation\Laravel\Crud\Delete::class)
+                // ->addArgument(SimpleModel::class);
+
+            foreach (['Create'/*, 'Read', 'Update', 'Delete'*/] as $key) {
+                $container
+                    ->add(str_replace('Create', $key, \Itmcdev\Folium\Operation\Laravel\Crud\Create::class))
+                    ->addArgument(SimpleModel::class);
+            }
+
+            $this->controller = $container->get(\Itmcdev\Folium\Operation\Laravel\Crud\Create::class);
         }
 
         public function tearDown()

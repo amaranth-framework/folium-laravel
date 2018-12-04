@@ -20,7 +20,8 @@ namespace Itmcdev\Folium\Operation\Eloquent\Crud;
 // use Illuminate\Support\Facades\Log;
 // use Illuminate\Support\Facades\Validator;
 
-// use Itmcdev\Folium\Crud\Create as CreateInterface;
+use Itmcdev\Folium\Operation\Crud\Create as CreateInterface;
+use Itmcdev\Folium\Operation\Operation;
 // use Itmcdev\Folium\Crud\Exception\CreateException;
 // use Itmcdev\Folium\Exception\UnspecifiedModelException;
 // use Itmcdev\Folium\Exception\ValidationException;
@@ -30,7 +31,7 @@ namespace Itmcdev\Folium\Operation\Eloquent\Crud;
 /**
  * Trait proposal for CRUD Create method implementation on Laravel's Eloquent
  */
-trait Create {
+class Create extends Operation implements CreateInterface {
 
     /**
      * @see CreateInterface::create()

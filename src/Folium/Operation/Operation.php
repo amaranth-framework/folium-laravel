@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Util;
+namespace Itmcdev\Folium\Operation;
 
 class Operation
 {
@@ -24,7 +24,7 @@ class Operation
      *
      * @param string $modelClass Class name used for model.
      */
-    public function __constructor(string $modelClass)
+    public function __construct(string $modelClass)
     {
         $this->modelClass = $modelClass;
     }
