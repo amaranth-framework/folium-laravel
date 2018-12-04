@@ -33,6 +33,34 @@ trait Controller
      */
     use DefaultController;
 
+    protected static function operations()
+    {
+        return [ 'create', 'read', 'update', 'delete' ];
+    }
+
+    /**
+     * CRUD Controller Constructor
+     *
+     * @param Create $create
+     * @param Read $read
+     * @param Update $update
+     * @param Delete $delete
+     * @param string $modelClass
+     */
+    public function __construct(
+        Create $create,
+        // Read $read,
+        // Update $update,
+        // Delete $delete,
+        string $modelClass
+    ) {
+        $this->create = $create;
+        // $this->read = $read;
+        // $this->update = $update;
+        // $this->delete = $delete;
+        $this->modelClass = $modelClass;
+    }
+
     /**
      * Set CRUD Create method
      * 

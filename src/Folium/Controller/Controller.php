@@ -17,17 +17,32 @@
 
 namespace Itmcdev\Folium\Controller;
 
+use Itmcdev\Folium\Operation\Exception\UndefinedOperation;
+
 trait Controller
 {
+    /**
+     * Magic function for calling methods
+     * 
+     * @throws UndefinedOperation
+     *
+     * @param  string $method
+     * @param  array  $arguments
+     * @return any
+     */
     public function __call(string $method, array $arguments)
     {
-        
+        if (array_search($method, self::operations()) !== FALSE) {
+            return call_user_func_array(array($this->$method, $method), $arguments);
+        }
+
+        throw new UndefinedOperation($this, $method, $arguments);
     }
     
     /**
-     * Undocumented function
+     * Setter for controller's model class
      *
-     * @param string $modelClass Class name used for model.
+     * @param  string $modelClass Class name used for model
      * @return self
      */
     public function setModelClass(string $modelClass)

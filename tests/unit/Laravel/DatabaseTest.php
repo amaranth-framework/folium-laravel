@@ -29,7 +29,6 @@ if (class_exists('\Illuminate\Database\Capsule\Manager')) {
                 var_dump($e->getMessage(), $e->getTraceAsString());
             }
             $this->assertTrue($model !== null);
-            var_dump($this->controller);
         }
 
         function testCreateValidted()
