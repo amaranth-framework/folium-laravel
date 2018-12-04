@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "C:\\Users\\dragosc\\Workspace\\gitlab.com\\itmcdev\\folium"
 		}
 	],
 	"settings": {}

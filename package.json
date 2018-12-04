@@ -1,0 +1,13 @@
+{
+    "private": true,
+    "scripts": {
+      "prettier:php": "prettier --config ./.prettierrc.js --write \"./src/**/*.php\" \"./tests/**/*.php\"",
+      "prettier": "npm run prettier:php"
+    },
+    "devDependencies": {
+      "@prettier/plugin-php": "^0.6.0",
+      "cross-env": "^5.1",
+      "prettier": "^1.14.2"
+    }
+  }
+  
