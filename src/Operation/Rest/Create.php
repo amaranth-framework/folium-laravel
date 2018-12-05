@@ -29,5 +29,4 @@ use Itmcdev\Folium\Rest\Exception\CreateException;
  */
 class Create extends CrudCreate implements CreateInterface
 {
-
 }

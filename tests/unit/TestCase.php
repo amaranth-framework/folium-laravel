@@ -104,7 +104,7 @@ class TestCase extends TestCaseDefault
         }
     }
 
-    function newModelData()
+    public function newModelData()
     {
         $faker = \Faker\Factory::create();
         return [

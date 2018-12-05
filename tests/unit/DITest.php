@@ -20,7 +20,7 @@ final class DITest extends TestCase
      * Unit Tests
      ***********************************************************************/
 
-    function testContainer()
+    public function testContainer()
     {
         $this->assertTrue(
             $this->container instanceof \Illuminate\Container\Container
@@ -30,7 +30,7 @@ final class DITest extends TestCase
     /**
      * Testing DI for \Itmcdev\Folium\Illuminate\Operation\Crud\Create
      */
-    function testOperationCrudCreate()
+    public function testOperationCrudCreate()
     {
         $instance = new \Itmcdev\Folium\Illuminate\Operation\Crud\Create(
             \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
@@ -41,11 +41,11 @@ final class DITest extends TestCase
         );
 
         $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
+            \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class/*,
             [
                 'modelClass' =>
                     \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]
+            ]*/
         );
         $this->assertTrue(
             $instance instanceof
@@ -56,10 +56,10 @@ final class DITest extends TestCase
     /**
      * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
      */
-    function testTestsLaravelControllerCrudSimple()
+    public function testTestsLaravelControllerCrudSimple()
     {
         $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class,
+            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class/*,
             [
                 'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
@@ -70,7 +70,7 @@ final class DITest extends TestCase
                 ),
                 'modelClass' =>
                     \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]
+            ]*/
         );
 
         $this->assertTrue(

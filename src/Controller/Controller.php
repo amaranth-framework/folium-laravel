@@ -33,6 +33,10 @@ trait Controller
     public function __call(string $method, array $arguments)
     {
         if (array_search($method, self::operations()) !== false) {
+            // Set model class for operation object.
+            // This is a redundant operation that should not exist.
+            $this->$method->setModelClass($this->setModelClass);
+            // Call operation from operation object.
             return call_user_func_array(
                 array($this->$method, $method),
                 $arguments

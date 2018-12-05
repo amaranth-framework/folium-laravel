@@ -12,7 +12,7 @@ class Simple extends Model
      * @param array $keys Validate only a set of keys. Usable for update methods.
      * @return array
      */
-    static function rules($keys = [])
+    public static function rules($keys = [])
     {
         $rules = [
             'name' => 'required|string|max:255',

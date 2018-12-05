@@ -19,12 +19,13 @@
         "illuminate/validation": "^5.6",
         "illuminate/support": "^5.6",
         "illuminate/translation": "^5.6",
+        "itmcdev/folium": "dev-master",
         "nesbot/carbon": "^1.25"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4",
         "fzaninotto/faker": "^1.8",
-        "itmcdev/folium": "dev-master"
+        "friendsofphp/php-cs-fixer": "^2.14@dev"
     },
     "autoload": {
         "classmap": [
@@ -37,7 +38,7 @@
     "repositories": [
         {
             "type": "gitlab",
-            "url": "https://gitlab.com/itmcdev/folium-laravel.git"
+            "url": "https://gitlab.com/itmcdev/folium.git"
         }
     ],
     "scripts": {
@@ -46,6 +47,7 @@
         "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && ./vendor/bin/phpunit\"",
         "laravel-5.6": "composer require --dev nesbot/carbon:1.25.* illuminate/database:5.6.* illuminate/log:5.6.* illuminate/http:5.6.* illuminate/validation:5.6.* illuminate/translation:5.6.*",
         "laravel-5.7": "composer require --dev nesbot/carbon:1.26.* illuminate/database:5.7.* illuminate/log:5.7.* illuminate/http:5.7.* illuminate/validation:5.7.* illuminate/translation:5.7.*",
+        "lint": "./vendor/bin/php-cs-fixer fix src; ./vendor/bin/php-cs-fixer fix tests",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",
         "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -p 3306:3306 -d mysql:5.7",

@@ -18,6 +18,7 @@
 namespace Itmcdev\Folium\Illuminate\Controller\Crud;
 
 use Itmcdev\Folium\Illuminate\Operation\Crud\Create;
+
 // use Itmcdev\Folium\Illuminate\Operation\Crud\Read;
 // use Itmcdev\Folium\Illuminate\Operation\Crud\Update;
 // use Itmcdev\Folium\Illuminate\Operation\Crud\Delete;
@@ -46,7 +47,7 @@ trait Controller
         // Read $read,
         // Update $update,
         // Delete $delete,
-        string $modelClass
+        string $modelClass = null
     ) {
         $this->create = $create;
         // $this->read = $read;
