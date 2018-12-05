@@ -2,10 +2,7 @@
 
 namespace Itmcdev\Folium\Illuminate\Tests\Model;
 
-require_once __DIR__ . '/Simple.php';
-
-use Itmcdev\Folium\Tests\Model\Simple;
-
+use Itmcdev\Folium\Illuminate\Tests\Model\Simple;
 class Validated extends Simple
 {
     /**
