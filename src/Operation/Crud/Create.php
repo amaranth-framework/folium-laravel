@@ -29,7 +29,7 @@ use Itmcdev\Folium\Operation\Operation;
 use Itmcdev\Folium\Util\ArrayUtils;
 
 /**
- * Trait proposal for CRUD Create method implementation on Laravel's Eloquent
+ * Class proposal for CRUD Create operation implementation on Laravel's Eloquent
  */
 class Create extends Operation implements CreateInterface
 {
@@ -42,7 +42,7 @@ class Create extends Operation implements CreateInterface
      */
     public function create(array $items, array $criteria = [])
     {
-        // delete method requires ::_modelClass variable to be able to init the model
+        // create method requires ::modelClass variable to be able to init the model
         if (!$this->modelClass) {
             throw new UnspecifiedModel($this, 'create');
         }
