@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Crud\Eloquent;
+namespace Itmcdev\Folium\Illuminate\Operation\Crud;
 
 use Illuminate\Support\Facades\Log;
 
@@ -32,29 +32,25 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Read extends Operation implements ReadInterface
 {
+
+    use \Itmcdev\Folium\Illuminate\Util\Crud;
+
     /**
      * @see ReadInterface::read()
      * @throws InvalidArgument
      * @throws ReadException
      * @throws UnspecifiedModel
      */
-    public function read(array $criteria = [], array $fields = [], array $options = [])
-    {
-        // read method requires ::modelClass variable to be able to init the model
-        if (!$this->modelClass) {
-            throw new UnspecifiedModel($this, 'read');
-        }
-        $modelClass = $this->modelClass;
+    public function read(
+        array $criteria = [],
+        array $fields = [],
+        array $options = []
+    ) {
+        // Obtain Model Class Name and Model Primary Key
+        list($modelClass) = $this->getModelData(false);
         try {
             // attempt to query by criteria (convert criteria into callable code)
-            $query = $modelClass::query();
-            foreach ($criteria as $item) {
-                if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
-                    throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
-                }
-                list($action, $$item) = CrudUtils::parseCriteriaItem($item);
-                $query = call_user_func_array([$query, $action], $item);
-            }
+            $query = $this->buildQueryFromCriteria($modelClass, $criteria);
             // if count required, return only count
             if (!empty($options[CrudUtils::countProperty()])) {
                 return $query->count();
@@ -66,15 +62,19 @@ class Read extends Operation implements ReadInterface
                     return $models->toArray();
                 }
                 // otherwise return only selected fields
-                return $models->map(function($model) use ($fields) {
-                    return array_intersect_key(
-                        $model->toArray(),
-                        array_combine($fields, $fields)
-                    );
-                })->toArray();
+                return $models
+                    ->map(function ($model) use ($fields) {
+                        return array_intersect_key(
+                            $model->toArray(),
+                            array_combine($fields, $fields)
+                        );
+                    })
+                    ->toArray();
             }
         } catch (\Exception $e) {
-            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+            Log::error(
+                sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
+            );
         }
         throw new ReadException();
     }

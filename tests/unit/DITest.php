@@ -41,7 +41,8 @@ final class DITest extends TestCase
         );
 
         $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class/*,
+            \Itmcdev\Folium\Illuminate\Operation\Crud\Create
+                ::class /*,
             [
                 'modelClass' =>
                     \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
@@ -59,7 +60,8 @@ final class DITest extends TestCase
     public function testTestsLaravelControllerCrudSimple()
     {
         $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class/*,
+            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
+                ::class /*,
             [
                 'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,

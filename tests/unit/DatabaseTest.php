@@ -4,7 +4,7 @@ namespace Itmcdev\Folium\Illuminate\Tests;
 use Itmcdev\Folium\Illuminate\Tests\Model\Simple;
 use Itmcdev\Folium\Illuminate\Tests\Model\Validated;
 use Itmcdev\Folium\Illuminate\Tests\TestCase;
-    
+
 class DatabaseTest extends TestCase
 {
     /***********************************************************************

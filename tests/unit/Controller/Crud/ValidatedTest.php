@@ -17,8 +17,10 @@ final class ValidatedTest extends SimpleTest
 
         $this->controller = $this->container->make(
             \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class,
-            [ 'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Validated::class ]
+            [
+                'modelClass' =>
+                    \Itmcdev\Folium\Illuminate\Tests\Model\Validated::class
+            ]
         );
     }
 }
-    

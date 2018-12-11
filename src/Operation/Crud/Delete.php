@@ -37,8 +37,11 @@ class Delete extends Operation implements DeleteInterface
      * @throws UnspecifiedModel
      * @throws UnspecifiedModelKey
      */
-    public function delete(array $items = [], array $criteria = [], array $options = [])
-    {
+    public function delete(
+        array $items = [],
+        array $criteria = [],
+        array $options = []
+    ) {
         // delete method requires ::modelClass variable to be able to init the model
         if (!$this->modelClass) {
             throw new UnspecifiedModel($this, 'delete');
@@ -47,33 +50,40 @@ class Delete extends Operation implements DeleteInterface
         // define primary key name
         $pKey = (new $modelClass())->getKeyName();
         if (!$pKey) {
-            throw new UnspecifiedModelKey(
-                $modelClass,
-                $this,
-                'delete'
-            );
+            throw new UnspecifiedModelKey($modelClass, $this, 'delete');
         }
         try {
             // delete all records from table
             if (empty($items) && empty($criteria)) {
-                if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
+                if (
+                    empty($options['permanent']) &&
+                    CrudUtils::canSoftDelete($modelClass)
+                ) {
                     // soft delete all records if possible
                     $modelClass::all()->update(['deleted' => 1]);
                 } else {
                     // otherwise fully remove
-                    $modelClass::query()->where($pKey, '>', 0)->delete();
+                    $modelClass
+                        ::query()
+                        ->where($pKey, '>', 0)
+                        ->delete();
                 }
                 return;
             }
             // delete only selected items
             if (!empty($items)) {
                 // map all as model instances
-                $items = $modelClass::find(array_map(function($item) use ($pKey) {
-                    return $item[$pKey];
-                }, $items));
+                $items = $modelClass::find(
+                    array_map(function ($item) use ($pKey) {
+                        return $item[$pKey];
+                    }, $items)
+                );
 
-                foreach($items as $item) {
-                    if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
+                foreach ($items as $item) {
+                    if (
+                        empty($options['permanent']) &&
+                        CrudUtils::canSoftDelete($modelClass)
+                    ) {
                         // soft delete each item if possible
                         $item->update(['deleted' => 1]);
                     } else {
@@ -90,8 +100,11 @@ class Delete extends Operation implements DeleteInterface
                 foreach ($criteria as $item) {
                     $query = call_user_func_array([$query, 'where'], $item);
                 }
-                
-                if (empty($options['permanent']) && CrudUtils::canSoftDelete($modelClass)) {
+
+                if (
+                    empty($options['permanent']) &&
+                    CrudUtils::canSoftDelete($modelClass)
+                ) {
                     // soft delete all items if possible
                     $query->update(['deleted' => 1]);
                 } else {
@@ -100,10 +113,10 @@ class Delete extends Operation implements DeleteInterface
                 }
             }
         } catch (\Exception $e) {
-            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+            Log::error(
+                sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
+            );
         }
         throw new DeleteException();
     }
-
-    
 }

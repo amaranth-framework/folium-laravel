@@ -36,7 +36,6 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Update extends Operation implements UpdateInterface
 {
-
     /**
      * @var Create|null $create
      */
@@ -47,8 +46,10 @@ class Update extends Operation implements UpdateInterface
      *
      * @param string $modelClass Class name used for model.
      */
-    public function __construct(string $modelClass = null, Create $create = null)
-    {
+    public function __construct(
+        string $modelClass = null,
+        Create $create = null
+    ) {
         super::__construct($modelClass);
 
         $this->create = $create;
@@ -63,8 +64,11 @@ class Update extends Operation implements UpdateInterface
      * @throws UpdateException
      * @throws ValidationException
      */
-    public function update(array $items, array $criteria = [], array $options = [])
-    {
+    public function update(
+        array $items,
+        array $criteria = [],
+        array $options = []
+    ) {
         // update method requires ::modelClass variable to be able to init the model
         if (!$this->modelClass) {
             throw new UnspecifiedModel($this, 'update');
@@ -73,15 +77,11 @@ class Update extends Operation implements UpdateInterface
         // define primary key name
         $pKey = (new $modelClass())->getKeyName();
         if (!$pKey) {
-            throw new UnspecifiedModelKey(
-                $modelClass,
-                $this,
-                'update'
-            );
+            throw new UnspecifiedModelKey($modelClass, $this, 'update');
         }
         // convert a single item into an array of items
         if (!ArrayUtils::isNumeric($items)) {
-            $items = [ $items ];
+            $items = [$items];
         }
         if (empty($criteria)) {
             // if there is a validation method, try and validate data
@@ -103,23 +103,40 @@ class Update extends Operation implements UpdateInterface
             });
             try {
                 // run update on the items having primary key
-                $updatedItems = array_map(function($item) use ($modelClass, $pKey) {
+                $updatedItems = array_map(function ($item) use (
+                    $modelClass,
+                    $pKey
+                ) {
                     $modelClass::find($item[$pKey])->update($item);
                     return $item[$pKey];
-                }, $itemsToUpdate);
+                },
+                $itemsToUpdate);
                 // run create on the items not having primary key
                 $createdItems = [];
                 if (count($itemsToCreate)) {
-                    if (!empty($this->create) && $this->create instanceof Create) {
+                    if (
+                        !empty($this->create) &&
+                        $this->create instanceof Create
+                    ) {
                         // seems array filter keps old ids, so array_values will get rid of them
-                        $createdItems = $this->create->create(array_values($itemsToCreate));
+                        $createdItems = $this->create->create(
+                            array_values($itemsToCreate)
+                        );
                     } else {
-                        throw InvalidOperation('Update operation cannot function witout a create operation attached.');
+                        throw InvalidOperation(
+                            'Update operation cannot function witout a create operation attached.'
+                        );
                     }
                 }
                 return array_merge($updatedItems, $createdItems);
             } catch (\Exception $e) {
-                Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+                Log::error(
+                    sprintf(
+                        '%s => %s',
+                        $e->__toString(),
+                        $e->getTraceAsString()
+                    )
+                );
             }
         } else {
             // if there is a validation method, try and validate data
@@ -127,7 +144,10 @@ class Update extends Operation implements UpdateInterface
                 foreach ($items as $item) {
                     $validator = Validator::make(
                         $item,
-                        CrudUtils::patchRules($modelClass::rules(), array_keys($item))
+                        CrudUtils::patchRules(
+                            $modelClass::rules(),
+                            array_keys($item)
+                        )
                     );
                     if ($validator->fails()) {
                         throw new ValidationException($validator->errors());
@@ -139,7 +159,9 @@ class Update extends Operation implements UpdateInterface
                 $query = $modelClass::query();
                 foreach ($criteria as $item) {
                     if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
-                        throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
+                        throw new InvalidArgument(
+                            '$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].'
+                        );
                     }
                     list($action, $$item) = CrudUtils::parseCriteriaItem($item);
                     $query = call_user_func_array([$query, $action], $item);
@@ -153,7 +175,13 @@ class Update extends Operation implements UpdateInterface
                     return $model[$pKey];
                 }, $query->get()->toArray());
             } catch (\Exception $e) {
-                Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+                Log::error(
+                    sprintf(
+                        '%s => %s',
+                        $e->__toString(),
+                        $e->getTraceAsString()
+                    )
+                );
             }
         }
         throw new UpdateException();
