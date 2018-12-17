@@ -125,10 +125,7 @@ class SimpleTest extends TestCase
 
         $models = [];
         try {
-            $models = $this->controller->read(
-                [['id', '=', $ids[0]]],
-                ['id', 'name']
-            );
+            $models = $this->controller->read([['id', '=', $ids[0]]], ['id', 'name']);
         } catch (\Exception $e) {
             var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
         }
@@ -155,11 +152,7 @@ class SimpleTest extends TestCase
 
         $count = 0;
         try {
-            $count = $this->controller->read(
-                [['id', '=', $ids[0]]],
-                [],
-                [CrudUtils::countProperty() => true]
-            );
+            $count = $this->controller->read([['id', '=', $ids[0]]], [], [CrudUtils::countProperty() => true]);
         } catch (\Exception $e) {
             var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
         }
@@ -204,10 +197,7 @@ class SimpleTest extends TestCase
 
         $models = [];
         try {
-            $models = $this->controller->read([
-                ['id', $ids[0]],
-                ['id', $ids[1], 'or']
-            ]);
+            $models = $this->controller->read([['id', $ids[0]], ['id', $ids[1], 'or']]);
         } catch (\Exception $e) {
             var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
         }
@@ -250,102 +240,105 @@ class SimpleTest extends TestCase
     //         $this->assertTrue(method_exists($this->controller, 'update'));
     //     }
 
-    //     /**
-    //      * @depends testReadOne
-    //      */
-    //     function testUpdateOne()
-    //     {
-    //         $item = func_get_args()[0];
-    //         $item['password'] = $this->newModelData()['password'];
+    /**
+     * @depends testReadOne
+     */
+    function testUpdateOne()
+    {
+        $item = func_get_args()[0];
+        $item['password'] = $this->newModelData()['password'];
 
-    //         $models = [];
-    //         try {
-    //             $models = $this->controller->update($item);
-    //         } catch (\Exception $e) {
-    //             var_dump($e->getMessage(), $e->getTraceAsString(), $item);
-    //         }
+        $models = [];
+        try {
+            $models = $this->controller->update($item);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString(), $item);
+        }
 
-    //         // test method is returning array and not Laravel class instances
-    //         $this->assertFalse(is_object($models));
-    //         $this->assertTrue(is_array($models));
-    //         // test reading multiple
-    //         $this->assertCount(1, $models);
-    //         // test getting correct items
-    //         $this->assertEquals($item['id'], $models[0]);
-    //     }
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(1, $models);
+        // test getting correct items
+        $this->assertEquals($item['id'], $models[0]);
+    }
 
-    //     function testUpdateByCreate() {
-    //         $item = $this->newModelData();
+    function testUpdateByCreate()
+    {
+        $item = $this->newModelData();
 
-    //         $models = [];
-    //         try {
-    //             $models = $this->controller->update($item);
-    //         } catch (\Exception $e) {
-    //             var_dump($e->getMessage(), $e->getTraceAsString(), $model);
-    //         }
+        $models = [];
+        try {
+            $models = $this->controller->update($item);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString(), $model);
+        }
 
-    //         // test method is returning array and not Laravel class instances
-    //         $this->assertFalse(is_object($models));
-    //         $this->assertTrue(is_array($models));
-    //         // test reading multiple
-    //         $this->assertCount(1, $models);
-    //         // test items ar numeric ids
-    //         $this->assertTrue(is_numeric($models[0]));
-    //     }
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(1, $models);
+        // test items are numeric ids
+        $this->assertTrue(is_numeric($models[0]));
+    }
 
-    //     /**
-    //      * @depends testReadMultiple
-    //      */
-    //     function testUpdateMultiple() {
-    //         $items = array_map(function($item) {
-    //             $item['password'] = $this->newModelData()['password'];
-    //             return $item;
-    //         }, func_get_args()[0]);
-    //         $items[] = $this->newModelData();
+    /**
+     * @depends testReadMultiple
+     */
+    function testUpdateMultiple()
+    {
+        $items = array_map(function ($item) {
+            $item['password'] = $this->newModelData()['password'];
+            return $item;
+        }, func_get_args()[0]);
+        $items[] = $this->newModelData();
 
-    //         $models = [];
-    //         try {
-    //             $models = $this->controller->update($items);
-    //         } catch (\Exception $e) {
-    //             var_dump($e->getMessage(), $e->getTraceAsString(), $items);
-    //         }
+        $models = [];
+        try {
+            $models = $this->controller->update($items);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString(), $items);
+        }
 
-    //         // test method is returning array and not Laravel class instances
-    //         $this->assertFalse(is_object($models));
-    //         $this->assertTrue(is_array($models));
-    //         // test reading multiple
-    //         $this->assertCount(count($items), $models);
-    //         // test getting correct items
-    //         $this->assertEquals($items[0]['id'], $models[0]);
-    //     }
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(count($items), $models);
+        // test getting correct items
+        $this->assertEquals($items[0]['id'], $models[0]);
+    }
 
-    //     /**
-    //      * @depends testReadMultiple
-    //      */
-    //     function testUpdateByCriteria() {
-    //         $ids = array_map(function($model) {
-    //             return $model['id'];
-    //         }, func_get_args()[0]);
+    /**
+     * @depends testReadMultiple
+     */
+    function testUpdateByCriteria()
+    {
+        $ids = array_map(function ($model) {
+            return $model['id'];
+        }, func_get_args()[0]);
 
-    //         $models = [];
-    //         try {
-    //             $models = $this->controller->update(['name' => 'Jack'], [['id', $ids]]);
-    //         } catch (\Exception $e) {
-    //             var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-    //         }
+        $models = [];
+        try {
+            $models = $this->controller->update(['name' => 'Jack'], [['id', $ids]]);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
+        }
 
-    //         // test method is returning array and not Laravel class instances
-    //         $this->assertFalse(is_object($models));
-    //         $this->assertTrue(is_array($models));
-    //         // test reading multiple
-    //         $this->assertCount(count($ids), $models);
-    //         // test getting correct items
-    //         $this->assertEquals($ids[0], $models[0]);
-    //     }
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(count($ids), $models);
+        // test getting correct items
+        $this->assertEquals($ids[0], $models[0]);
+    }
 
-    //     /***********************************************************************
-    //      * Unit Tests (Delete)
-    //      ***********************************************************************/
+    /***********************************************************************
+     * Unit Tests (Delete)
+     ***********************************************************************/
 
     //     /**
     //      * Test whether create method exists or not.
@@ -354,25 +347,25 @@ class SimpleTest extends TestCase
     //         $this->assertTrue(method_exists($this->controller, 'delete'));
     //     }
 
-    // /**
-    //  * @depends testReadOne
-    //  */
-    // function testDeleteOne()
-    // {
-    //     $item = func_get_args()[0];
+    /**
+     * @depends testReadOne
+     */
+    function testDeleteOne()
+    {
+        $item = func_get_args()[0];
 
-    //     $models = [];
-    //     try {
-    //         $this->controller->delete([$item]);
-    //         $models = $this->controller->read([['id', '=', $item['id']]]);
-    //     } catch (\Exception $e) {
-    //         var_dump($e->getMessage(), $e->getTraceAsString(), $item);
-    //     }
+        $models = [];
+        try {
+            $this->controller->delete([$item]);
+            $models = $this->controller->read([['id', '=', $item['id']]]);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage(), $e->getTraceAsString(), $item);
+        }
 
-    //     // test method is returning array and not Laravel class instances
-    //     $this->assertTrue(is_array($models));
-    //     $this->assertTrue(empty($models));
-    // }
+        // test method is returning array and not Laravel class instances
+        $this->assertTrue(is_array($models));
+        $this->assertTrue(empty($models));
+    }
 
     // /**
     //  * @depends testReadMultiple

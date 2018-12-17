@@ -28,15 +28,12 @@ use Itmcdev\Folium\Util\ArrayUtils;
  */
 trait Crud
 {
-
     public function buildQueryFromCriteria(string $modelClass, array $criteria = [])
     {
         $query = $modelClass::query();
         foreach ($criteria as $item) {
             if (!is_array($item) || !ArrayUtils::isNumeric($item)) {
-                throw new InvalidArgument(
-                    '$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].'
-                );
+                throw new InvalidArgument('$criteria must be an array of numeric arrays. i.e. [[\'id\', 1]].');
             }
             list($action, $$item) = $this->parseCriteriaItem($item);
             $query = call_user_func_array([$query, $action], $item);
@@ -46,8 +43,8 @@ trait Crud
 
     /**
      * Obtain Model Class Name and Model Primary Key
-     * 
-     * @param boolean $pKeyRequired 
+     *
+     * @param boolean $pKeyRequired
      * @return [string, string]
      */
     public function getModelData($pKeyRequired = true)
@@ -71,8 +68,8 @@ trait Crud
     }
 
     /**
-     * Parse criteria array item into [string, array] array where the string 
-     * represents the query called method (where/whereIn/orWhere/orWhereIn) 
+     * Parse criteria array item into [string, array] array where the string
+     * represents the query called method (where/whereIn/orWhere/orWhereIn)
      * and the array represents its arguments.
      *
      * @param array $item
@@ -102,17 +99,34 @@ trait Crud
     }
 
     /**
+     * Filter validation rules by a set of keys.
+     *
+     * @param array $rules
+     * @param array $keys
+     * @return array
+     */
+    public function patchValidateRules(array $rules, array $keys)
+    {
+        return array_intersect_key($rules, array_flip(array_intersect(array_keys($rules), $keys)));
+    }
+
+    /**
      * Validate items through model validate rules.
      *
      * @param string $modelClass
+     * @param array $items
+     * @param bool $partial
      * @throws ValidateException
      */
-    public function validate($modelClass, $items)
+    public function validate(string $modelClass, array $items, bool $partial = false)
     {
         // if there is a validation method, try and validate data
         if (method_exists($modelClass, 'rules')) {
             foreach ($items as $item) {
-                $validator = Validator::make($item, $modelClass::rules());
+                $rules = (!$partial)
+                    ? $modelClass::rules()
+                    : $this->patchValidateRules($modelClass::rules(), array_keys($item));
+                $validator = Validator::make($item, $rules);
                 if ($validator->fails()) {
                     throw new ValidationException($validator->errors());
                 }

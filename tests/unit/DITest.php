@@ -22,9 +22,7 @@ final class DITest extends TestCase
 
     public function testContainer()
     {
-        $this->assertTrue(
-            $this->container instanceof \Illuminate\Container\Container
-        );
+        $this->assertTrue($this->container instanceof \Illuminate\Container\Container);
     }
 
     /**
@@ -35,10 +33,7 @@ final class DITest extends TestCase
         $instance = new \Itmcdev\Folium\Illuminate\Operation\Crud\Create(
             \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
         );
-        $this->assertTrue(
-            $instance instanceof
-                \Itmcdev\Folium\Illuminate\Operation\Crud\Create
-        );
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
 
         $instance = $this->container->make(
             \Itmcdev\Folium\Illuminate\Operation\Crud\Create
@@ -48,10 +43,7 @@ final class DITest extends TestCase
                     \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
             ]*/
         );
-        $this->assertTrue(
-            $instance instanceof
-                \Itmcdev\Folium\Illuminate\Operation\Crud\Create
-        );
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
     }
 
     /**
@@ -75,9 +67,6 @@ final class DITest extends TestCase
             ]*/
         );
 
-        $this->assertTrue(
-            $instance instanceof
-                \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
-        );
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller);
     }
 }

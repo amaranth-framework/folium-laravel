@@ -37,10 +37,7 @@ trait Controller
             // This is a redundant operation that should not exist.
             $this->$method->setModelClass($this->setModelClass);
             // Call operation from operation object.
-            return call_user_func_array(
-                array($this->$method, $method),
-                $arguments
-            );
+            return call_user_func_array(array($this->$method, $method), $arguments);
         }
 
         throw new UndefinedOperation($this, $method, $arguments);

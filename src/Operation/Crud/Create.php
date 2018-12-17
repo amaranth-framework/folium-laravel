@@ -59,9 +59,7 @@ class Create extends Operation implements CreateInterface
                 return $modelClass::create($item)->$pKey;
             }, $items);
         } catch (\Exception $e) {
-            Log::error(
-                sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
-            );
+            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
         throw new CreateException();
     }

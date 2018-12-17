@@ -12,8 +12,6 @@ class TestCase extends \Itmcdev\Folium\Illuminate\Tests\TestCase
     {
         parent::setUp();
 
-        $this->controller = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class
-        );
+        $this->controller = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class);
     }
 }

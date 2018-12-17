@@ -7,16 +7,10 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use PHPUnit\Framework\TestCase as TestCaseDefault;
 
 $app = [
-    \Psr\Log\LoggerInterface::class =>
-        new \Illuminate\Log\Logger(
-            new \Itmcdev\Folium\Illuminate\Tests\Logger()
-        ),
+    \Psr\Log\LoggerInterface::class => new \Illuminate\Log\Logger(new \Itmcdev\Folium\Illuminate\Tests\Logger()),
     'validator' =>
         new \Illuminate\Validation\Factory(
-            new \Illuminate\Translation\Translator(
-                new \Illuminate\Translation\ArrayLoader(),
-                'us'
-            )
+            new \Illuminate\Translation\Translator(new \Illuminate\Translation\ArrayLoader(), 'us')
         )
 ];
 \Illuminate\Support\Facades\Log::setFacadeApplication($app);

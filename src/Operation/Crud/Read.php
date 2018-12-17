@@ -32,7 +32,7 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Read extends Operation implements ReadInterface
 {
-
+    
     use \Itmcdev\Folium\Illuminate\Util\Crud;
 
     /**
@@ -41,11 +41,8 @@ class Read extends Operation implements ReadInterface
      * @throws ReadException
      * @throws UnspecifiedModel
      */
-    public function read(
-        array $criteria = [],
-        array $fields = [],
-        array $options = []
-    ) {
+    public function read(array $criteria = [], array $fields = [], array $options = [])
+    {
         // Obtain Model Class Name and Model Primary Key
         list($modelClass) = $this->getModelData(false);
         try {
@@ -64,17 +61,12 @@ class Read extends Operation implements ReadInterface
                 // otherwise return only selected fields
                 return $models
                     ->map(function ($model) use ($fields) {
-                        return array_intersect_key(
-                            $model->toArray(),
-                            array_combine($fields, $fields)
-                        );
+                        return array_intersect_key($model->toArray(), array_combine($fields, $fields));
                     })
                     ->toArray();
             }
         } catch (\Exception $e) {
-            Log::error(
-                sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
-            );
+            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
         throw new ReadException();
     }

@@ -31,36 +31,27 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Delete extends Operation implements DeleteInterface
 {
+    
+    use \Itmcdev\Folium\Illuminate\Util\Crud;
+
     /**
      * @see DeleteInterface::delete()
      * @throws DeleteException
      * @throws UnspecifiedModel
      * @throws UnspecifiedModelKey
      */
-    public function delete(
-        array $items = [],
-        array $criteria = [],
-        array $options = []
-    ) {
-        // delete method requires ::modelClass variable to be able to init the model
-        if (!$this->modelClass) {
-            throw new UnspecifiedModel($this, 'delete');
-        }
-        $modelClass = $this->modelClass;
-        // define primary key name
-        $pKey = (new $modelClass())->getKeyName();
-        if (!$pKey) {
-            throw new UnspecifiedModelKey($modelClass, $this, 'delete');
-        }
+    public function delete(array $items = [], array $criteria = [], array $options = [])
+    {
+        // Obtain Model Class Name and Model Primary Key
+        list($modelClass, $pKey) = $this->getModelData(false);
+        // Whether to permanent delete
+        $permanentDelete = $options[CrudUtils::permanentDeleteProperty()];
         try {
             // delete all records from table
             if (empty($items) && empty($criteria)) {
-                if (
-                    empty($options['permanent']) &&
-                    CrudUtils::canSoftDelete($modelClass)
-                ) {
+                if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all records if possible
-                    $modelClass::all()->update(['deleted' => 1]);
+                    $modelClass::all()->update([CrudUtils::deletedProperty() => 1]);
                 } else {
                     // otherwise fully remove
                     $modelClass
@@ -80,12 +71,9 @@ class Delete extends Operation implements DeleteInterface
                 );
 
                 foreach ($items as $item) {
-                    if (
-                        empty($options['permanent']) &&
-                        CrudUtils::canSoftDelete($modelClass)
-                    ) {
+                    if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
                         // soft delete each item if possible
-                        $item->update(['deleted' => 1]);
+                        $item->update([CrudUtils::deletedProperty() => 1]);
                     } else {
                         // otherwise fully remove
                         $item->delete();
@@ -95,27 +83,18 @@ class Delete extends Operation implements DeleteInterface
             }
             // delete items based on criteria
             if (!empty($criteria)) {
-                // build a query based on the criteria
-                $query = $modelClass::query();
-                foreach ($criteria as $item) {
-                    $query = call_user_func_array([$query, 'where'], $item);
-                }
-
-                if (
-                    empty($options['permanent']) &&
-                    CrudUtils::canSoftDelete($modelClass)
-                ) {
+                // attempt to query by criteria (convert criteria into callable code)
+                $query = $this->buildQueryFromCriteria($modelClass, $criteria);
+                if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all items if possible
-                    $query->update(['deleted' => 1]);
+                    $query->update([CrudUtils::deletedProperty() => 1]);
                 } else {
                     // otherwise fully remove
                     $query->delete();
                 }
             }
         } catch (\Exception $e) {
-            Log::error(
-                sprintf('%s => %s', $e->__toString(), $e->getTraceAsString())
-            );
+            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
         }
         throw new DeleteException();
     }
