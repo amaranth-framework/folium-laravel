@@ -31,7 +31,6 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Delete extends Operation implements DeleteInterface
 {
-    
     use \Itmcdev\Folium\Illuminate\Util\Crud;
 
     /**
@@ -43,13 +42,13 @@ class Delete extends Operation implements DeleteInterface
     public function delete(array $items = [], array $criteria = [], array $options = [])
     {
         // Obtain Model Class Name and Model Primary Key
-        list($modelClass, $pKey) = $this->getModelData(false);
+        list($modelClass, $pKey) = $this->getModelData();
         // Whether to permanent delete
-        $permanentDelete = $options[CrudUtils::permanentDeleteProperty()];
+        $notPermanentDelete = empty($options[CrudUtils::permanentDeleteProperty()]);
         try {
             // delete all records from table
             if (empty($items) && empty($criteria)) {
-                if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
+                if ($notPermanentDelete && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all records if possible
                     $modelClass::all()->update([CrudUtils::deletedProperty() => 1]);
                 } else {
@@ -64,34 +63,23 @@ class Delete extends Operation implements DeleteInterface
             // delete only selected items
             if (!empty($items)) {
                 // map all as model instances
-                $items = $modelClass::find(
-                    array_map(function ($item) use ($pKey) {
-                        return $item[$pKey];
-                    }, $items)
-                );
-
-                foreach ($items as $item) {
-                    if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
-                        // soft delete each item if possible
-                        $item->update([CrudUtils::deletedProperty() => 1]);
-                    } else {
-                        // otherwise fully remove
-                        $item->delete();
-                    }
-                }
-                return;
+                $items = array_map(function ($item) use ($pKey) {
+                    return $item[$pKey];
+                }, $items);
+                $criteria[] = [$pKey, $items];
             }
             // delete items based on criteria
             if (!empty($criteria)) {
                 // attempt to query by criteria (convert criteria into callable code)
                 $query = $this->buildQueryFromCriteria($modelClass, $criteria);
-                if (empty($permanentDelete) && CrudUtils::canSoftDelete($modelClass)) {
+                if ($notPermanentDelete && CrudUtils::canSoftDelete($modelClass)) {
                     // soft delete all items if possible
                     $query->update([CrudUtils::deletedProperty() => 1]);
                 } else {
                     // otherwise fully remove
                     $query->delete();
                 }
+                return;
             }
         } catch (\Exception $e) {
             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));

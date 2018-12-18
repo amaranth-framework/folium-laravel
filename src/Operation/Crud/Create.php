@@ -32,7 +32,6 @@ use Itmcdev\Folium\Util\ArrayUtils;
  */
 class Create extends Operation implements CreateInterface
 {
-    
     use \Itmcdev\Folium\Illuminate\Util\Crud;
 
     /**

@@ -3,6 +3,7 @@
 namespace Itmcdev\Folium\Illuminate\Tests\Model;
 
 use Itmcdev\Folium\Illuminate\Tests\Model\Simple;
+
 class Validated extends Simple
 {
     /**

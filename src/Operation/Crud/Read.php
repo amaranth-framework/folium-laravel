@@ -32,7 +32,6 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Read extends Operation implements ReadInterface
 {
-    
     use \Itmcdev\Folium\Illuminate\Util\Crud;
 
     /**

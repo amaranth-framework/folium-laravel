@@ -11,7 +11,7 @@ class DatabaseTest extends TestCase
      * Unit Tests
      ***********************************************************************/
 
-    function testCreateSimple()
+    public function testCreateSimple()
     {
         $model = null;
         try {
@@ -22,7 +22,7 @@ class DatabaseTest extends TestCase
         $this->assertTrue($model !== null);
     }
 
-    function testCreateValidted()
+    public function testCreateValidted()
     {
         $model = null;
         try {
