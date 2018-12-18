@@ -17,11 +17,23 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
-use Itmcdev\Folium\Operation\Rest\Create as CreateInterface;
-
 /**
- * Class proposal for REST Create operation implementation on Laravel's Eloquent
+ * Inteface for impelenting REST Update method.
+ *
+ * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-class Create extends \Itmcdev\Folium\Illuminate\Operation\Crud\Create implements CreateInterface
+interface Update
 {
+    /**
+     * Update/patch a resource in the database.
+     * If multiple items are given, all patches will be applied in the given order.
+     *
+     * update($id, [ "text" => "I really have to iron" ])
+     *
+     * @param  any   $id       ID of the resource to update/patch.
+     * @param  array $items    Can be a single element or an array of elements.
+     * @param  array $options  To be defined.
+     * @return array           Resource data.
+     */
+    public function update($id, array $items, array $options = []);
 }

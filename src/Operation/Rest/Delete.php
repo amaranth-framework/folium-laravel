@@ -17,11 +17,12 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
-use Itmcdev\Folium\Operation\Rest\Create as CreateInterface;
-
 /**
- * Class proposal for REST Create operation implementation on Laravel's Eloquent
+ * Inteface for impelenting REST Delete method.
+ *
+ * @see \Itmcdev\Folium\Operation\Crud\Delete
+ * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-class Create extends \Itmcdev\Folium\Illuminate\Operation\Crud\Create implements CreateInterface
+interface Delete extends \Itmcdev\Folium\Operation\Crud\Delete
 {
 }
