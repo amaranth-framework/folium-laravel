@@ -36,7 +36,7 @@ class Create extends Operation implements CreateInterface
 
     /**
      * @see CreateInterfacee::create()
-     * @throws \Itmcdev\Folium\Operation\Exception\Create
+     * @throws CreateException
      * @throws ValidationException
      * @throws UnspecifiedModel
      * @throws UnspecifiedModelKey

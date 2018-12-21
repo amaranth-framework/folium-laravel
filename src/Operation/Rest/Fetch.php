@@ -17,34 +17,27 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Operation\Exception\Fetch as FetchException;
+use Itmcdev\Folium\Operation\Exception\Read as ReadException;
+use Itmcdev\Folium\Operation\Rest\Fetch as FetchInterface;
+
 /**
- * Inteface for impelenting REST List method.
- *
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Class proposal for REST Fetch operation implementation on Laravel's Eloquent
  */
-interface Fetch
+class Fetch extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements FetchInterface
 {
     /**
-     * If no field is passed, all resource fields should be presented to output.
-     * Read resource data from the database according to a set of criteria and based on a set of fields to be retreived.
-     *
-     * list([ [ 'id', '>', '10' ] ])
-     *
-     * or
-     *
-     * list(
-     *   [ [ 'id', '>', '10' ] ],
-     *   [ 'id', 'name', 'email' ]
-     * )
-     *
-     * or
-     *
-     * list([], [], [ '__count' => true ])
-     *
-     * @param array      $criteria Criteria to filter database data.
-     * @param array      $fields   Fields to obtain.
-     * @param array      $options  Fields to obtain.
-     * @return array|int           Array of items matching the criteria and having only the fields required or their count.
+     * @see FetchInterfacee::fetch()
+     * @throws FetchException
+     * @throws InvalidArgument
+     * @throws UnspecifiedModel
      */
-    public function list(array $criteria = [], array $fields = [], array $options = []);
+    public function list(array $criteria = [], array $fields = [], array $options = [])
+    {
+        try {
+            return $this->read($criteria, $fields, $options);
+        } catch (ReadException $e) {}
+
+        throw new FetchException();
+    }
 }

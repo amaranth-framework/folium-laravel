@@ -17,29 +17,30 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Operation\Exception\Retreive as RetreiveException;
+use Itmcdev\Folium\Operation\Exception\Read as ReadException;
+use Itmcdev\Folium\Operation\Rest\Retreive as RetreiveInterface;
+
+
 /**
- * Inteface for impelenting REST Retreive method.
- *
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Class proposal for REST Retreive operation implementation on Laravel's Eloquent
  */
-interface Retreive
+class Retreive extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements RetreiveInterface
 {
     /**
-     * Retreive resource from the database based on its ID and on a set of fields to be retreived.
-     *
-     * retreive(10)
-     *
-     * or
-     *
-     * retreive(
-     *   10,
-     *   [ 'id', 'name', 'email' ]
-     * )
-     *
-     * @param  array $id       ID of the resource to retreive.
-     * @param  array $fields   Fields to obtain.
-     * @param  array $options  Options sent ot the method, like primary key of the model.
-     * @return array              Resource data.
+     * @see RetreiveInterface::retreive()
+     * @throws RetreiveException
+     * @throws InvalidArgument
+     * @throws UnspecifiedModel
      */
-    public function retreive($id, array $fields = [], $options = []);
+    public function retreive($id, array $fields = [], $options = [])
+    {
+        try {
+            // Obtain Model Class Name and Model Primary Key
+            list($modelClass, $pKey) = $this->getModelData(false);
+            return $this->read([$pKey, $id], $fields, $options);
+        } catch (ReadException $e) {}
+
+        throw new RetreiveException();
+    }
 }

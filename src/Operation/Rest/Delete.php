@@ -17,12 +17,11 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Operation\Rest\Delete as DeleteInterface;
+
 /**
- * Inteface for impelenting REST Delete method.
- *
- * @see \Itmcdev\Folium\Operation\Crud\Delete
- * @link https://en.wikipedia.org/wiki/Representational_state_transfer
+ * Class proposal for REST Delete operation implementation on Laravel's Eloquent
  */
-interface Delete extends \Itmcdev\Folium\Operation\Crud\Delete
+class Delete extends \Itmcdev\Folium\Illuminate\Operation\Crud\Delete implements DeleteInterface
 {
 }
