@@ -53,20 +53,46 @@ final class DITest extends TestCase
     {
         $instance = $this->container->make(
             \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
-                ::class /*,
+                ::class,
             [
-                'create' => $this->container->make(
+                /*'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
                     [
                         'modelClass' =>
                             \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
                     ]
-                ),
+                ),*/
                 'modelClass' =>
                     \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]*/
+            ]
         );
 
         $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller);
+        $this->assertEquals($instance->modelClass, \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class);
+    }
+
+    /**
+     * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller
+     */
+    public function testTestsLaravelControllerRestSimple()
+    {
+        $instance = $this->container->make(
+            \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller
+                ::class,
+            [
+                /*'create' => $this->container->make(
+                    \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
+                    [
+                        'modelClass' =>
+                            \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+                    ]
+                ),*/
+                'modelClass' =>
+                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+            ]
+        );
+
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller);
+        $this->assertEquals($instance->modelClass, \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class);
     }
 }

@@ -2,15 +2,15 @@
 
 namespace Itmcdev\Folium\Illuminate\Tests\Controller\Crud;
 
+use Itmcdev\Folium\Controller\Controller as AbstractController;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Create;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Read;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Update;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Delete;
-use Itmcdev\Folium\Illuminate\Tests\Model\Simple;
 
-class Controller
+class Controller extends AbstractController
 {
-    use \Itmcdev\Folium\Illuminate\Controller\Crud\Controller;
+    use \Itmcdev\Folium\Controller\Crud\Controller;
 
     /**
      * CRUD Controller Constructor
@@ -26,12 +26,12 @@ class Controller
         Read $read,
         Update $update,
         Delete $delete,
-        string $modelClass = Simple::class
+        string $modelClass = null
     ) {
-        $this->create = $create;
-        $this->read = $read;
-        $this->update = $update;
-        $this->delete = $delete;
-        $this->setModelClass($modelClass);
+        $this->setCreate($create)
+            ->setRead($read)
+            ->setUpdate($update)
+            ->setDelete($delete)
+            ->setModelClass($modelClass);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Crud;
+namespace Itmcdev\Folium\Illuminate\Tests\Controller\Rest;
 
-use Itmcdev\Folium\Illuminate\Tests\Controller\Crud\TestCase;
-use Itmcdev\Folium\Util\CrudUtils;
+use Itmcdev\Folium\Illuminate\Tests\Controller\Rest\TestCase;
+// use Itmcdev\Folium\Util\RestUtils;
 
 class SimpleTest extends TestCase
 {
@@ -12,25 +12,25 @@ class SimpleTest extends TestCase
      * Unit Tests (Create)
      ***********************************************************************/
 
-    /**
-     * Test creation of one entity.
-     */
-    public function testCreateOne()
-    {
-        $items = [$this->newModelData()];
+    // /**
+    //  * Test creation of one entity.
+    //  */
+    // public function testCreateOne()
+    // {
+    //     $items = [$this->newModelData()];
 
-        $models = $this->controller->create($items[0]);
+    //     $models = $this->controller->create($items[0]);
 
-        // test method is returning array and not Laravel class instances
-        $this->assertFalse(is_object($models));
-        $this->assertTrue(is_array($models));
-        // test method has created and returning one item array
-        $this->assertCount(1, $models);
-        // test method is returning only arrays with model ids (numeric)
-        $this->assertTrue(is_numeric($models[0]));
+    //     // test method is returning array and not Laravel class instances
+    //     $this->assertFalse(is_object($models));
+    //     $this->assertTrue(is_array($models));
+    //     // test method has created and returning one item array
+    //     $this->assertCount(1, $models);
+    //     // test method is returning only arrays with model ids (numeric)
+    //     $this->assertTrue(is_numeric($models[0]));
 
-        return $models;
-    }
+    //     return $models;
+    // }
 
     // /**
     //  * Test creation of one entity (from array)
@@ -153,7 +153,7 @@ class SimpleTest extends TestCase
 
     //     $count = 0;
     //     try {
-    //         $count = $this->controller->read([['id', '=', $ids[0]]], [], [CrudUtils::countProperty() => true]);
+    //         $count = $this->controller->read([['id', '=', $ids[0]]], [], [RestUtils::countProperty() => true]);
     //     } catch (\Exception $e) {
     //         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
     //     }

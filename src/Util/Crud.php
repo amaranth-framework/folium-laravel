@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Exception\Validation as ValidationException;
+use Itmcdev\Folium\Exception\UnspecifiedModel;
 use Itmcdev\Folium\Util\ArrayUtils;
 
 /**
