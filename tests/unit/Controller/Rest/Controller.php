@@ -9,14 +9,8 @@ use Itmcdev\Folium\Illuminate\Operation\Rest\Update;
 use Itmcdev\Folium\Illuminate\Operation\Rest\Replace;
 use Itmcdev\Folium\Illuminate\Operation\Rest\Delete;
 
-class Controller extends \Itmcdev\Folium\Controller\Controller
+class Controller extends \Itmcdev\Folium\Controller\Rest\Controller
 {
-
-   /**
-     * Default Controller trait
-     */
-    use \Itmcdev\Folium\Controller\Rest\Controller;
-
     /**
      * REST Controller Constructor
      *
@@ -28,7 +22,7 @@ class Controller extends \Itmcdev\Folium\Controller\Controller
      * @param Delete $delete
      * @param string $modelClass
      */
-    public function __constructor(
+    public function __construct(
         Create $create,
         Fetch $fetch,
         Retreive $retreive,

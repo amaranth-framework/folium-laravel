@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Log;
 
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Exception\UnspecifiedModel;
+use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Crud\Read as ReadInterface;
 use Itmcdev\Folium\Operation\Exception\Read as ReadException;
-use Itmcdev\Folium\Operation\Operation;
 use Itmcdev\Folium\Util\ArrayUtils;
 use Itmcdev\Folium\Util\CrudUtils;
 
@@ -32,8 +32,6 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Read extends Operation implements ReadInterface
 {
-    use \Itmcdev\Folium\Illuminate\Util\Crud;
-
     /**
      * @see ReadInterface::read()
      * @throws InvalidArgument

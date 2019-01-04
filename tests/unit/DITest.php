@@ -35,15 +35,28 @@ final class DITest extends TestCase
         );
         $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
 
-        $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Operation\Crud\Create
-                ::class /*,
-            [
-                'modelClass' =>
-                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]*/
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Operation\Crud\Create::class, [
+            'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+        ]);
+
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
+        $this->assertEquals(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class, $instance->getModelClass());
+    }
+
+    /**
+     * Testing DI for \Itmcdev\Folium\Illuminate\Operation\Crud\Create with no model class
+     */
+    public function testOperationCrudCreateNoModelClass()
+    {
+        $instance = new \Itmcdev\Folium\Illuminate\Operation\Crud\Create(
+            \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
         );
         $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
+
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Operation\Crud\Create::class);
+
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Operation\Crud\Create);
+        $this->assertEquals(null, $instance->getModelClass());
     }
 
     /**
@@ -51,24 +64,19 @@ final class DITest extends TestCase
      */
     public function testTestsLaravelControllerCrudSimple()
     {
-        $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
-                ::class,
-            [
-                /*'create' => $this->container->make(
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class, [
+            /*'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
                     [
                         'modelClass' =>
                             \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
                     ]
                 ),*/
-                'modelClass' =>
-                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]
-        );
+            'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+        ]);
 
         $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller);
-        $this->assertEquals($instance->modelClass, \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class);
+        $this->assertEquals(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class, $instance->getModelClass());
     }
 
     /**
@@ -76,23 +84,18 @@ final class DITest extends TestCase
      */
     public function testTestsLaravelControllerRestSimple()
     {
-        $instance = $this->container->make(
-            \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller
-                ::class,
-            [
-                /*'create' => $this->container->make(
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller::class, [
+            /*'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
                     [
                         'modelClass' =>
                             \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
                     ]
                 ),*/
-                'modelClass' =>
-                    \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
-            ]
-        );
+            'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
+        ]);
 
         $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller);
-        $this->assertEquals($instance->modelClass, \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class);
+        $this->assertEquals(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class, $instance->getModelClass());
     }
 }

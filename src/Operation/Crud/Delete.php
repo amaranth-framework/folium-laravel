@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Log;
 
 use Itmcdev\Folium\Exception\UnspecifiedModel;
 use Itmcdev\Folium\Exception\UnspecifiedModelKey;
+use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Crud\Delete as DeleteInterface;
 use Itmcdev\Folium\Operation\Exception\Delete as DeleteException;
-use Itmcdev\Folium\Operation\Operation;
 use Itmcdev\Folium\Util\CrudUtils;
 
 /**
@@ -31,8 +31,6 @@ use Itmcdev\Folium\Util\CrudUtils;
  */
 class Delete extends Operation implements DeleteInterface
 {
-    use \Itmcdev\Folium\Illuminate\Util\Crud;
-
     /**
      * @see DeleteInterface::delete()
      * @throws DeleteException

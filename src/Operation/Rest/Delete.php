@@ -24,4 +24,5 @@ use Itmcdev\Folium\Operation\Rest\Delete as DeleteInterface;
  */
 class Delete extends \Itmcdev\Folium\Illuminate\Operation\Crud\Delete implements DeleteInterface
 {
+
 }

@@ -21,7 +21,6 @@ use Itmcdev\Folium\Operation\Exception\Retreive as RetreiveException;
 use Itmcdev\Folium\Operation\Exception\Read as ReadException;
 use Itmcdev\Folium\Operation\Rest\Retreive as RetreiveInterface;
 
-
 /**
  * Class proposal for REST Retreive operation implementation on Laravel's Eloquent
  */
@@ -39,7 +38,9 @@ class Retreive extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements
             // Obtain Model Class Name and Model Primary Key
             list($modelClass, $pKey) = $this->getModelData(false);
             return $this->read([$pKey, $id], $fields, $options);
-        } catch (ReadException $e) {}
+        } catch (ReadException $e) {
+
+        }
 
         throw new RetreiveException();
     }

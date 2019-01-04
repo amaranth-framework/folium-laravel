@@ -36,7 +36,9 @@ class Fetch extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements Fe
     {
         try {
             return $this->read($criteria, $fields, $options);
-        } catch (ReadException $e) {}
+        } catch (ReadException $e) {
+
+        }
 
         throw new FetchException();
     }

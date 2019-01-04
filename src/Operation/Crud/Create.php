@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Log;
 use Itmcdev\Folium\Exception\UnspecifiedModel;
 use Itmcdev\Folium\Exception\UnspecifiedModelKey;
 use Itmcdev\Folium\Exception\Validation as ValidationException;
+use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Crud\Create as CreateInterface;
 use Itmcdev\Folium\Operation\Exception\Create as CreateException;
-use Itmcdev\Folium\Operation\Operation;
 use Itmcdev\Folium\Util\ArrayUtils;
 
 /**
@@ -32,8 +32,6 @@ use Itmcdev\Folium\Util\ArrayUtils;
  */
 class Create extends Operation implements CreateInterface
 {
-    use \Itmcdev\Folium\Illuminate\Util\Crud;
-
     /**
      * @see CreateInterfacee::create()
      * @throws CreateException

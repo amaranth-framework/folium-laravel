@@ -24,4 +24,5 @@ use Itmcdev\Folium\Operation\Rest\Create as CreateInterface;
  */
 class Create extends \Itmcdev\Folium\Illuminate\Operation\Crud\Create implements CreateInterface
 {
+
 }

@@ -17,10 +17,12 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
+
 /**
  * Inteface for impelenting CRUD Replace method.
  */
-interface Replace
+class Replace
 {
     /**
      * Replace a resource or set of resources in the database.
@@ -35,5 +37,5 @@ interface Replace
      * @param  array $options  To be defined.
      * @return array           Will return the ids of the elements updated.
      */
-    public function replace(array $items, array $options = []);
+    public function replace(array $items, array $options = []) {}
 }

@@ -17,12 +17,14 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
+
 /**
  * Inteface for impelenting REST Update method.
  *
  * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-interface Update
+class Update
 {
     /**
      * Update/patch a resource in the database.
@@ -35,5 +37,5 @@ interface Update
      * @param  array $options  To be defined.
      * @return array           Resource data.
      */
-    public function update($id, array $items, array $options = []);
+    public function update($id, array $items, array $options = []) {}
 }

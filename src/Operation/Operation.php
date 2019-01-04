@@ -15,21 +15,18 @@
  * limitations under the License.
  */
 
-namespace Itmcdev\Folium\Illuminate\Util;
+namespace Itmcdev\Folium\Illuminate\Operation;
 
-use Illuminate\Support\Facades\Validator;
-
-use Itmcdev\Folium\Exception\InvalidArgument;
-use Itmcdev\Folium\Exception\Validation as ValidationException;
-use Itmcdev\Folium\Exception\UnspecifiedModel;
-use Itmcdev\Folium\Util\ArrayUtils;
-
-/**
- * Common methods for CRUD
- */
-trait Crud
+class Operation extends \Itmcdev\Folium\Operation\Operation
 {
-    public function buildQueryFromCriteria(string $modelClass, array $criteria = [])
+    /**
+     * @TODO Document method.
+     *
+     * @param string $modelClass
+     * @param array $criteria
+     * @return void
+     */
+    protected function buildQueryFromCriteria(string $modelClass, array $criteria = [])
     {
         $query = $modelClass::query();
         foreach ($criteria as $item) {
@@ -48,7 +45,7 @@ trait Crud
      * @param boolean $pKeyRequired
      * @return [string, string]
      */
-    public function getModelData($pKeyRequired = true)
+    protected function getModelData($pKeyRequired = true)
     {
         // create method requires ::modelClass variable to be able to init the model
         if (!$this->modelClass) {
@@ -76,7 +73,7 @@ trait Crud
      * @param array $item
      * @return array(string, array)
      */
-    public function parseCriteriaItem($item)
+    protected function parseCriteriaItem($item)
     {
         // by default, use where*
         $where = 'where';
@@ -106,7 +103,7 @@ trait Crud
      * @param array $keys
      * @return array
      */
-    public function patchValidateRules(array $rules, array $keys)
+    protected function patchValidateRules(array $rules, array $keys)
     {
         return array_intersect_key($rules, array_flip(array_intersect(array_keys($rules), $keys)));
     }
@@ -119,7 +116,7 @@ trait Crud
      * @param bool $partial
      * @throws ValidateException
      */
-    public function validate(string $modelClass, array $items, bool $partial = false)
+    protected function validate(string $modelClass, array $items, bool $partial = false)
     {
         // if there is a validation method, try and validate data
         if (method_exists($modelClass, 'rules')) {
