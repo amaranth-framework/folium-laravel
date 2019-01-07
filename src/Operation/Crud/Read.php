@@ -24,7 +24,6 @@ use Itmcdev\Folium\Exception\UnspecifiedModel;
 use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Crud\Read as ReadInterface;
 use Itmcdev\Folium\Operation\Exception\Read as ReadException;
-use Itmcdev\Folium\Util\ArrayUtils;
 use Itmcdev\Folium\Util\CrudUtils;
 
 /**

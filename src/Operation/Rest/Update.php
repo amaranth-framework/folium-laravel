@@ -17,14 +17,22 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Itmcdev\Folium\Exception\InvalidArgument;
+use Itmcdev\Folium\Exception\InvalidOperation;
+use Itmcdev\Folium\Exception\UnspecifiedModel;
+use Itmcdev\Folium\Illuminate\Operation\Operation;
+use Itmcdev\Folium\Operation\Exception\Update as UpdateException;
+use Itmcdev\Folium\Operation\Exception\Validation as ValidationException;
 use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
+use Itmcdev\Folium\Util\ArrayUtils;
+use Itmcdev\Folium\Util\CrudUtils;
 
 /**
  * Inteface for impelenting REST Update method.
  *
  * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-class Update implements UpdateInterface
+class Update  extends Operation implements UpdateInterface
 {
     /**
      * Update/patch a resource in the database.

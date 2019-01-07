@@ -8,201 +8,190 @@ use Itmcdev\Folium\Util\CrudUtils;
 
 class SimpleTest extends TestCase
 {
-/***********************************************************************
- * Unit Tests (Create)
- ***********************************************************************/
- /**
-  * Test creation of one entity.
-  */
- public function testCreateOne()
- {
-     $items = [$this->newModelData()];
-     $models = $this->controller->create($items[0]);
-     // test method is returning array and not Laravel class instances
-     $this->assertFalse(is_object($models));
-     $this->assertTrue(is_array($models));
-     // test method has created and returning one item array
-     $this->assertCount(1, $models);
-     // test method is returning only arrays with model ids (numeric)
-     $this->assertTrue(is_numeric($models[0]));
-     return $models;
- }
-// /**
-//  * Test creation of one entity (from array)
-//  */
-// public function testCreateOneFromArray()
-// {
-//     $items = [$this->newModelData()];
-//     $models = [];
-//     try {
-//         $models = $this->controller->create($items);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $items);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test method has created and returning one item array
-//     $this->assertCount(1, $models);
-//     // test method is returning only arrays with model ids (numeric)
-//     $this->assertTrue(is_numeric($models[0]));
-//     return $models;
-// }
-// /**
-//  * Test creation of multiple entities (from array)
-//  */
-// public function testCreateMultiple()
-// {
-//     $items = [$this->newModelData(), $this->newModelData()];
-//     $models = [];
-//     try {
-//         $models = $this->controller->create($items);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $items);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test method has created and returning two item array
-//     $this->assertCount(2, $models);
-//     // test method is returning only arrays with model ids (numeric)
-//     $this->assertTrue(is_numeric($models[0]));
-//     return $models;
-// }
-// /***********************************************************************
-//  * Unit Tests (Read)
-//  ***********************************************************************/
-// /**
-//  * Test reading one entity by it's ID
-//  *
-//  * @depends testCreateOne
-//  */
-// public function testReadOne()
-// {
-//     $ids = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $models = $this->controller->read([['id', '=', $ids[0]]]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test method is returning one item array
-//     $this->assertCount(1, $models);
-//     // test to return the expected model as array
-//     $this->assertEquals($ids[0], $models[0]['id']);
-//     return $models[0];
-// }
-// /**
-//  * Test reading one entity by it's ID, but obtain only certain fields
-//  *
-//  * @depends testCreateOne
-//  */
-// public function testReadOneWithFields()
-// {
-//     $ids = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $models = $this->controller->read([['id', '=', $ids[0]]], ['id', 'name']);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test method is returning one item array
-//     $this->assertCount(1, $models);
-//     // test to return the expected model as array
-//     $this->assertEquals($ids[0], $models[0]['id']);
-//     // test other fields should not be included
-//     $this->assertEmpty($models[0]['email']);
-//     // test requested fields should exist
-//     $this->assertTrue(!empty($models[0]['name']));
-// }
-// /**
-//  * Test reading one entity by it's ID, but obtain count only
-//  *
-//  * @depends testCreateOne
-//  */
-// public function testReadOneCount()
-// {
-//     $ids = func_get_args()[0];
-//     $count = 0;
-//     try {
-//         $count = $this->controller->read([['id', '=', $ids[0]]], [], [CrudUtils::countProperty() => true]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning number (as per count option)
-//     $this->assertTrue(is_numeric($count));
-//     // test count option works
-//     $this->assertEquals(1, $count);
-// }
-// /**
-//  * Test reading multiple entities
-//  *
-//  * @depends testCreateMultiple
-//  */
-// public function testReadMultiple()
-// {
-//     $ids = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $models = $this->controller->read([['id', $ids]]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test reading multiple
-//     $this->assertCount(count($ids), $models);
-//     // test getting correct items
-//     $this->assertEquals($ids[0], $models[0]['id']);
-//     return $models;
-// }
-// /**
-//  * Test reading multiple entities (using OR)
-//  *
-//  * @depends testCreateMultiple
-//  */
-// public function testReadMultipleOr()
-// {
-//     $ids = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $models = $this->controller->read([['id', $ids[0]], ['id', $ids[1], 'or']]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test reading multiple
-//     $this->assertCount(count($ids), $models);
-//     // test getting correct items
-//     $this->assertEquals($ids[0], $models[0]['id']);
-// }
-// /**
-//  * Test reading all items
-//  */
-// public function testReadAll()
-// {
-//     $ids = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $models = $this->controller->read([]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertFalse(is_object($models));
-//     $this->assertTrue(is_array($models));
-//     // test reading multiple
-//     $this->assertTrue(count($models) > 0);
-// }
+    /***********************************************************************
+     * Unit Tests (Create)
+     ***********************************************************************/
+
+    /**
+     * Test creation of one entity.
+    */
+    public function testCreateOne()
+    {
+        $items = [$this->newModelData()];
+
+        $models = $this->controller->create($items[0]);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method has created and returning one item array
+        $this->assertCount(1, $models);
+        // test method is returning only arrays with model ids (numeric)
+        $this->assertTrue(is_numeric($models[0]));
+        return $models;
+    }
+
+    /**
+     * Test creation of one entity (from array)
+     */
+    public function testCreateOneFromArray()
+    {
+        $items = [$this->newModelData()];
+        
+        $models = $this->controller->create($items);
+        
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method has created and returning one item array
+        $this->assertCount(1, $models);
+        // test method is returning only arrays with model ids (numeric)
+        $this->assertTrue(is_numeric($models[0]));
+        return $models;
+    }
+
+    /**
+     * Test creation of multiple entities (from array)
+     */
+    public function testCreateMultiple()
+    {
+        $items = [$this->newModelData(), $this->newModelData()];
+        
+        $models = $this->controller->create($items);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method has created and returning two item array
+        $this->assertCount(2, $models);
+        // test method is returning only arrays with model ids (numeric)
+        $this->assertTrue(is_numeric($models[0]));
+        return $models;
+    }
+
+    /***********************************************************************
+     * Unit Tests (Read)
+     ***********************************************************************/
+
+    /**
+     * Test reading one entity by it's ID
+     *
+     * @depends testCreateOne
+     */
+    public function testReadOne()
+    {
+        $ids = func_get_args()[0];
+        
+        $models = $this->controller->read([['id', '=', $ids[0]]]);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method is returning one item array
+        $this->assertCount(1, $models);
+        // test to return the expected model as array
+        $this->assertEquals($ids[0], $models[0]['id']);
+        return $models[0];
+    }
+
+    /**
+     * Test reading one entity by it's ID, but obtain only certain fields
+     *
+     * @depends testCreateOne
+     */
+    public function testReadOneWithFields()
+    {
+        $ids = func_get_args()[0];
+        
+        $models = $this->controller->read([['id', '=', $ids[0]]], ['id', 'name']);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method is returning one item array
+        $this->assertCount(1, $models);
+        // test to return the expected model as array
+        $this->assertEquals($ids[0], $models[0]['id']);
+        // test other fields should not be included
+        $this->assertEmpty($models[0]['email']);
+        // test requested fields should exist
+        $this->assertTrue(!empty($models[0]['name']));
+    }
+
+    /**
+     * Test reading one entity by it's ID, but obtain count only
+     *
+     * @depends testCreateOne
+     */
+    public function testReadOneCount()
+    {
+        $ids = func_get_args()[0];
+        
+        $count = $this->controller->read([['id', '=', $ids[0]]], [], [CrudUtils::countProperty() => true]);
+        
+        // test method is returning number (as per count option)
+        $this->assertTrue(is_numeric($count));
+        // test count option works
+        $this->assertEquals(1, $count);
+    }
+
+    /**
+     * Test reading multiple entities
+     *
+     * @depends testCreateMultiple
+     */
+    public function testReadMultiple()
+    {
+        $ids = func_get_args()[0];
+        
+        $models = $this->controller->read([['id', $ids]]);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(count($ids), $models);
+        // test getting correct items
+        $this->assertEquals($ids[0], $models[0]['id']);
+        return $models;
+    }
+    
+    /**
+     * Test reading multiple entities (using OR)
+     *
+     * @depends testCreateMultiple
+     */
+    public function testReadMultipleOr()
+    {
+        $ids = func_get_args()[0];
+        
+        $models = $this->controller->read([['id', $ids[0]], ['id', $ids[1], 'or']]);
+
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(count($ids), $models);
+        // test getting correct items
+        $this->assertEquals($ids[0], $models[0]['id']);
+    }
+
+    /**
+     * Test reading all items
+     */
+    public function testReadAll()
+    {
+        $ids = func_get_args()[0];
+
+        $models = $this->controller->read([]);
+        
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertTrue(count($models) > 0);
+    }
+
 // //     /***********************************************************************
 // //      * Unit Tests (Update)
 // //      ***********************************************************************/

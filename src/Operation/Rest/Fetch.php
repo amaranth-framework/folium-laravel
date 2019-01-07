@@ -32,7 +32,7 @@ class Fetch extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements Fe
      * @throws InvalidArgument
      * @throws UnspecifiedModel
      */
-    public function list(array $criteria = [], array $fields = [], array $options = [])
+    public function fetch(array $criteria = [], array $fields = [], array $options = [])
     {
         try {
             return $this->read($criteria, $fields, $options);

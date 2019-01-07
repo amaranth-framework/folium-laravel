@@ -36,11 +36,9 @@ class Retreive extends \Itmcdev\Folium\Illuminate\Operation\Crud\Read implements
     {
         try {
             // Obtain Model Class Name and Model Primary Key
-            list($modelClass, $pKey) = $this->getModelData(false);
-            return $this->read([$pKey, $id], $fields, $options);
-        } catch (ReadException $e) {
-
-        }
+            list($modelClass, $pKey) = $this->getModelData();
+            return $this->read([[$pKey, $id]], $fields, $options);
+        } catch (ReadException $e) {}
 
         throw new RetreiveException();
     }
