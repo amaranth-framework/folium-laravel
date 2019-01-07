@@ -17,12 +17,12 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
-use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
+use Itmcdev\Folium\Operation\Rest\Replace as ReplaceInterface;
 
 /**
  * Inteface for impelenting CRUD Replace method.
  */
-class Replace
+class Replace extends \Itmcdev\Folium\Illuminate\Operation\Crud\Create implements ReplaceInterface
 {
     /**
      * Replace a resource or set of resources in the database.

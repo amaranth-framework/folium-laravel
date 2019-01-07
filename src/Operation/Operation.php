@@ -17,6 +17,8 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation;
 
+use Illuminate\Support\Facades\Validator;
+
 class Operation extends \Itmcdev\Folium\Operation\Operation
 {
     /**

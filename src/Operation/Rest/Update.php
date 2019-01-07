@@ -24,7 +24,7 @@ use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
  *
  * @link https://en.wikipedia.org/wiki/Representational_state_transfer
  */
-class Update
+class Update implements UpdateInterface
 {
     /**
      * Update/patch a resource in the database.
@@ -37,5 +37,7 @@ class Update
      * @param  array $options  To be defined.
      * @return array           Resource data.
      */
-    public function update($id, array $items, array $options = []) {}
+    public function update($id, array $items, array $options = []) {
+        
+    }
 }
