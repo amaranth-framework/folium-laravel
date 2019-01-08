@@ -321,92 +321,64 @@ class SimpleTest extends TestCase
 //     // test getting correct items
 //     $this->assertEquals($ids[0], $models[0]);
 // }
-// /***********************************************************************
-//  * Unit Tests (Delete)
-//  ***********************************************************************/
-// //     /**
-// //      * Test whether create method exists or not.
-// //      */
-// //     function testDeleteMethoExists() {
-// //         $this->assertTrue(method_exists($this->controller, 'delete'));
-// //     }
-// /**
-//  * Test deleting one item
-//  *
-//  * @depends testFetchOne
-//  */
-// public function testDeleteOne()
-// {
-//     $item = func_get_args()[0];
-//     $models = [];
-//     try {
-//         $this->controller->delete([$item]);
-//         $models = $this->controller->fetch([['id', '=', $item['id']]]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $item);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertTrue(is_array($models));
-//     $this->assertTrue(empty($models));
-// }
-// /**
-//  * Test deleting multiple items
-//  *
-//  * @depends testFetchMultiple
-//  */
-// public function testDeleteMultiple()
-// {
-//     $items = func_get_args()[0];
-//     $ids = array_map(function ($item) {
-//         return $item;
-//     }, $items);
-//     $models = [];
-//     try {
-//         $this->controller->delete($items);
-//         $models = $this->controller->fetch([['id', $ids]]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertTrue(is_array($models));
-//     $this->assertTrue(empty($models));
-// }
-// /**
-//  * Test deleting multiple items by criteria
-//  */
-// public function testDeleteByCriteria()
-// {
-//     $items = [$this->newModelData(), $this->newModelData()];
-//     try {
-//         $items = $this->controller->create($items);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $items);
-//     }
-//     $models = [];
-//     try {
-//         $this->controller->delete([], [['id', $items]]);
-//         $models = $this->controller->fetch([['id', $items]]);
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertTrue(is_array($models));
-//     $this->assertTrue(empty($models));
-// }
-// /**
-//  * Test deleting all items
-//  */
-// public function testDeleteAll()
-// {
-//     $models = [];
-//     try {
-//         $this->controller->delete();
-//         $models = $this->controller->fetch();
-//     } catch (\Exception $e) {
-//         var_dump($e->getMessage(), $e->getTraceAsString(), $ids);
-//     }
-//     // test method is returning array and not Laravel class instances
-//     $this->assertTrue(is_array($models));
-//     $this->assertTrue(empty($models));
-// }
+    /***********************************************************************
+     * Unit Tests (Delete)
+     ***********************************************************************/
+    
+    /**
+     * Test deleting one item
+     *
+     * @depends testFetchOne
+     */
+    public function testDeleteOne()
+    {
+        $item = func_get_args()[0];
+        $this->controller->delete([$item]);
+        $models = $this->controller->fetch([['id', '=', $item['id']]]);
+        // test method is returning array and not Laravel class instances
+        $this->assertTrue(is_array($models));
+        $this->assertTrue(empty($models));
+    }
+
+    /**
+     * Test deleting multiple items
+     *
+     * @depends testFetchMultiple
+     */
+    public function testDeleteMultiple()
+    {
+        $items = func_get_args()[0];
+        $ids = array_map(function ($item) {
+            return $item;
+        }, $items);
+        $this->controller->delete($items);
+        $models = $this->controller->fetch([['id', $ids]]);
+        // test method is returning array and not Laravel class instances
+        $this->assertTrue(is_array($models));
+        $this->assertTrue(empty($models));
+    }
+    /**
+     * Test deleting multiple items by criteria
+     */
+    public function testDeleteByCriteria()
+    {
+        $items = [$this->newModelData(), $this->newModelData()];
+        $items = $this->controller->create($items);
+        $this->controller->delete([], [['id', $items]]);
+        $models = $this->controller->fetch([['id', $items]]);
+        // test method is returning array and not Laravel class instances
+        $this->assertTrue(is_array($models));
+        $this->assertTrue(empty($models));
+    }
+    /**
+     * Test deleting all items
+     */
+    public function testDeleteAll()
+    {
+        $this->controller->delete();
+        $models = $this->controller->fetch();
+        // test method is returning array and not Laravel class instances
+        $this->assertTrue(is_array($models));
+        $this->assertTrue(empty($models));
+    }
 }
