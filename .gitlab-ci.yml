@@ -5,7 +5,7 @@ cache:
   paths:
   - composer-setup.php
   - composer.phar
-  - vendor/
+  # - vendor/
 
 services:
   - mysql:5.7
