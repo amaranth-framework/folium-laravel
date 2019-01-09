@@ -51,12 +51,24 @@ class Replace extends \Itmcdev\Folium\Illuminate\Operation\Crud\Update implement
         try {
             $updated = array_map(function($item) use ($pKey, $options) {
                 $criteria = empty($item[$pKey]) ? [] : [ [$pKey, $item[$pKey]] ];
-                return array_pop($this->update($item, $criteria, $options));
+                return array_pop(parent::update($item, $criteria, $options));
             }, $items);
 
             return $updated;
         } catch (UpdateException $e) {}
 
         throw new ReplaceException();
+    }
+
+    /**
+     * Method is only available under CRUD and is just a reminescense under REST.
+     *
+     * @deprecated
+     * @throws Exception
+     * @see \Itmcdev\Folium\Illuminate\Operation\Crud\Update::update()
+     */
+    public function update(array $items, array $criteria = [], array $options = [])
+    {
+        throw new \Exception('Invalid method.');
     }
 }
