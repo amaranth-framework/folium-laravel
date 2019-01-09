@@ -23,10 +23,10 @@ use Illuminate\Support\Facades\Validator;
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Exception\InvalidOperation;
 use Itmcdev\Folium\Exception\UnspecifiedModel;
+use Itmcdev\Folium\Exception\Validation as ValidationException;
 use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Crud\Update as UpdateInterface;
 use Itmcdev\Folium\Operation\Exception\Update as UpdateException;
-use Itmcdev\Folium\Operation\Exception\Validation as ValidationException;
 use Itmcdev\Folium\Util\ArrayUtils;
 use Itmcdev\Folium\Util\CrudUtils;
 

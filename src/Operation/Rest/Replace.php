@@ -17,20 +17,15 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
-use Itmcdev\Folium\Exception\InvalidArgument;
-use Itmcdev\Folium\Exception\InvalidOperation;
-use Itmcdev\Folium\Exception\UnspecifiedModel;
-use Itmcdev\Folium\Illuminate\Operation\Operation;
 use Itmcdev\Folium\Operation\Rest\Replace as ReplaceInterface;
-use Itmcdev\Folium\Operation\Exception\Validation as ValidationException;
-use Itmcdev\Folium\Operation\Rest\Update as UpdateInterface;
+use Itmcdev\Folium\Operation\Exception\Update as UpdateException;
+use Itmcdev\Folium\Operation\Exception\Replace as ReplaceException;
 use Itmcdev\Folium\Util\ArrayUtils;
-use Itmcdev\Folium\Util\CrudUtils;
 
 /**
  * Inteface for impelenting CRUD Replace method.
  */
-class Replace  extends Operation implements ReplaceInterface
+class Replace extends \Itmcdev\Folium\Illuminate\Operation\Crud\Update implements ReplaceInterface
 {
     /**
      * Replace a resource or set of resources in the database.
@@ -45,5 +40,23 @@ class Replace  extends Operation implements ReplaceInterface
      * @param  array $options  To be defined.
      * @return array           Will return the ids of the elements updated.
      */
-    public function replace(array $items, array $options = []) {}
+    public function replace(array $items, array $options = []) {
+        // Obtain Model Class Name and Model Primary Key
+        list($modelClass, $pKey) = $this->getModelData();
+        // convert a single item into an array of items
+        if (!ArrayUtils::isNumeric($items)) {
+            $items = [$items];
+        }
+
+        try {
+            $updated = array_map(function($item) use ($pKey, $options) {
+                $criteria = empty($item[$pKey]) ? [] : [ [$pKey, $item[$pKey]] ];
+                return array_pop($this->update($item, $criteria, $options));
+            }, $items);
+
+            return $updated;
+        } catch (UpdateException $e) {}
+
+        throw new ReplaceException();
+    }
 }

@@ -17,9 +17,11 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation;
 
+
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Exception\UnspecifiedModel;
 use Itmcdev\Folium\Exception\UnspecifiedModelKey;
+use Itmcdev\Folium\Exception\Validation as ValidationException;
 use Itmcdev\Folium\Util\ArrayUtils;
 
 use Illuminate\Support\Facades\Validator;
