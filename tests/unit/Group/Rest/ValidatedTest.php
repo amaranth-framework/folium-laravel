@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Crud;
+namespace Itmcdev\Folium\Illuminate\Tests\Group\Rest;
 
-use Itmcdev\Folium\Illuminate\Tests\Controller\Crud\SimpleTest;
+use Itmcdev\Folium\Illuminate\Tests\Group\Rest\SimpleTest;
 
 final class ValidatedTest extends SimpleTest
 {
@@ -15,7 +15,7 @@ final class ValidatedTest extends SimpleTest
     {
         parent::setUp();
 
-        $this->controller = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class, [
+        $this->group = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Group\Rest\Group::class, [
             'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Validated::class
         ]);
     }

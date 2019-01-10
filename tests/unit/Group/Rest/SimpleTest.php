@@ -1,26 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Crud;
+namespace Itmcdev\Folium\Illuminate\Tests\Group\Rest;
 
-use Itmcdev\Folium\Illuminate\Tests\Controller\Crud\TestCase;
-use Itmcdev\Folium\Util\CrudUtils;
+use Itmcdev\Folium\Illuminate\Tests\Group\Rest\TestCase;
+
+use Itmcdev\Folium\Util\RestUtils;
 
 class SimpleTest extends TestCase
 {
     /***********************************************************************
      * Unit Tests (Create)
      ***********************************************************************/
-
     /**
      * Test creation of one entity.
-    */
+     */
     public function testCreateOne()
     {
         $items = [$this->newModelData()];
-
-        $models = $this->controller->create($items[0]);
-
+        $models = $this->group->create($items[0]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -37,9 +35,7 @@ class SimpleTest extends TestCase
     public function testCreateOneFromArray()
     {
         $items = [$this->newModelData()];
-        
-        $models = $this->controller->create($items);
-        
+        $models = $this->group->create($items);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -56,9 +52,7 @@ class SimpleTest extends TestCase
     public function testCreateMultiple()
     {
         $items = [$this->newModelData(), $this->newModelData()];
-        
-        $models = $this->controller->create($items);
-
+        $models = $this->group->create($items);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -70,20 +64,18 @@ class SimpleTest extends TestCase
     }
 
     /***********************************************************************
-     * Unit Tests (Read)
+     * Unit Tests (Fetch)
      ***********************************************************************/
-
+    
     /**
      * Test reading one entity by it's ID
      *
      * @depends testCreateOne
      */
-    public function testReadOne()
+    public function testFetchOne()
     {
         $ids = func_get_args()[0];
-        
-        $models = $this->controller->read([['id', '=', $ids[0]]]);
-
+        $models = $this->group->fetch([['id', '=', $ids[0]]]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -99,12 +91,10 @@ class SimpleTest extends TestCase
      *
      * @depends testCreateOne
      */
-    public function testReadOneWithFields()
+    public function testFetchOneWithFields()
     {
         $ids = func_get_args()[0];
-        
-        $models = $this->controller->read([['id', '=', $ids[0]]], ['id', 'name']);
-
+        $models = $this->group->fetch([['id', '=', $ids[0]]], ['id', 'name']);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -123,12 +113,10 @@ class SimpleTest extends TestCase
      *
      * @depends testCreateOne
      */
-    public function testReadOneCount()
+    public function testFetchOneCount()
     {
         $ids = func_get_args()[0];
-        
-        $count = $this->controller->read([['id', '=', $ids[0]]], [], [CrudUtils::countProperty() => true]);
-        
+        $count = $this->group->fetch([['id', '=', $ids[0]]], [], [RestUtils::countProperty() => true]);
         // test method is returning number (as per count option)
         $this->assertTrue(is_numeric($count));
         // test count option works
@@ -140,12 +128,10 @@ class SimpleTest extends TestCase
      *
      * @depends testCreateMultiple
      */
-    public function testReadMultiple()
+    public function testFetchMultiple()
     {
         $ids = func_get_args()[0];
-        
-        $models = $this->controller->read([['id', $ids]]);
-
+        $models = $this->group->fetch([['id', $ids]]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -155,18 +141,16 @@ class SimpleTest extends TestCase
         $this->assertEquals($ids[0], $models[0]['id']);
         return $models;
     }
-    
+
     /**
      * Test reading multiple entities (using OR)
      *
      * @depends testCreateMultiple
      */
-    public function testReadMultipleOr()
+    public function testFetchMultipleOr()
     {
         $ids = func_get_args()[0];
-        
-        $models = $this->controller->read([['id', $ids[0]], ['id', $ids[1], 'or']]);
-
+        $models = $this->group->fetch([['id', $ids[0]], ['id', $ids[1], 'or']]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -179,12 +163,10 @@ class SimpleTest extends TestCase
     /**
      * Test reading all items
      */
-    public function testReadAll()
+    public function testFetchAll()
     {
         $ids = func_get_args()[0];
-
-        $models = $this->controller->read([]);
-        
+        $models = $this->group->fetch([]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -193,19 +175,64 @@ class SimpleTest extends TestCase
     }
 
     /***********************************************************************
-     * Unit Tests (Update)
+     * Unit Tests (Retreive)
+     ***********************************************************************/
+    
+    /**
+     * Test reading one entity by it's ID
+     *
+     * @depends testCreateOne
+     */
+    public function testRetreive()
+    {
+        $ids = func_get_args()[0];
+        $models = $this->group->retreive($ids[0]);
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method is returning one item array
+        $this->assertCount(1, $models);
+        // test to return the expected model as array
+        $this->assertEquals($ids[0], $models[0]['id']);
+        return $models[0];
+    }
+
+    /**
+     * Test reading one entity by it's ID, but obtain only certain fields
+     *
+     * @depends testCreateOne
+     */
+    public function testRetreiveWithFields()
+    {
+        $ids = func_get_args()[0];
+        $models = $this->group->retreive($ids[0], ['id', 'name']);
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test method is returning one item array
+        $this->assertCount(1, $models);
+        // test to return the expected model as array
+        $this->assertEquals($ids[0], $models[0]['id']);
+        // test other fields should not be included
+        $this->assertEmpty($models[0]['email']);
+        // test requested fields should exist
+        $this->assertTrue(!empty($models[0]['name']));
+    }
+    
+    /***********************************************************************
+     * Unit Tests (Replace)
      ***********************************************************************/
 
     /**
-     * Test updating one entity by it's ID
+     * Test replacing one entity by it's ID
      *
-     * @depends testReadOne
+     * @depends testFetchOne
      */
-    public function testUpdateOne()
+    public function testReplaceOne()
     {
         $item = func_get_args()[0];
         $item['password'] = $this->newModelData()['password'];
-        $models = $this->controller->update($item);
+        $models = $this->group->replace($item);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -216,12 +243,12 @@ class SimpleTest extends TestCase
     }
 
     /**
-     * Test updating an item that doesn't actually exist
+     * Test replacing an item that doesn't actually exist
      */
-    public function testUpdateByCreate()
+    public function testReplaceByCreate()
     {
         $item = $this->newModelData();
-        $models = $this->controller->update($item);
+        $models = $this->group->replace($item);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -232,18 +259,19 @@ class SimpleTest extends TestCase
     }
 
     /**
-     * Test updating (replacing) multiple items at once
+     * Test replacing multiple items at once
      *
-     * @depends testReadMultiple
+     * @depends testFetchMultiple
      */
-    public function testUpdateMultiple()
+    public function testReplaceMultiple()
     {
         $items = array_map(function ($item) {
             $item['password'] = $this->newModelData()['password'];
+            $item['name'] = $this->newModelData()['name'];
             return $item;
         }, func_get_args()[0]);
         $items[] = $this->newModelData();
-        $models = $this->controller->update($items);
+        $models = $this->group->replace($items);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
@@ -252,71 +280,60 @@ class SimpleTest extends TestCase
         // test getting correct items
         $this->assertEquals($items[0]['id'], $models[0]);
     }
+      
+    /***********************************************************************
+     * Unit Tests (Replace)
+     ***********************************************************************/
 
     /**
      * Test updating (patching) multiple entities
      *
-     * @depends testReadMultiple
+     * @depends testFetchOne
      */
-    public function testUpdateByCriteriaOneItem()
+    public function testUpdate()
     {
-        $ids = array_map(function ($model) {
-            return $model['id'];
-        }, func_get_args()[0]);
-        $models = $this->controller->update(['name' => 'Jack'], [['id', $ids]]);
-        // test method is returning array and not Laravel class instances
-        $this->assertFalse(is_object($models));
-        $this->assertTrue(is_array($models));
-        // test reading multiple
-        $this->assertCount(count($ids), $models);
-        // test getting correct items
-        $this->assertEquals($ids[0], $models[0]);
-    }
-
-    /**
-     * Test updating (patching) multiple entities
-     *
-     * @depends testReadMultiple
-     */
-    public function testUpdateByCriteriaMultipleItems()
-    {
-        $ids = array_map(function ($model) {
-            return $model['id'];
-        }, func_get_args()[0]);
-        $models = $this->controller->update([
+        $model = func_get_args(0);
+        $items = [
             [
-                'name' => $this->newModelData()['name']
+                'name' => $this->newModelData()['name'],
             ],
             [
-                'password' => $this->newModelData()['password']
+                'password' => $this->newModelData()['password'],
             ]
-        ], [['id', $ids]]);
+        ];
+        $models = $this->group->update($model[0]['id'], $items);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
         // test reading multiple
-        $this->assertCount(count($ids), $models);
+        $this->assertCount(1, $models);
         // test getting correct items
-        $this->assertEquals($ids[0], $models[0]);
+        $this->assertEquals($model[0]['id'], $models[0]);
     }
 
     /***********************************************************************
      * Unit Tests (Delete)
      ***********************************************************************/
     
+    /**
+     * Test deleting one item
+     *
+     * @depends testFetchOne
+     */
     public function testDeleteOne()
     {
         $item = func_get_args()[0];
-        $this->controller->delete([$item]);
-        $models = $this->controller->read([['id', '=', $item['id']]]);
+        $this->group->delete([$item]);
+        $models = $this->group->fetch([['id', '=', $item['id']]]);
         // test method is returning array and not Laravel class instances
         $this->assertTrue(is_array($models));
         $this->assertTrue(empty($models));
     }
+
     /**
      * Test deleting multiple items
      *
-     * @depends testReadMultiple
+     * @depends testFetchMultiple
      */
     public function testDeleteMultiple()
     {
@@ -324,8 +341,8 @@ class SimpleTest extends TestCase
         $ids = array_map(function ($item) {
             return $item;
         }, $items);
-        $this->controller->delete($items);
-        $models = $this->controller->read([['id', $ids]]);
+        $this->group->delete($items);
+        $models = $this->group->fetch([['id', $ids]]);
         // test method is returning array and not Laravel class instances
         $this->assertTrue(is_array($models));
         $this->assertTrue(empty($models));
@@ -336,9 +353,9 @@ class SimpleTest extends TestCase
     public function testDeleteByCriteria()
     {
         $items = [$this->newModelData(), $this->newModelData()];
-        $items = $this->controller->create($items);
-        $this->controller->delete([], [['id', $items]]);
-        $models = $this->controller->read([['id', $items]]);
+        $items = $this->group->create($items);
+        $this->group->delete([], [['id', $items]]);
+        $models = $this->group->fetch([['id', $items]]);
         // test method is returning array and not Laravel class instances
         $this->assertTrue(is_array($models));
         $this->assertTrue(empty($models));
@@ -348,8 +365,8 @@ class SimpleTest extends TestCase
      */
     public function testDeleteAll()
     {
-        $this->controller->delete();
-        $models = $this->controller->read();
+        $this->group->delete();
+        $models = $this->group->fetch();
         // test method is returning array and not Laravel class instances
         $this->assertTrue(is_array($models));
         $this->assertTrue(empty($models));

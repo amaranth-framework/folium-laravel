@@ -1,6 +1,6 @@
 <?php
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Rest;
+namespace Itmcdev\Folium\Illuminate\Tests\Group\Crud;
 
 class TestCase extends \Itmcdev\Folium\Illuminate\Tests\TestCase
 {
@@ -12,7 +12,7 @@ class TestCase extends \Itmcdev\Folium\Illuminate\Tests\TestCase
     {
         parent::setUp();
 
-        $this->controller = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller::class, [
+        $this->group = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Group\Crud\Group::class, [
             'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
         ]);
     }

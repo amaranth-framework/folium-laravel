@@ -1,16 +1,16 @@
 <?php
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Crud;
+namespace Itmcdev\Folium\Illuminate\Tests\Group\Crud;
 
 use Itmcdev\Folium\Illuminate\Operation\Crud\Create;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Read;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Update;
 use Itmcdev\Folium\Illuminate\Operation\Crud\Delete;
 
-class Controller extends \Itmcdev\Folium\Controller\Crud\Controller
+class Group extends \Itmcdev\Folium\Operation\Group\Crud
 {
     /**
-     * CRUD Controller Constructor
+     * CRUD Group Constructor
      *
      * @param Create $create
      * @param Read $read

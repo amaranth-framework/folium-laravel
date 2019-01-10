@@ -60,11 +60,11 @@ final class DITest extends TestCase
     }
 
     /**
-     * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller
+     * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Group\Crud\Group
      */
-    public function testTestsLaravelControllerCrudSimple()
+    public function testTestsLaravelGroupCrudSimple()
     {
-        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller::class, [
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Group\Crud\Group::class, [
             /*'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
                     [
@@ -75,16 +75,16 @@ final class DITest extends TestCase
             'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
         ]);
 
-        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Crud\Controller);
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Group\Crud\Group);
         $this->assertEquals(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class, $instance->getModelClass());
     }
 
     /**
-     * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller
+     * Testing DI for \Itmcdev\Folium\Illuminate\Tests\Group\Rest\Group
      */
-    public function testTestsLaravelControllerRestSimple()
+    public function testTestsLaravelGroupRestSimple()
     {
-        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller::class, [
+        $instance = $this->container->make(\Itmcdev\Folium\Illuminate\Tests\Group\Rest\Group::class, [
             /*'create' => $this->container->make(
                     \Itmcdev\Folium\Illuminate\Operation\Crud\Create::class,
                     [
@@ -95,7 +95,7 @@ final class DITest extends TestCase
             'modelClass' => \Itmcdev\Folium\Illuminate\Tests\Model\Simple::class
         ]);
 
-        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Controller\Rest\Controller);
+        $this->assertTrue($instance instanceof \Itmcdev\Folium\Illuminate\Tests\Group\Rest\Group);
         $this->assertEquals(\Itmcdev\Folium\Illuminate\Tests\Model\Simple::class, $instance->getModelClass());
     }
 }

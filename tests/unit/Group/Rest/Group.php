@@ -1,6 +1,6 @@
 <?php
 
-namespace Itmcdev\Folium\Illuminate\Tests\Controller\Rest;
+namespace Itmcdev\Folium\Illuminate\Tests\Group\Rest;
 
 use Itmcdev\Folium\Illuminate\Operation\Rest\Create;
 use Itmcdev\Folium\Illuminate\Operation\Rest\Fetch;
@@ -9,10 +9,10 @@ use Itmcdev\Folium\Illuminate\Operation\Rest\Update;
 use Itmcdev\Folium\Illuminate\Operation\Rest\Replace;
 use Itmcdev\Folium\Illuminate\Operation\Rest\Delete;
 
-class Controller extends \Itmcdev\Folium\Controller\Rest\Controller
+class Group extends \Itmcdev\Folium\Operation\Group\Rest
 {
     /**
-     * REST Controller Constructor
+     * REST Group Constructor
      *
      * @param Create $create
      * @param Fetch $fetch
