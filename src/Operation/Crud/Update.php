@@ -87,9 +87,7 @@ class Update extends Operation implements UpdateInterface
                 // attempt to query by criteria (convert criteria into callable code)
                 $query = $this->buildQueryFromCriteria($modelClass, $criteria);
                 // apply all updates
-                foreach ($items as $item) {
-                    $query->update($item);
-                }
+                $query->update(call_user_func_array('array_merge', $items));
                 // return list of primary key values
                 return array_map(function ($model) use ($pKey) {
                     return $model[$pKey];

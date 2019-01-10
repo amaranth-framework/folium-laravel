@@ -258,12 +258,39 @@ class SimpleTest extends TestCase
      *
      * @depends testReadMultiple
      */
-    public function testUpdateByCriteria()
+    public function testUpdateByCriteriaOneItem()
     {
         $ids = array_map(function ($model) {
             return $model['id'];
         }, func_get_args()[0]);
         $models = $this->controller->update(['name' => 'Jack'], [['id', $ids]]);
+        // test method is returning array and not Laravel class instances
+        $this->assertFalse(is_object($models));
+        $this->assertTrue(is_array($models));
+        // test reading multiple
+        $this->assertCount(count($ids), $models);
+        // test getting correct items
+        $this->assertEquals($ids[0], $models[0]);
+    }
+
+    /**
+     * Test updating (patching) multiple entities
+     *
+     * @depends testReadMultiple
+     */
+    public function testUpdateByCriteriaMultipleItems()
+    {
+        $ids = array_map(function ($model) {
+            return $model['id'];
+        }, func_get_args()[0]);
+        $models = $this->controller->update([
+            [
+                'name' => $this->newModelData()['name']
+            ],
+            [
+                'password' => $this->newModelData()['password']
+            ]
+        ], [['id', $ids]]);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));

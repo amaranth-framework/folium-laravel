@@ -17,6 +17,9 @@
 
 namespace Itmcdev\Folium\Illuminate\Operation\Rest;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+
 use Itmcdev\Folium\Exception\InvalidArgument;
 use Itmcdev\Folium\Exception\InvalidOperation;
 use Itmcdev\Folium\Exception\UnspecifiedModel;
@@ -46,6 +49,29 @@ class Update  extends Operation implements UpdateInterface
      * @return array           Resource data.
      */
     public function update($id, array $items, array $options = []) {
+        // Obtain Model Class Name and Model Primary Key
+        list($modelClass, $pKey) = $this->getModelData();
         
+        $criteria = [[$pKey, $id]];
+
+        // attempt validation (if necesary)
+        $this->validate($modelClass, $items, true);
+
+        try {
+            // attempt to query by criteria (convert criteria into callable code)
+            $query = $this->buildQueryFromCriteria($modelClass, $criteria);
+            // apply all updates
+            $items = call_user_func_array('array_merge', $items);
+            $query->update($items);
+            // return list of primary key values
+            return array_map(function ($model) use ($pKey) {
+                return $model[$pKey];
+            }, $query->get()->toArray());
+        } catch (\Exception $e) {
+            Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+        }
+
+        throw new UpdateException();
+
     }
 }

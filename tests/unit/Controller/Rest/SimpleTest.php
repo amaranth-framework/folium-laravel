@@ -224,7 +224,7 @@ class SimpleTest extends TestCase
      ***********************************************************************/
 
     /**
-     * Test updating one entity by it's ID
+     * Test replacing one entity by it's ID
      *
      * @depends testFetchOne
      */
@@ -243,7 +243,7 @@ class SimpleTest extends TestCase
     }
 
     /**
-     * Test updating an item that doesn't actually exist
+     * Test replacing an item that doesn't actually exist
      */
     public function testReplaceByCreate()
     {
@@ -259,7 +259,7 @@ class SimpleTest extends TestCase
     }
 
     /**
-     * Test updating (replacing) multiple items at once
+     * Test replacing multiple items at once
      *
      * @depends testFetchMultiple
      */
@@ -267,6 +267,7 @@ class SimpleTest extends TestCase
     {
         $items = array_map(function ($item) {
             $item['password'] = $this->newModelData()['password'];
+            $item['name'] = $this->newModelData()['name'];
             return $item;
         }, func_get_args()[0]);
         $items[] = $this->newModelData();
@@ -279,31 +280,35 @@ class SimpleTest extends TestCase
         // test getting correct items
         $this->assertEquals($items[0]['id'], $models[0]);
     }
+      
+    /***********************************************************************
+     * Unit Tests (Replace)
+     ***********************************************************************/
 
     /**
      * Test updating (patching) multiple entities
      *
-     * @depends testFetchMultiple
+     * @depends testFetchOne
      */
-    public function testReplaceByCriteria()
+    public function testUpdate()
     {
-        $ids = array_map(function ($model) {
-            return $model['id'];
-        }, func_get_args()[0]);
-        $data = array_map(function ($model) {
-            return [
-                'name' => 'Jack',
-                'id' => $model['id']
-            ];
-        }, func_get_args()[0]);
-        $models = $this->controller->replace($data);
+        $model = func_get_args(0);
+        $items = [
+            [
+                'name' => $this->newModelData()['name'],
+            ],
+            [
+                'password' => $this->newModelData()['password'],
+            ]
+        ];
+        $models = $this->controller->update($model[0]['id'], $items);
         // test method is returning array and not Laravel class instances
         $this->assertFalse(is_object($models));
         $this->assertTrue(is_array($models));
         // test reading multiple
-        $this->assertCount(count($ids), $models);
+        $this->assertCount(1, $models);
         // test getting correct items
-        $this->assertEquals($ids[0], $models[0]);
+        $this->assertEquals($model[0]['id'], $models[0]);
     }
 
     /***********************************************************************
