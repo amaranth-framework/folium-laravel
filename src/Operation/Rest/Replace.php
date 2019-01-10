@@ -72,3 +72,74 @@ class Replace extends \Itmcdev\Folium\Illuminate\Operation\Crud\Update implement
         throw new \Exception('Invalid method.');
     }
 }
+
+// use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Validator;
+
+// use Itmcdev\Folium\Exception\InvalidArgument;
+// use Itmcdev\Folium\Exception\InvalidOperation;
+// use Itmcdev\Folium\Exception\UnspecifiedModel;
+// use Itmcdev\Folium\Exception\Validation as ValidationException;
+// use Itmcdev\Folium\Illuminate\Operation\Operation;
+// use Itmcdev\Folium\Operation\Rest\Replace as ReplaceInterface;
+// use Itmcdev\Folium\Operation\Exception\Update as UpdateException;
+// use Itmcdev\Folium\Util\ArrayUtils;
+// use Itmcdev\Folium\Util\CrudUtils;
+
+// /**
+//  * Inteface for impelenting CRUD Replace method.
+//  */
+// class Replace implements ReplaceInterface
+// {
+//     /**
+//      * Replace a resource or set of resources in the database.
+//      * If a resource does not exists when passed to the update method, it will be created.
+//      *
+//      * replace([
+//      *   [ "text" => "I really have to iron", "id" => 10 ], // this item will be replaced
+//      *   [ "text" => "Do laundry" ] // this item will be created
+//      * ])
+//      *
+//      * @param  array $items    Can be a single element or an array of elements.
+//      * @param  array $options  To be defined.
+//      * @return array           Will return the ids of the elements updated.
+//      */
+//     public function replace(array $items, array $options = []) {
+//         // Obtain Model Class Name and Model Primary Key
+//         list($modelClass, $pKey) = $this->getModelData();
+//         // convert a single item into an array of items
+//         if (!ArrayUtils::isNumeric($items)) {
+//             $items = [$items];
+//         }
+
+//         // attempt validation (if necesary)
+//         $this->validate($modelClass, $items);
+//         // obtain the items we need to create (do not have primary key)
+//         $itemsToCreate = array_filter($items, function ($item) use ($pKey) {
+//             return empty($item[$pKey]);
+//         });
+//         // obtain the items we need to replace
+//         $itemsToUpdate = array_filter($items, function ($item) use ($pKey) {
+//             return !empty($item[$pKey]);
+//         });
+//         try {
+//             // run update on the items having primary key
+//             $updatedItems = array_map(function ($item) use ($modelClass, $pKey) {
+//                 $modelClass::find($item[$pKey])->update($item);
+//                 return $item[$pKey];
+//             }, $itemsToUpdate);
+//             // run create on the items not having primary key
+//             $createdItems = [];
+//             if (count($itemsToCreate)) {
+//                 $createdItems = array_map(function ($item) use ($modelClass, $pKey) {
+//                     return $modelClass::create($item)->$pKey;
+//                 }, $itemsToCreate);
+//             }
+//             return array_merge($updatedItems, $createdItems);
+//         } catch (\Exception $e) {
+//             Log::error(sprintf('%s => %s', $e->__toString(), $e->getTraceAsString()));
+//         }
+
+//         throw new ReplaceException();
+//     }
+// }
