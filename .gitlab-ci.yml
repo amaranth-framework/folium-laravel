@@ -5,7 +5,7 @@ cache:
   paths:
   - composer-setup.php
   - composer.phar
-  - vendor/
+  # - vendor/
 
 services:
   - mysql:5.7
@@ -23,22 +23,7 @@ before_script:
   - php -r "if (hash_file('SHA384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
   - php composer-setup.php --filename=composer --install-dir=/usr/bin
   - php -r "unlink('composer-setup.php');"
-  - composer install
   - sed -i 's/folium-mysql-test/mysql/g' ./tests/unit/bootstrap.php
-
-# # We test PHP5.6
-# test:5.6:
-#   image: php:5.6
-#   script:
-#   - phpunit --configuration phpunit.xml.dist
-
-# We test PHP7.0
-test:php7.0-laravel:5.6:
-  image: php:7.0
-  script:
-  - php --version
-  - composer run laravel-5.6
-  - ./vendor/bin/phpunit
 
 # We test PHP7.1
 test:php7.1-laravel:5.6:
@@ -46,6 +31,7 @@ test:php7.1-laravel:5.6:
   script:
   - php --version
   - composer run laravel-5.6
+  - composer install
   - ./vendor/bin/phpunit
 
 # We test PHP7.2
@@ -54,19 +40,29 @@ test:php7.2-laravel:5.6:
   script:
   - php --version
   - composer run laravel-5.6
+  - composer install
   - ./vendor/bin/phpunit
 
-# test:php7.2-laravel:5.7:
-#   image: php:7.2
-#   script:
-#   - php --version
-#   - composer run laravel-5.7
-#   - ./vendor/bin/phpunit
-
-# We test PHP7.3
-test:php7.3-laravel:5.6:
-  image: php:7.3
+test:php7.2-laravel:5.7:
+  image: php:7.2
   script:
   - php --version
-  - composer run laravel-5.6
+  - composer run laravel-5.7
+  - composer install
   - ./vendor/bin/phpunit
+
+test:php7.2-laravel:5.8:
+  image: php:7.2
+  script:
+  - php --version
+  - composer run laravel-5.8
+  - composer install
+  - ./vendor/bin/phpunit
+
+# # We test PHP7.3
+# test:php7.3-laravel:5.6:
+#   image: php:7.3
+#   script:
+#   - php --version
+#   - composer run laravel-5.6
+#   - ./vendor/bin/phpunit

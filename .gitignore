@@ -1,4 +1,9 @@
 .composer
+.DS_Store
+.idea 
+.php_cs.cache
 .vagrant
 /build/
+/composer.lock
+/node_modules/
 /vendor/

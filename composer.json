@@ -1,5 +1,5 @@
 {
-    "name": "itmcdev/folium",
+    "name": "itmcdev/folium-laravel",
     "description": "PHP Wrapper for RESTFul applications",
     "type": "library",
     "license": "MIT",
@@ -11,28 +11,57 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.1.3"
+        "php": "^7.1",
+        "illuminate/container": "5.6.*",
+        "illuminate/database": "5.6.*",
+        "illuminate/http": "5.6.*",
+        "illuminate/log": "5.6.*",
+        "illuminate/support": "5.6.*",
+        "illuminate/translation": "5.6.*",
+        "illuminate/validation": "5.6.*",
+        "itmcdev/folium": "dev-master",
+        "nesbot/carbon": "1.25.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4",
-        "fzaninotto/faker": "^1.8"
+        "fzaninotto/faker": "^1.8",
+        "friendsofphp/php-cs-fixer": "^2.14@dev"
     },
     "autoload": {
         "classmap": [
         ],
         "psr-4": {
-            "Itmcdev\\Folium\\": "src/Folium/"
+            "Itmcdev\\Folium\\Illuminate\\": "src/",
+            "Itmcdev\\Folium\\Illuminate\\Tests\\": "tests/unit/"
         }
     },
+    "repositories": [
+        {
+            "type": "gitlab",
+            "url": "https://gitlab.com/itmcdev/folium.git"
+        }
+    ],
     "scripts": {
+        "clean": "rm -rf build composer.lock vendor",
         "docker-build": "docker build -t implementation-tests .",
         "docker-laravel-5.6": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && composer install && composer run laravel-5.6\"",
         "docker-unittest": "docker run --link folium-mysql-test:folium-mysql-test --rm -v $(pwd):/code implementation-tests sh -c \"cd /code && ./vendor/bin/phpunit\"",
-        "laravel-5.6": "composer require --dev nesbot/carbon:1.25.* illuminate/database:5.6.* illuminate/log:5.6.* illuminate/http:5.6.* illuminate/validation:5.6.* illuminate/translation:5.6.*",
-        "laravel-5.7": "composer require --dev nesbot/carbon:1.26.* illuminate/database:5.7.* illuminate/log:5.7.* illuminate/http:5.7.* illuminate/validation:5.7.* illuminate/translation:5.7.*",
+        "laravel-5.6": "composer run clean; composer require illuminate/container:5.6.* illuminate/database:5.6.* illuminate/log:5.6.* illuminate/http:5.6.* illuminate/validation:5.6.* illuminate/support:5.6.* illuminate/translation:5.6.* nesbot/carbon:1.25.*",
+        "laravel-5.7": "composer run clean; composer require illuminate/container:5.7.* illuminate/database:5.7.* illuminate/log:5.7.* illuminate/http:5.7.* illuminate/validation:5.7.* illuminate/support:5.7.* illuminate/translation:5.7.* nesbot/carbon:1.26.*",
+        "laravel-5.8": "composer run clean; composer require illuminate/container:5.8.* illuminate/database:5.8.* illuminate/log:5.8.* illuminate/http:5.8.* illuminate/validation:5.8.* illuminate/support:5.8.* illuminate/translation:5.8.* nesbot/carbon:1.27.*",
+        "lint": "./vendor/bin/php-cs-fixer fix src; ./vendor/bin/php-cs-fixer fix tests",
         "mysql": "composer run mysql-run; composer run mysql-wait",
         "mysql-rm": "docker rm -f folium-mysql-test",
         "mysql-run": "docker run --name folium-mysql-test -e MYSQL_ROOT_PASSWORD=weltest -e MYSQL_DATABASE=dummy -e MYSQL_USER=dummy -e MYSQL_PASSWORD=dummy -p 3306:3306 -d mysql:5.7",
         "mysql-wait": "while ! docker exec folium-mysql-test sh -c \"mysqladmin ping -uroot -pweltest -hlocalhost --silent\"; do echo \"Waiting for MySQL container...\"; sleep 1; done"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "gitlab-token": {
+            "gitlab.com": "51Zexkw49LH5UMF8yCh7"
+        }
     }
+
 }
